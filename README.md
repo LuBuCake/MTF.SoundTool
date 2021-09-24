@@ -10,9 +10,9 @@ Detailed information and instructions at the [Original Topic](https://github.com
 ## Features
 
 * Convert FWSE to WAVE and vice-versa (RESIDENT EVIL 5).
-* Convert XSEW to WAVE and vice-versa (RESIDENT EVIL 6/REV1/REV2).
+* Convert XSEW to WAVE and vice-versa (RESIDENT EVIL 0/6/REV1/REV2 | Ultimate Marvel VS Capcom 3).
 * Extract and replace audio files inside SPC containers (RESIDENT EVIL 5/6).
-* Edit STQ metadata from STQ/STQR files (RESIDENT EVIL 5/6/REV1/REV2).
+* Edit STQ metadata from STQ/STQR files (RESIDENT EVIL 0/5/6/REV1/REV2 | Ultimate Marvel VS Capcom 3).
 
 ## Icon
 
