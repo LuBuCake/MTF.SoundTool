@@ -100,10 +100,10 @@ namespace MTF.SoundTool.Base.Helpers
                                     FWSEFile.Version = BR.ReadInt32();
                                     FWSEFile.FileSize = BR.ReadInt32();
                                     FWSEFile.HeaderSize = BR.ReadInt32();
-                                    FWSEFile.Channels = BR.ReadInt32();
+                                    FWSEFile.NumChannels = BR.ReadInt32();
                                     FWSEFile.Samples = BR.ReadInt32();
                                     FWSEFile.SampleRate = BR.ReadInt32();
-                                    FWSEFile.BitPerSample = BR.ReadInt32();
+                                    FWSEFile.BitsPerSample = BR.ReadInt32();
                                     FWSEFile.InfoData = BR.ReadBytes(FWSEFile.HeaderSize - 32);
 
                                     HeaderStartPosition = BR.BaseStream.Position;
@@ -179,6 +179,21 @@ namespace MTF.SoundTool.Base.Helpers
                                     HeaderStartPosition = BR.BaseStream.Position;
                                     BR.BaseStream.Position = SoundStartPosition;
 
+                                    DateTime Now = DateTime.Now;
+
+                                    XSEWFile.Subchunk4ID = "tIME";
+                                    XSEWFile.Subchunk4Size = 8;
+                                    XSEWFile.Subchunk4Year = (ushort)Now.Year;
+                                    XSEWFile.Subchunk4Month = (byte)Now.Month;
+                                    XSEWFile.Subchunk4Day = (byte)Now.Day;
+                                    XSEWFile.Subchunk4Hour = (byte)Now.Hour;
+                                    XSEWFile.Subchunk4Minute = (byte)Now.Minute;
+                                    XSEWFile.Subchunk4Second = (ushort)Now.Second;
+
+                                    XSEWFile.Subchunk5ID = "ver.";
+                                    XSEWFile.Subchunk5Size = 4;
+                                    XSEWFile.Subchunk5Version = 1;
+
                                     XSEWFile.BlockHeaderContentCount = XSEWFile.BlockAlign - XSEWHelper.XSEWBlockHeaderContentByteCount + XSEWHelper.XSEWBlockHeaderContentCount;
                                     XSEWFile.BlockCount = (int)XSEWFile.Subchunk2Size / XSEWFile.BlockAlign;
                                     XSEWFile.Samples = (2 * (XSEWFile.BlockAlign - XSEWHelper.XSEWBlockHeaderContentByteCount) + 2) * XSEWFile.BlockCount;
@@ -247,10 +262,10 @@ namespace MTF.SoundTool.Base.Helpers
                                 BW.Write(SPACFile.FWSEFiles[i].Version);
                                 BW.Write(SPACFile.FWSEFiles[i].FileSize);
                                 BW.Write(SPACFile.FWSEFiles[i].HeaderSize);
-                                BW.Write(SPACFile.FWSEFiles[i].Channels);
+                                BW.Write(SPACFile.FWSEFiles[i].NumChannels);
                                 BW.Write(SPACFile.FWSEFiles[i].Samples);
                                 BW.Write(SPACFile.FWSEFiles[i].SampleRate);
-                                BW.Write(SPACFile.FWSEFiles[i].BitPerSample);
+                                BW.Write(SPACFile.FWSEFiles[i].BitsPerSample);
                                 BW.Write(SPACFile.FWSEFiles[i].InfoData);
                                 break;
                             case (int)SPACVersion.RE6:

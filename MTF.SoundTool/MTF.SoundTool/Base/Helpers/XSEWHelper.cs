@@ -246,7 +246,7 @@ namespace MTF.SoundTool.Base.Helpers
                     }
 
                     uint ChunkSize = BR.ReadUInt32();
-                    if (ChunkSize + 8 < FS.Length)
+                    if (ChunkSize + 8 > FS.Length)
                     {
                         if (MessageBox)
                             XtraMessageBox.Show($"Error reading {FileName}: It's total length doesn't match what is registered inside of it.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -359,6 +359,29 @@ namespace MTF.SoundTool.Base.Helpers
                         XSEWFile.Subchunk3Param13 = BR.ReadUInt32();
                         XSEWFile.Subchunk3Param14 = BR.ReadUInt32();
 
+                        if (XSEWFile.ChunkSize + 8 + 16 <= FS.Length) // tIME sub-chunk found
+                        {
+                            for (int j = 0; j < 4; j++)
+                                XSEWFile.Subchunk4ID += (char)BR.ReadByte();
+
+                            XSEWFile.Subchunk4Size = BR.ReadUInt32();
+                            XSEWFile.Subchunk4Year = BR.ReadUInt16();
+                            XSEWFile.Subchunk4Month = BR.ReadByte();
+                            XSEWFile.Subchunk4Day = BR.ReadByte();
+                            XSEWFile.Subchunk4Hour = BR.ReadByte();
+                            XSEWFile.Subchunk4Minute = BR.ReadByte();
+                            XSEWFile.Subchunk4Second = BR.ReadUInt16();
+                        }
+
+                        if (XSEWFile.ChunkSize + 8 + 16 + 12 <= FS.Length) // ver. sub-chunk found
+                        {
+                            for (int j = 0; j < 4; j++)
+                                XSEWFile.Subchunk5ID += (char)BR.ReadByte();
+
+                            XSEWFile.Subchunk5Size = BR.ReadUInt32();
+                            XSEWFile.Subchunk5Version = BR.ReadUInt32();
+                        }
+
                         XSEWFile.DurationSpan = TimeSpan.FromSeconds((double)XSEWFile.Samples / XSEWFile.SampleRate);
                         XSEWFile.ExpectedFileName = $"{XSEWFile.Index}.xsew";
                         XSEWFile.DisplayFormat = "XSEW";
@@ -429,6 +452,19 @@ namespace MTF.SoundTool.Base.Helpers
                     BW.Write(XSEWFile.Subchunk3Param12);
                     BW.Write(XSEWFile.Subchunk3Param13);
                     BW.Write(XSEWFile.Subchunk3Param14);
+
+                    BW.Write(XSEWFile.Subchunk4ID.ToCharArray());
+                    BW.Write(XSEWFile.Subchunk4Size);
+                    BW.Write(XSEWFile.Subchunk4Year);
+                    BW.Write(XSEWFile.Subchunk4Month);
+                    BW.Write(XSEWFile.Subchunk4Day);
+                    BW.Write(XSEWFile.Subchunk4Hour);
+                    BW.Write(XSEWFile.Subchunk4Minute);
+                    BW.Write(XSEWFile.Subchunk4Second);
+
+                    BW.Write(XSEWFile.Subchunk5ID.ToCharArray());
+                    BW.Write(XSEWFile.Subchunk5Size);
+                    BW.Write(XSEWFile.Subchunk5Version);
 
                     if (MessageBox)
                         XtraMessageBox.Show("XSEW file written sucessfully!", "Done!", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -504,6 +540,21 @@ namespace MTF.SoundTool.Base.Helpers
             XSEWFile.Subchunk3Param12 = 0;
             XSEWFile.Subchunk3Param13 = 0;
             XSEWFile.Subchunk3Param14 = 1;
+
+            DateTime Now = DateTime.Now;
+
+            XSEWFile.Subchunk4ID = "tIME";
+            XSEWFile.Subchunk4Size = 8;
+            XSEWFile.Subchunk4Year = (ushort)Now.Year;
+            XSEWFile.Subchunk4Month = (byte)Now.Month;
+            XSEWFile.Subchunk4Day = (byte)Now.Day;
+            XSEWFile.Subchunk4Hour = (byte)Now.Hour;
+            XSEWFile.Subchunk4Minute = (byte)Now.Minute;
+            XSEWFile.Subchunk4Second = (ushort)Now.Second;
+
+            XSEWFile.Subchunk5ID = "ver.";
+            XSEWFile.Subchunk5Size = 4;
+            XSEWFile.Subchunk5Version = 1;
 
             XSEWFile.ChunkSize = 4 + 8 + XSEWFile.Subchunk1Size + 8 + XSEWFile.Subchunk2Size + 8 + XSEWFile.Subchunk3Size;
 

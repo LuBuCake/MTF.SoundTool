@@ -9,10 +9,10 @@ namespace MTF.SoundTool.Base.Types
         public int Version { get; set; }
         public int FileSize { get; set; }
         public int HeaderSize { get; set; }
-        public int Channels { get; set; }
+        public int NumChannels { get; set; }
         public int Samples { get; set; }
         public int SampleRate { get; set; }
-        public int BitPerSample { get; set; }
+        public int BitsPerSample { get; set; }
         public byte[] InfoData { get; set; }
         public byte[] SoundData { get; set; }
 

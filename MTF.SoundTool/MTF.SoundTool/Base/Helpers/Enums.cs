@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MTF.SoundTool.Base.Helpers
+﻿namespace MTF.SoundTool.Base.Helpers
 {
     public enum SPACVersion
     {
@@ -15,5 +9,21 @@ namespace MTF.SoundTool.Base.Helpers
     public enum FWSEVersion
     {
         RE5 = 2
+    }
+
+    public enum STRQVersion
+    {
+        RE5 = 18,
+        RE6 = 28,
+        REV1 = 1,
+        REV2 = 2,
+        RE0 = 4,
+        UMVC3 = 99
+    }
+
+    public enum STRQSampleMode
+    {
+        TimeSpan,
+        Integer
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace MTF.SoundTool.Base.Types
 {
@@ -45,6 +46,22 @@ namespace MTF.SoundTool.Base.Types
         public uint Subchunk3Param12 { get; set; }          // 4 Bytes = 0
         public uint Subchunk3Param13 { get; set; }          // 4 Bytes = 0
         public uint Subchunk3Param14 { get; set; }          // 4 Bytes = 1
+
+        // tIME sub-chunk
+        public string Subchunk4ID { get; set; }             // 4 Bytes raw string 'tIME'
+        public uint Subchunk4Size { get; set; }             // 4 Bytes = 8
+        public ushort Subchunk4Year { get; set; }           // 2 Bytes year number
+        public byte Subchunk4Month { get; set; }            // 1 Byte month number
+        public byte Subchunk4Day { get; set; }              // 1 Byte day number
+        public byte Subchunk4Hour { get; set; }             // 1 Byte hour number
+        public byte Subchunk4Minute { get; set; }           // 1 Byte minute number
+        public ushort Subchunk4Second { get; set; }         // 2 Bytes second number
+
+        // ver. sub-chunk
+        public string Subchunk5ID { get; set; }             // 4 Bytes raw string 'ver.'
+        public uint Subchunk5Size { get; set; }             // 4 Bytes = 4
+        public uint Subchunk5Version { get; set; }          // 4 Bytes = 1
+
 
         // Extra Data
         public int BlockHeaderContentCount { get; set; }

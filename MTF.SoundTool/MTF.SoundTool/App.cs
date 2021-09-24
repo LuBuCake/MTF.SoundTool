@@ -1,18 +1,19 @@
 ﻿/*
-    This file is part of RESIDENT EVIL SPC Tool.
-    RESIDENT EVIL STQ Tool is free software: you can redistribute it
+    This file is part of MT Framework Sound Tool.
+    MT Framework Sound Tool is free software: you can redistribute it
     and/or modify it under the terms of the GNU General Public License
     as published by the Free Software Foundation, either version 3 of
     the License, or (at your option) any later version.
-    RESIDENT EVIL STQ Tool is distributed in the hope that it will
+    MT Framework Sound Tool is distributed in the hope that it will
     be useful, but WITHOUT ANY WARRANTY; without even the implied
     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
     See the GNU General Public License for more details.
     You should have received a copy of the GNU General Public License
-    along with RESIDENT EVIL SPC Tool. If not, see <https://www.gnu.org/licenses/>6.
+    along with MT Framework Sound Tool. If not, see <https://www.gnu.org/licenses/>6.
 */
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -24,6 +25,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.LookAndFeel;
 using DevExpress.XtraEditors;
+using DevExpress.XtraGrid.Views.Base;
 using MTF.SoundTool.Base.Helpers;
 using MTF.SoundTool.Base.Types;
 
@@ -31,8 +33,10 @@ namespace MTF.SoundTool
 {
     public partial class App : XtraForm
     {
-        private SoundPlayer SPACSoundPlayer { get; set; }
+        private SoundPlayer AppSoundPlayer { get; set; }
         private SPAC SPACFile { get; set; }
+        private STRQ STRQFile { get; set; }
+        private List<SCGI> ToConvertFiles { get; set; }
 
         public App()
         {
@@ -42,7 +46,7 @@ namespace MTF.SoundTool
         private async void App_Load(object sender, EventArgs e)
         {
             string AppDir = Directory.GetCurrentDirectory();
-            string ConfigDir = AppDir + "/RESPCTool.exe.config";
+            string ConfigDir = AppDir + "/MTFSoundTool.exe.config";
             string UpdaterConfigDir = AppDir + "/Updater.exe.config";
 
             if (File.Exists(ConfigDir))
@@ -68,16 +72,33 @@ namespace MTF.SoundTool
                 File.WriteAllText(UpdaterConfigDir, UpdaterConfig);
             }
 
-            FileNameTextEdit.Text = "No SPC file loaded.";
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+
             ThemeRadioGroup.Enabled = false;
-            OpenFileButton.Enabled = false;
-            SaveFileButton.Enabled = false;
-            CloseFileButton.Enabled = false;
             GitHubButton.Enabled = false;
             ForumButton.Enabled = false;
-            ExtractDataButton.Enabled = false;
-            ReplaceDataButton.Enabled = false;
-            ExtractDecodedCheckEdit.Enabled = false;
+
+            SPACFileNameTextEdit.Text = "No SPC file loaded.";
+            OpenSPACFileButton.Enabled = false;
+            SaveSPACFileButton.Enabled = false;
+            CloseSPACFileButton.Enabled = false;
+            ExtractSPACDataButton.Enabled = false;
+            ReplaceSPACDataButton.Enabled = false;
+            ExtractSPACDecodedCheckEdit.Enabled = false;
+
+            STRQFileNameTextEdit.Text = "No STQ file loaded.";
+            OpenSTRQFileButton.Enabled = false;
+            SaveSTRQFileButton.Enabled = false;
+            CloseSTRQFileButton.Enabled = false;
+            STRQSampleModeComboBox.Enabled = false;
+
+            SoundConversionTextEdit.Text = "No sound file loaded.";
+            OpenFilesButton.Enabled = false;
+            ClearFilesButton.Enabled = false;
+            SaveFilesButton.Enabled = false;
+            ConversionTypeComboBox.Enabled = false;
+
+            MainTabControl.SelectedPageChanged += ChangePageControl;
 
             bool UpdateAllowed = await CheckForToolUpdate();
 
@@ -104,11 +125,11 @@ namespace MTF.SoundTool
                 return false;
             }
 
-            Text = "Resident Evil - SPC Tool - Checking Tool Version";
+            Text = "MT Framework - Sound Tool - Checking Tool Version";
 
             using (WebClient GitHubChecker = new WebClient())
             {
-                string LatestVerion = await Task.Run(() => GitHubChecker.DownloadString("https://raw.githubusercontent.com/LuBuCake/RESPCTool/main/RESPCTool/RESPCTool.Versioning/RESPCTool/latest.txt"));
+                string LatestVerion = await Task.Run(() => GitHubChecker.DownloadString("https://raw.githubusercontent.com/LuBuCake/MTF.SoundTool/main/MTF.SoundTool/MTF.SoundTool.Versioning/MTF.SoundTool/latest.txt"));
 
                 Assembly CurApp = Assembly.GetExecutingAssembly();
                 AssemblyName CurName = new AssemblyName(CurApp.FullName);
@@ -131,7 +152,7 @@ namespace MTF.SoundTool
 
                     AppVersion _version = new AppVersion()
                     {
-                        FileRoute = "https://raw.githubusercontent.com/LuBuCake/RESPCTool/main/RESPCTool/RESPCTool.Versioning/RESPCTool/latest.zip",
+                        FileRoute = "https://raw.githubusercontent.com/LuBuCake/MTF.SoundTool/main/MTF.SoundTool/MTF.SoundTool.Versioning/MTF.SoundTool/latest.zip",
                     };
 
                     Serializer.WriteDataFile(UpdaterDirectory + "updateapp.json", Serializer.SerializeAppVersion(_version));
@@ -155,11 +176,11 @@ namespace MTF.SoundTool
                 return false;
             }
 
-            Text = "Resident Evil - SPC Tool - Checking Updater Version";
+            Text = "MT Framework - Sound Tool - Checking Updater Version";
 
             using (WebClient GitHubChecker = new WebClient())
             {
-                string LatestVerion = await Task.Run(() => GitHubChecker.DownloadString("https://raw.githubusercontent.com/LuBuCake/RESPCTool/main/RESPCTool/RESPCTool.Versioning/RESPCTool.Updater/latest.txt"));
+                string LatestVerion = await Task.Run(() => GitHubChecker.DownloadString("https://raw.githubusercontent.com/LuBuCake/MTF.SoundTool/main/MTF.SoundTool/MTF.SoundTool.Versioning/MTF.SoundTool.Updater/latest.txt"));
                 string FilePath = Directory.GetCurrentDirectory() + "/updater.exe";
 
                 AssemblyName CurName = new AssemblyName();
@@ -188,7 +209,7 @@ namespace MTF.SoundTool
 
                 GitHubChecker.DownloadProgressChanged += ReportUpdaterDownloadProgress;
                 GitHubChecker.DownloadFileCompleted += UpdaterDownloadFinished;
-                GitHubChecker.DownloadFileAsync(new Uri("https://raw.githubusercontent.com/LuBuCake/RESPCTool/main/RESPCTool/RESPCTool.Versioning/RESPCTool.Updater/latest.zip"), UpdaterDirectory + "latest.zip");
+                GitHubChecker.DownloadFileAsync(new Uri("https://raw.githubusercontent.com/LuBuCake/MTF.SoundTool/main/MTF.SoundTool/MTF.SoundTool.Versioning/MTF.SoundTool.Updater/latest.zip"), UpdaterDirectory + "latest.zip");
 
                 return true;
             }
@@ -196,12 +217,12 @@ namespace MTF.SoundTool
 
         private void ReportUpdaterDownloadProgress(object sender, DownloadProgressChangedEventArgs e)
         {
-            Text = $"Resident Evil - SPC Tool - Downloading Updater {e.ProgressPercentage}%";
+            Text = $"MT Framework - Sound Tool - Downloading Updater {e.ProgressPercentage}%";
         }
 
         private async void UpdaterDownloadFinished(object sender, AsyncCompletedEventArgs e)
         {
-            Text = "Resident Evil - SPC Tool - Extracting Updater";
+            Text = "MT Framework - Sound Tool - Extracting Updater";
             await ExtractLatestPackage();
             await CheckForToolUpdate(true);
             SetupControls();
@@ -242,102 +263,143 @@ namespace MTF.SoundTool
 
         private void SetupControls()
         {
-            Text = "Resident Evil - SPC Tool";
+            Text = "MT Framework - Sound Tool";
 
+            MainTabControl.SelectedPageChanged += ChangePageControl;
+            SizeChanged += Control_SizeChanged;
             ThemeRadioGroup.SelectedIndexChanged += Theme_IndexChanged;
-            OpenFileButton.Click += OpenFile_Click;
-            SaveFileButton.Click += SaveFile_Click;
-            CloseFileButton.Click += CloseFile_Click;
             GitHubButton.Click += OpenLink_Click;
             ForumButton.Click += OpenLink_Click;
-            PlayButtonEdit.Click += PlaySound_Click;
-            ExtractButtonEdit.Click += ExtractSound_Click;
-            ReplaceButtonEdit.Click += ReplaceSound_Click;
-            ExtractDataButton.Click += ExtractData_Click;
-            ReplaceDataButton.Click += ReplaceData_Click;
+
+            OpenSPACFileButton.Click += OpenSPACFile_Click;
+            SaveSPACFileButton.Click += SaveSPACFile_Click;
+            CloseSPACFileButton.Click += CloseSPACFile_Click;
+            PlayButtonEdit.Click += PlaySPACSound_Click;
+            ExtractButtonEdit.Click += ExtractSPACSound_Click;
+            ReplaceButtonEdit.Click += ReplaceSPACSound_Click;
+            ExtractSPACDataButton.Click += ExtractSPACData_Click;
+            ReplaceSPACDataButton.Click += ReplaceSPACData_Click;
+
+            OpenSTRQFileButton.Click += OpenSTRQFile_Click;
+            SaveSTRQFileButton.Click += SaveSTRQFile_Click;
+            CloseSTRQFileButton.Click += CloseSTRQFile_Click;
+            STRQSampleModeComboBox.SelectedIndexChanged += SampleMode_IndexChanged;
+            STRQGridView.CellValueChanged += STRQGrid_CellValueChanged;
+
+            OpenFilesButton.Click += LoadFiles_Click;
+            ClearFilesButton.Click += ClearFiles_Click;
+            SaveFilesButton.Click += SaveFiles_Click;
+            PlaySoundFileButton.Click += PlaySoundFile_Click;
+            RemoveSoundFileButton.Click += RemoveSoundFile_Click;
+            ConversionTypeComboBox.SelectedIndexChanged += ConversionType_IndexChanged;
+
+            STRQSampleModeComboBox.Properties.Items.Add(new ListItem("Sample Mode: Time Span", 0));
+            STRQSampleModeComboBox.Properties.Items.Add(new ListItem("Sample Mode: Integer", 1));
+            STRQSampleModeComboBox.SelectedIndex = 0;
+
+            ConversionTypeComboBox.Properties.Items.Add(new ListItem("Save as: WAVE", "WAVE"));
+            ConversionTypeComboBox.Properties.Items.Add(new ListItem("Save as: FWSE", "FWSE"));
+            ConversionTypeComboBox.Properties.Items.Add(new ListItem("Save as: XSEW", "XSEW"));
+            ConversionTypeComboBox.SelectedIndex = 0;
+
+            new GridSelector(STRQGridView);
+
+            FormBorderStyle = FormBorderStyle.Sizable;
 
             ThemeRadioGroup.Enabled = true;
-            OpenFileButton.Enabled = true;
-            SaveFileButton.Enabled = true;
-            CloseFileButton.Enabled = true;
             GitHubButton.Enabled = true;
             ForumButton.Enabled = true;
-            ExtractDataButton.Enabled = true;
-            ReplaceDataButton.Enabled = true;
-            ExtractDecodedCheckEdit.Enabled = true;
+
+            OpenSPACFileButton.Enabled = true;
+            SaveSPACFileButton.Enabled = true;
+            CloseSPACFileButton.Enabled = true;
+            ExtractSPACDataButton.Enabled = true;
+            ReplaceSPACDataButton.Enabled = true;
+            ExtractSPACDecodedCheckEdit.Enabled = true;
+
+            OpenSTRQFileButton.Enabled = true;
+            SaveSTRQFileButton.Enabled = true;
+            CloseSTRQFileButton.Enabled = true;
+            STRQSampleModeComboBox.Enabled = true;
+
+            OpenFilesButton.Enabled = true;
+            ClearFilesButton.Enabled = true;
+            SaveFilesButton.Enabled = true;
+            ConversionTypeComboBox.Enabled = true;
+
+            AppSoundPlayer = new SoundPlayer();
         }
 
-        private void OpenFile_Click(object sender, EventArgs e)
+        private void ChangePageControl(object sender, EventArgs e)
         {
-            using (OpenFileDialog OFD = new OpenFileDialog())
+            string SelectedTabName = MainTabControl.SelectedTabPage.Name;
+
+            switch (SelectedTabName)
             {
-                OFD.Filter = "SPC files (*.spc)|*.spc";
-                OFD.Title = "Load SPC";
-                OFD.RestoreDirectory = true;
+                case "SPACEditorTab":
+                    SPACFileNameTextEdit.Visible = true;
+                    OpenSPACFileButton.Visible = true;
+                    SaveSPACFileButton.Visible = true;
+                    CloseSPACFileButton.Visible = true;
+                    ExtractSPACDataButton.Visible = true;
+                    ExtractSPACDecodedCheckEdit.Visible = true;
+                    ReplaceSPACDataButton.Visible = true;
 
-                if (OFD.ShowDialog() == DialogResult.OK)
-                {
-                    SPACFile = SPACHelper.ReadSPAC(OFD.FileName, OFD.SafeFileName);
+                    STRQFileNameTextEdit.Visible = false;
+                    OpenSTRQFileButton.Visible = false;
+                    SaveSTRQFileButton.Visible = false;
+                    CloseSTRQFileButton.Visible = false;
+                    STRQSampleModeComboBox.Visible = false;
 
-                    if (SPACFile == null)
-                        return;
+                    SoundConversionTextEdit.Visible = false;
+                    OpenFilesButton.Visible = false;
+                    ClearFilesButton.Visible = false;
+                    SaveFilesButton.Visible = false;
+                    ConversionTypeComboBox.Visible = false;
+                    break;
+                case "STQREditorTab":
+                    SPACFileNameTextEdit.Visible = false;
+                    OpenSPACFileButton.Visible = false;
+                    SaveSPACFileButton.Visible = false;
+                    CloseSPACFileButton.Visible = false;
+                    ExtractSPACDataButton.Visible = false;
+                    ExtractSPACDecodedCheckEdit.Visible = false;
+                    ReplaceSPACDataButton.Visible = false;
 
-                    string SPACNameSafe = OFD.SafeFileName;
+                    STRQFileNameTextEdit.Visible = true;
+                    OpenSTRQFileButton.Visible = true;
+                    SaveSTRQFileButton.Visible = true;
+                    CloseSTRQFileButton.Visible = true;
+                    STRQSampleModeComboBox.Visible = true;
 
-                    if (SPACNameSafe.Contains(".spc"))
-                        SPACNameSafe = SPACNameSafe.Replace(".spc", "");
+                    SoundConversionTextEdit.Visible = false;
+                    OpenFilesButton.Visible = false;
+                    ClearFilesButton.Visible = false;
+                    SaveFilesButton.Visible = false;
+                    ConversionTypeComboBox.Visible = false;
+                    break;
+                case "SoundEditorTab":
+                    SPACFileNameTextEdit.Visible = false;
+                    OpenSPACFileButton.Visible = false;
+                    SaveSPACFileButton.Visible = false;
+                    CloseSPACFileButton.Visible = false;
+                    ExtractSPACDataButton.Visible = false;
+                    ExtractSPACDecodedCheckEdit.Visible = false;
+                    ReplaceSPACDataButton.Visible = false;
 
-                    FileNameTextEdit.Text = "SPC: " + SPACNameSafe;
+                    STRQFileNameTextEdit.Visible = false;
+                    OpenSTRQFileButton.Visible = false;
+                    SaveSTRQFileButton.Visible = false;
+                    CloseSTRQFileButton.Visible = false;
+                    STRQSampleModeComboBox.Visible = false;
 
-                    switch (SPACFile.Version)
-                    {
-                        case (int)SPACVersion.RE5:
-                            SPACDataGridControl.DataSource = SPACFile.FWSEFiles;
-                            break;
-                        case (int)SPACVersion.RE6:
-                            SPACDataGridControl.DataSource = SPACFile.XSEWFiles;
-                            break;
-                    }
-
-                    SPACSoundPlayer = new SoundPlayer();
-                }
+                    SoundConversionTextEdit.Visible = true;
+                    OpenFilesButton.Visible = true;
+                    ClearFilesButton.Visible = true;
+                    SaveFilesButton.Visible = true;
+                    ConversionTypeComboBox.Visible = true;
+                    break;
             }
-        }
-
-        private void SaveFile_Click(object sender, EventArgs e)
-        {
-            if (SPACFile == null)
-            {
-                XtraMessageBox.Show("There isn't any SPC file loaded.", "Ops!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            using (SaveFileDialog SFD = new SaveFileDialog())
-            {
-                SFD.Filter = "SPC files (*.spc)|*.spc";
-                SFD.Title = "Save STQ";
-                SFD.RestoreDirectory = true;
-
-                if (SFD.ShowDialog() == DialogResult.OK)
-                {
-                    SPACHelper.WriteSPAC(SFD.FileName, SPACFile);
-                }
-            }
-        }
-
-        private void CloseFile_Click(object sender, EventArgs e)
-        {
-            if (SPACFile == null)
-            {
-                XtraMessageBox.Show("There isn't any SPC file loaded.", "Ops!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            SPACFile = null;
-            SPACSoundPlayer.Dispose();
-            SPACSoundPlayer = null;
-            FileNameTextEdit.Text = "No SPC file loaded.";
-            SPACDataGridControl.DataSource = null;
         }
 
         private void OpenLink_Click(object sender, EventArgs e)
@@ -349,7 +411,7 @@ namespace MTF.SoundTool
                 switch (SB.Name)
                 {
                     case "GitHubButton":
-                        Process.Start("https://github.com/LuBuCake/RESPCTool");
+                        Process.Start("https://github.com/LuBuCake/MTFSoundTool");
                         break;
                     case "ForumButton":
                         Process.Start("https://residentevilmodding.boards.net/thread/13992/resident-evil-fwse-spc-tool");
@@ -358,13 +420,25 @@ namespace MTF.SoundTool
             }
         }
 
+        private void Control_SizeChanged(object sender, EventArgs e)
+        {
+            int AdditiveHeight = Height - MinimumSize.Height;
+            MainTabControl.Height = MainTabControl.MinimumSize.Height + AdditiveHeight;
+            STRQDataGP.Height = STRQDataGP.MinimumSize.Height + AdditiveHeight;
+            STRQDataGridControl.Height = STRQDataGridControl.MinimumSize.Height + AdditiveHeight;
+            SPACDataGP.Height = SPACDataGP.MinimumSize.Height + AdditiveHeight;
+            SPACDataGridControl.Height = SPACDataGridControl.MinimumSize.Height + AdditiveHeight;
+            SoundDataGP.Height = SoundDataGP.MinimumSize.Height + AdditiveHeight;
+            SoundDataGridControl.Height = SoundDataGridControl.MinimumSize.Height + AdditiveHeight;
+        }
+
         private void Theme_IndexChanged(object sender, EventArgs e)
         {
             string Value = ThemeRadioGroup.EditValue.ToString();
             UserLookAndFeel.Default.SetSkinStyle(UserLookAndFeel.Default.ActiveSkinName, Value);
 
             string AppDir = Directory.GetCurrentDirectory();
-            string ConfigDir = AppDir + "/RESPCTool.exe.config";
+            string ConfigDir = AppDir + "/MTFSoundTool.exe.config";
             string UpdaterConfigDir = AppDir + "/Updater.exe.config";
 
             if (File.Exists(ConfigDir))
@@ -392,7 +466,181 @@ namespace MTF.SoundTool
             }
         }
 
-        private void PlaySound_Click(object sender, EventArgs e)
+        private void OpenSPACFile_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog OFD = new OpenFileDialog())
+            {
+                OFD.Filter = "SPC files (*.spc)|*.spc";
+                OFD.Title = "Load SPC";
+                OFD.RestoreDirectory = true;
+
+                if (OFD.ShowDialog() == DialogResult.OK)
+                {
+                    SPACFile = SPACHelper.ReadSPAC(OFD.FileName, OFD.SafeFileName);
+
+                    if (SPACFile == null)
+                        return;
+
+                    string SPACNameSafe = OFD.SafeFileName.ToLower();
+
+                    if (SPACNameSafe.Contains(".spc"))
+                        SPACNameSafe = SPACNameSafe.Replace(".spc", "");
+
+                    SPACFileNameTextEdit.Text = "SPC: " + SPACNameSafe;
+
+                    switch (SPACFile.Version)
+                    {
+                        case (int)SPACVersion.RE5:
+                            SPACDataGridControl.DataSource = SPACFile.FWSEFiles;
+                            break;
+                        case (int)SPACVersion.RE6:
+                            SPACDataGridControl.DataSource = SPACFile.XSEWFiles;
+                            break;
+                    }
+                }
+            }
+        }
+
+        private void SaveSPACFile_Click(object sender, EventArgs e)
+        {
+            if (SPACFile == null)
+            {
+                XtraMessageBox.Show("There isn't any SPC file loaded.", "Ops!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            using (SaveFileDialog SFD = new SaveFileDialog())
+            {
+                SFD.Filter = "SPC files (*.spc)|*.spc";
+                SFD.Title = "Save STQ";
+                SFD.RestoreDirectory = true;
+
+                if (SFD.ShowDialog() == DialogResult.OK)
+                {
+                    SPACHelper.WriteSPAC(SFD.FileName, SPACFile);
+                }
+            }
+        }
+
+        private void CloseSPACFile_Click(object sender, EventArgs e)
+        {
+            if (SPACFile == null)
+            {
+                XtraMessageBox.Show("There isn't any SPC file loaded.", "Ops!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            SPACFile = null;
+            AppSoundPlayer.Dispose();
+            AppSoundPlayer = null;
+            SPACFileNameTextEdit.Text = "No SPC file loaded.";
+            SPACDataGridControl.DataSource = null;
+        }
+
+        private void OpenSTRQFile_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog OFD = new OpenFileDialog())
+            {
+                OFD.Filter = "STQ files (*.stq *.stqr)|*.stq;*.stqr";
+                OFD.Title = "Load STQ";
+
+                if (OFD.ShowDialog() == DialogResult.OK)
+                {
+                    STRQFile = STRQHelper.ReadSTRQ(OFD.FileName, OFD.SafeFileName);
+
+                    if (STRQFile == null)
+                        return;
+
+                    string STQNameSafe = OFD.SafeFileName.ToLower();
+
+                    if (STQNameSafe.Contains(".stqr"))
+                        STQNameSafe = STQNameSafe.Replace(".stqr", "");
+
+                    if (STQNameSafe.Contains(".stq"))
+                        STQNameSafe = STQNameSafe.Replace(".stq", "");
+
+                    STRQFileNameTextEdit.Text = "STQ: " + STQNameSafe;
+
+                    STRQDataGridControl.DataSource = STRQFile.STRQEntries;
+                    SampleMode_IndexChanged(STRQSampleModeComboBox, null);
+                }
+            }
+        }
+
+        private void SaveSTRQFile_Click(object sender, EventArgs e)
+        {
+            if (STRQFile == null)
+            {
+                XtraMessageBox.Show("There isn't any STQ file loaded.", "Ops!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            using (SaveFileDialog SFD = new SaveFileDialog())
+            {
+                if (STRQFile.Version == (int)STRQVersion.REV1 || STRQFile.Version == (int)STRQVersion.REV2)
+                    SFD.Filter = "STQR files (*.stqr)|*.stqr";
+                else
+                    SFD.Filter = "STQ files (*.stq)|*.stq";
+
+                SFD.Title = "Save STQ";
+                SFD.RestoreDirectory = true;
+
+                if (SFD.ShowDialog() == DialogResult.OK)
+                {
+                    STRQHelper.WriteSTRQ(SFD.FileName, STRQFile);
+                }
+            }
+        }
+
+        private void CloseSTRQFile_Click(object sender, EventArgs e)
+        {
+            if (STRQFile == null)
+            {
+                XtraMessageBox.Show("There isn't any STQ file loaded.", "Ops!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            STRQFile = null;
+            STRQFileNameTextEdit.Text = "No STQ file loaded.";
+            STRQDataGridControl.DataSource = null;
+        }
+
+        private void SampleMode_IndexChanged(object sender, EventArgs e)
+        {
+            ComboBoxEdit CBE = sender as ComboBoxEdit;
+            int Value = (CBE.SelectedItem as ListItem).Value;
+
+            if (Value == 0)
+            {
+                DurationColumn.FieldName = "DurationSpan";
+                LoopStartColumn.FieldName = "LoopStartSpan";
+                LoopEndColumn.FieldName = "LoopEndSpan";
+            }
+            else if (Value == 1)
+            {
+                DurationColumn.FieldName = "Duration";
+                LoopStartColumn.FieldName = "LoopStart";
+                LoopEndColumn.FieldName = "LoopEnd";
+            }
+
+            if (STRQFile == null)
+                return;
+
+            STRQHelper.UpdateEntries(STRQFile, (STRQSampleMode)Value);
+        }
+
+        private void STRQGrid_CellValueChanged(object sender, CellValueChangedEventArgs e)
+        {
+            if (STRQFile == null)
+                return;
+
+            int Value = (STRQSampleModeComboBox.SelectedItem as ListItem).Value;
+            Value = Value == 0 ? 1 : 0;
+            STRQHelper.UpdateEntries(STRQFile, (STRQSampleMode)Value);
+            STRQDataGridControl.RefreshDataSource();
+        }
+
+        private void PlaySPACSound_Click(object sender, EventArgs e)
         {
             if (SPACFile == null)
                 return;
@@ -415,13 +663,13 @@ namespace MTF.SoundTool
             WAVEHelper.WriteWAVE(WAVEFileDir, WAVEFile, false);
             MemoryStream MS = new MemoryStream(File.ReadAllBytes(WAVEFileDir));
             File.Delete(WAVEFileDir);
-            SPACSoundPlayer.Stream = MS;
-            SPACSoundPlayer.Play();
+            AppSoundPlayer.Stream = MS;
+            AppSoundPlayer.Play();
 
             SPACDataGridView.CloseEditor();
         }
 
-        private void ExtractSound_Click(object sender, EventArgs e)
+        private void ExtractSPACSound_Click(object sender, EventArgs e)
         {
             if (SPACFile == null)
                 return;
@@ -480,7 +728,7 @@ namespace MTF.SoundTool
             SPACDataGridView.CloseEditor();
         }
 
-        private void ReplaceSound_Click(object sender, EventArgs e)
+        private void ReplaceSPACSound_Click(object sender, EventArgs e)
         {
             if (SPACFile == null)
                 return;
@@ -583,7 +831,7 @@ namespace MTF.SoundTool
                                     }
 
                                     uint ChunkSize = BR.ReadUInt32();
-                                    if (ChunkSize + 8 < FS.Length)
+                                    if (ChunkSize + 8 > FS.Length)
                                     {
                                         XtraMessageBox.Show("The file's total length doesn't match what is registered inside of it.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                         break;
@@ -639,7 +887,7 @@ namespace MTF.SoundTool
             SPACDataGridView.CloseEditor();
         }
 
-        private void ExtractData_Click(object sender, EventArgs e)
+        private void ExtractSPACData_Click(object sender, EventArgs e)
         {
             if (SPACFile == null)
             {
@@ -656,7 +904,7 @@ namespace MTF.SoundTool
                     switch (SPACFile.Version)
                     {
                         case (int)SPACVersion.RE5:
-                            if (ExtractDecodedCheckEdit.Checked)
+                            if (ExtractSPACDecodedCheckEdit.Checked)
                             {
                                 foreach (FWSE FWSEFile in SPACFile.FWSEFiles)
                                     WAVEHelper.WriteWAVE($"{BasePath}{FWSEFile.Index}.wav", FWSEHelper.ConvertToWAVE(FWSEFile), false);
@@ -672,7 +920,7 @@ namespace MTF.SoundTool
                             }
                             break;
                         case (int)SPACVersion.RE6:
-                            if (ExtractDecodedCheckEdit.Checked)
+                            if (ExtractSPACDecodedCheckEdit.Checked)
                             {
                                 foreach (XSEW XSEWFile in SPACFile.XSEWFiles)
                                     WAVEHelper.WriteWAVE($"{BasePath}{XSEWFile.Index}.wav", XSEWHelper.ConvertToWAVE(XSEWFile), false);
@@ -692,7 +940,7 @@ namespace MTF.SoundTool
             }
         }
 
-        private void ReplaceData_Click(object sender, EventArgs e)
+        private void ReplaceSPACData_Click(object sender, EventArgs e)
         {
             if (SPACFile == null)
             {
@@ -710,7 +958,7 @@ namespace MTF.SoundTool
                     case (int)SPACVersion.RE5:
 
                         OFD.Filter = "FWSE Files (*.fwse)|*.fwse|WAVE Files (*.wav)|*.wav";
-                        OFD.Title = "Select a FWSE or a WAV file";
+                        OFD.Title = "Select a FWSE or a WAVE file";
                         OFD.RestoreDirectory = true;
                         OFD.Multiselect = true;
 
@@ -798,7 +1046,7 @@ namespace MTF.SoundTool
                     case (int)SPACVersion.RE6:
 
                         OFD.Filter = "XSEW Files (*.xsew)|*.xsew|WAVE Files (*.wav)|*.wav";
-                        OFD.Title = "Select a XSEW or a WAV file";
+                        OFD.Title = "Select a XSEW or a WAVE file";
                         OFD.RestoreDirectory = true;
                         OFD.Multiselect = true;
 
@@ -912,6 +1160,277 @@ namespace MTF.SoundTool
                         break;
                 }
             }
+        }
+
+        private void LoadFiles_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog OFD = new OpenFileDialog())
+            {
+                OFD.Filter = "FWSE Files (*.fwse)|*.fwse|XSEW Files (*.xsew)|*.xsew|WAVE Files (*.wav)|*.wav";
+                OFD.Title = "Select one or more FWSE/XSEW/WAVE file";
+                OFD.RestoreDirectory = true;
+                OFD.Multiselect = true;
+
+                if (OFD.ShowDialog() == DialogResult.OK)
+                {
+                    List<ListItem> ConversionTypes = new List<ListItem>();
+                    SCGI SCGIFile;
+
+                    ToConvertFiles = new List<SCGI>();
+
+                    for (int i = 0; i < OFD.FileNames.Length; i++)
+                    {
+                        switch (OFD.FilterIndex)
+                        {
+                            case 1:
+                                FWSE FWSEFile = FWSEHelper.ReadFWSE(OFD.FileNames[i], OFD.SafeFileNames[i], i);
+
+                                if (FWSEFile == null)
+                                    continue;
+
+                                SCGIFile = new SCGI();
+                                SCGIFile.SoundFile = FWSEFile;
+                                SCGIFile.Format = "FWSE";
+                                SCGIFile.FileName = OFD.SafeFileNames[i];
+                                SCGIFile.DurationSpan = FWSEFile.DurationSpan;
+                                SCGIFile.BitsPerSample = FWSEFile.BitsPerSample;
+                                SCGIFile.NumChannels = FWSEFile.NumChannels;
+                                SCGIFile.Samples = FWSEFile.Samples;
+                                SCGIFile.SampleRate = FWSEFile.SampleRate;
+                                ToConvertFiles.Add(SCGIFile);
+
+                                if (ConversionTypes.Count == 0)
+                                {
+                                    ConversionTypes.Add(new ListItem("Save as: WAVE", "WAVE"));
+                                    ConversionTypes.Add(new ListItem("Save as: XSEW", "XSEW"));
+                                }
+
+                                break;
+                            case 2:
+                                XSEW XSEWFile = XSEWHelper.ReadXSEW(OFD.FileNames[i], OFD.SafeFileNames[i], i);
+
+                                if (XSEWFile == null)
+                                    continue;
+
+                                SCGIFile = new SCGI();
+                                SCGIFile.SoundFile = XSEWFile;
+                                SCGIFile.Format = "XSEW";
+                                SCGIFile.FileName = OFD.SafeFileNames[i];
+                                SCGIFile.DurationSpan = XSEWFile.DurationSpan;
+                                SCGIFile.BitsPerSample = XSEWFile.BitsPerSample;
+                                SCGIFile.NumChannels = XSEWFile.NumChannels;
+                                SCGIFile.Samples = XSEWFile.Samples;
+                                SCGIFile.SampleRate = (int)XSEWFile.SampleRate;
+                                ToConvertFiles.Add(SCGIFile);
+
+                                if (ConversionTypes.Count == 0)
+                                {
+                                    ConversionTypes.Add(new ListItem("Save as: WAVE", "WAVE"));
+                                    ConversionTypes.Add(new ListItem("Save as: FWSE", "FWSE"));
+                                }
+
+                                break;
+                            case 3:
+                                WAVE WAVEFile = WAVEHelper.ReadWAVE(OFD.FileNames[i], OFD.SafeFileNames[i]);
+
+                                if (WAVEFile == null)
+                                    continue;
+
+                                SCGIFile = new SCGI();
+                                SCGIFile.SoundFile = WAVEFile;
+                                SCGIFile.Format = "WAVE";
+                                SCGIFile.FileName = OFD.SafeFileNames[i];
+                                SCGIFile.DurationSpan = TimeSpan.FromSeconds((double)WAVEFile.Subchunk2Size * 2 / WAVEFile.SampleRate);
+                                SCGIFile.BitsPerSample = WAVEFile.BitsPerSample;
+                                SCGIFile.NumChannels = WAVEFile.NumChannels;
+                                SCGIFile.Samples = (int)((int)WAVEFile.Subchunk2Size * 2 / WAVEFile.SampleRate);
+                                SCGIFile.SampleRate = (int)WAVEFile.SampleRate;
+                                ToConvertFiles.Add(SCGIFile);
+
+                                if (ConversionTypes.Count == 0)
+                                {
+                                    ConversionTypes.Add(new ListItem("Save as: FWSE", "FWSE"));
+                                    ConversionTypes.Add(new ListItem("Save as: XSEW", "XSEW"));
+                                }
+
+                                break;
+                        }
+                    }
+
+                    if (ToConvertFiles.Count == 0)
+                    {
+                        ClearFiles_Click(null, null);
+                        return;
+                    }
+
+                    ConversionTypeComboBox.Properties.Items.Clear();
+                    ConversionTypeComboBox.Properties.Items.AddRange(ConversionTypes);
+                    ConversionTypeComboBox.SelectedIndex = 0;
+
+                    SoundDataGridControl.DataSource = ToConvertFiles;
+                    ConversionType_IndexChanged(null, null);
+                }
+            }
+        }
+
+        private void ClearFiles_Click(object sender, EventArgs e)
+        {
+            if (ToConvertFiles == null)
+            {
+                XtraMessageBox.Show("There isn't any sound file loaded.", "Ops!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            ToConvertFiles = null;
+            SoundConversionTextEdit.Text = "No sound file loaded.";
+            SoundDataGridControl.DataSource = null;
+
+            ConversionTypeComboBox.Properties.Items.Clear();
+            ConversionTypeComboBox.Properties.Items.Add(new ListItem("Save as: WAVE", "WAVE"));
+            ConversionTypeComboBox.Properties.Items.Add(new ListItem("Save as: FWSE", "FWSE"));
+            ConversionTypeComboBox.Properties.Items.Add(new ListItem("Save as: XSEW", "XSEW"));
+            ConversionTypeComboBox.SelectedIndex = 0;
+        }
+
+        private void SaveFiles_Click(object sender, EventArgs e)
+        {
+            if (ToConvertFiles == null)
+            {
+                XtraMessageBox.Show("There isn't any sound file loaded.", "Ops!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            using (FolderBrowserDialog FBD = new FolderBrowserDialog())
+            {
+                if (FBD.ShowDialog() == DialogResult.OK)
+                {
+                    string ConversionType = (ConversionTypeComboBox.SelectedItem as ListItem).SValue;
+                    string BasePath = FBD.SelectedPath + @"\";
+
+                    foreach (SCGI SCGIFile in ToConvertFiles)
+                    {
+                        switch (ConversionType)
+                        {
+                            case "WAVE":
+
+                                WAVE WAVEFile;
+
+                                switch (SCGIFile.Format)
+                                {
+                                    case "FWSE":
+                                        WAVEFile = FWSEHelper.ConvertToWAVE((FWSE) SCGIFile.SoundFile);
+                                        break;
+                                    case "XSEW":
+                                        WAVEFile = XSEWHelper.ConvertToWAVE((XSEW) SCGIFile.SoundFile);
+                                        break;
+                                    default:
+                                        continue;
+                                }
+
+                                WAVEHelper.WriteWAVE($"{BasePath}{SCGIFile.FileName}.wav", WAVEFile, false);
+
+                                break;
+                            case "FWSE":
+
+                                FWSE FWSEFile;
+
+                                switch (SCGIFile.Format)
+                                {
+                                    case "WAVE":
+                                        FWSEFile = FWSEHelper.ConvertToFWSE((WAVE) SCGIFile.SoundFile);
+                                        break;
+                                    case "XSEW":
+                                        FWSEFile = FWSEHelper.ConvertToFWSE(XSEWHelper.ConvertToWAVE((XSEW) SCGIFile.SoundFile));
+                                        break;
+                                    default:
+                                        continue;
+                                }
+
+                                FWSEHelper.WriteFWSE($"{BasePath}{SCGIFile.FileName}.fwse", FWSEFile, false);
+
+                                break;
+                            case "XSEW":
+
+                                XSEW XSEWFile;
+
+                                switch (SCGIFile.Format)
+                                {
+                                    case "WAVE":
+                                        XSEWFile = XSEWHelper.ConvertToXSEW((WAVE) SCGIFile.SoundFile);
+                                        break;
+                                    case "FWSE":
+                                        XSEWFile = XSEWHelper.ConvertToXSEW(FWSEHelper.ConvertToWAVE((FWSE) SCGIFile.SoundFile));
+                                        break;
+                                    default:
+                                        continue;
+                                }
+
+                                XSEWHelper.WriteXSEW($"{BasePath}{SCGIFile.FileName}.xsew", XSEWFile, false);
+
+                                break;
+                        }
+                    }
+
+                    XtraMessageBox.Show("Files converted successfully.", "Done!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private void ConversionType_IndexChanged(object sender, EventArgs e)
+        {
+            if (ToConvertFiles == null)
+            {
+                SoundConversionTextEdit.Text = "No sound file loaded.";
+                return;
+            }
+
+            string ConversionType = (ConversionTypeComboBox.SelectedItem as ListItem).SValue;
+            SoundConversionTextEdit.Text = $"Convert {ToConvertFiles.Count} files to: {ConversionType}";
+        }
+
+        private void PlaySoundFile_Click(object sender, EventArgs e)
+        {
+            if (ToConvertFiles == null)
+                return;
+
+            SCGI SCGIFile = SoundGridView.GetRow(SoundGridView.FocusedRowHandle) as SCGI;
+            WAVE WAVEFile = null;
+
+            switch (SCGIFile.Format)
+            {
+                case "WAVE":
+                    WAVEFile = (WAVE) SCGIFile.SoundFile;
+                    break;
+                case "FWSE":
+                    WAVEFile = FWSEHelper.ConvertToWAVE((FWSE) SCGIFile.SoundFile);
+                    break;
+                case "XSEW":
+                    WAVEFile = XSEWHelper.ConvertToWAVE((XSEW) SCGIFile.SoundFile);
+                    break;
+            }
+
+            string WAVEFileDir = Directory.GetCurrentDirectory() + "/ToPlay.wav";
+            WAVEHelper.WriteWAVE(WAVEFileDir, WAVEFile, false);
+            MemoryStream MS = new MemoryStream(File.ReadAllBytes(WAVEFileDir));
+            File.Delete(WAVEFileDir);
+            AppSoundPlayer.Stream = MS;
+            AppSoundPlayer.Play();
+
+            SoundGridView.CloseEditor();
+        }
+
+        private void RemoveSoundFile_Click(object sender, EventArgs e)
+        {
+            if (ToConvertFiles == null)
+                return;
+
+            SCGI SCGIFile = SoundGridView.GetRow(SoundGridView.FocusedRowHandle) as SCGI;
+            ToConvertFiles.Remove(SCGIFile);
+
+            if (ToConvertFiles.Count == 0)
+                ClearFiles_Click(null, null);
+            else
+                SoundDataGridControl.RefreshDataSource();
         }
     }
 }

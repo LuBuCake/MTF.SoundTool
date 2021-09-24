@@ -208,14 +208,21 @@
     </Compile>
     <Compile Include="Base\Helpers\Enums.cs" />
     <Compile Include="Base\Helpers\FWSEHelper.cs" />
+    <Compile Include="Base\Helpers\GridSelector.cs" />
     <Compile Include="Base\Helpers\Serializer.cs" />
     <Compile Include="Base\Helpers\SPACHelper.cs" />
+    <Compile Include="Base\Helpers\StringHelper.cs" />
+    <Compile Include="Base\Helpers\STRQHelper.cs" />
     <Compile Include="Base\Helpers\Utility.cs" />
     <Compile Include="Base\Helpers\WAVEHelper.cs" />
     <Compile Include="Base\Helpers\XSEWHelper.cs" />
     <Compile Include="Base\Types\AppVersion.cs" />
     <Compile Include="Base\Types\FWSE.cs" />
+    <Compile Include="Base\Types\ListItem.cs" />
+    <Compile Include="Base\Types\SCGI.cs" />
     <Compile Include="Base\Types\SPAC.cs" />
+    <Compile Include="Base\Types\STRQ.cs" />
+    <Compile Include="Base\Types\STRQEntry.cs" />
     <Compile Include="Base\Types\WAVE.cs" />
     <Compile Include="Base\Types\XSEW.cs" />
     <Compile Include="Program.cs" />

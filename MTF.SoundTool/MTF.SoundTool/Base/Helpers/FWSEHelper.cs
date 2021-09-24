@@ -204,10 +204,10 @@ namespace MTF.SoundTool.Base.Helpers
                         FWSEFile.Version = BR.ReadInt32();
                         FWSEFile.FileSize = BR.ReadInt32();
                         FWSEFile.HeaderSize = BR.ReadInt32();
-                        FWSEFile.Channels = BR.ReadInt32();
+                        FWSEFile.NumChannels = BR.ReadInt32();
                         FWSEFile.Samples = BR.ReadInt32();
                         FWSEFile.SampleRate = BR.ReadInt32();
-                        FWSEFile.BitPerSample = BR.ReadInt32();
+                        FWSEFile.BitsPerSample = BR.ReadInt32();
                         FWSEFile.InfoData = BR.ReadBytes(FWSEFile.HeaderSize - 32);
                         FWSEFile.SoundData = BR.ReadBytes((int)FS.Length - FWSEFile.HeaderSize);
 
@@ -236,10 +236,10 @@ namespace MTF.SoundTool.Base.Helpers
                     BW.Write(FWSEFile.Version);
                     BW.Write(FWSEFile.FileSize);
                     BW.Write(FWSEFile.HeaderSize);
-                    BW.Write(FWSEFile.Channels);
+                    BW.Write(FWSEFile.NumChannels);
                     BW.Write(FWSEFile.Samples);
                     BW.Write(FWSEFile.SampleRate);
-                    BW.Write(FWSEFile.BitPerSample);
+                    BW.Write(FWSEFile.BitsPerSample);
                     BW.Write(FWSEFile.InfoData);
                     BW.Write(FWSEFile.SoundData);
 
@@ -285,10 +285,10 @@ namespace MTF.SoundTool.Base.Helpers
             FWSEFile.Version = (int)FWSEVersion.RE5;
             FWSEFile.FileSize = 1024 + FWSEData.Length;
             FWSEFile.HeaderSize = 1024;
-            FWSEFile.Channels = 1;
+            FWSEFile.NumChannels = 1;
             FWSEFile.Samples = FWSEData.Length * 2;
             FWSEFile.SampleRate = 48000;
-            FWSEFile.BitPerSample = 16;
+            FWSEFile.BitsPerSample = 16;
             FWSEFile.InfoData = GetDefaultInfoData();
             FWSEFile.SoundData = FWSEData;
 
