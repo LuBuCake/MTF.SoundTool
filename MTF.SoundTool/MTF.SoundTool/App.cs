@@ -411,10 +411,10 @@ namespace MTF.SoundTool
                 switch (SB.Name)
                 {
                     case "GitHubButton":
-                        Process.Start("https://github.com/LuBuCake/MTFSoundTool");
+                        Process.Start("https://github.com/LuBuCake/MTF.SoundTool");
                         break;
                     case "ForumButton":
-                        Process.Start("https://residentevilmodding.boards.net/thread/13992/resident-evil-fwse-spc-tool");
+                        Process.Start("https://residentevilmodding.boards.net");
                         break;
                 }
             }
