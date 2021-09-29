@@ -414,7 +414,7 @@ namespace MTF.SoundTool
                         Process.Start("https://github.com/LuBuCake/MTF.SoundTool");
                         break;
                     case "ForumButton":
-                        Process.Start("https://residentevilmodding.boards.net");
+                        Process.Start("https://residentevilmodding.boards.net/thread/15557/mt-framework-sound-tool");
                         break;
                 }
             }
