@@ -937,7 +937,7 @@ namespace MTF.SoundTool
             this.SoundEditorTab.Controls.Add(this.SoundDataGP);
             this.SoundEditorTab.Name = "SoundEditorTab";
             this.SoundEditorTab.Size = new System.Drawing.Size(918, 228);
-            this.SoundEditorTab.Text = "Sound Editor";
+            this.SoundEditorTab.Text = "Sound Converter";
             // 
             // SoundDataGP
             // 
