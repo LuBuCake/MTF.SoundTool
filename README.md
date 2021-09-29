@@ -3,7 +3,7 @@ MT Framework Sound Tool
 
 This tool allows the manipulation of most audio files from [MT Framework](https://en.wikipedia.org/wiki/MT_Framework) 2.x & 1.x games (mainly RESIDENT EVIL).
 
-Detailed information and instructions at the [Original Topic](https://github.com/LuBuCake/MTF.SoundTool/)
+Detailed information and instructions at the [Original Topic](https://residentevilmodding.boards.net/thread/15557/mt-framework-sound-tool)
 
 [Download Latest Version](https://raw.githubusercontent.com/LuBuCake/MTF.SoundTool/main/MTF.SoundTool/MTF.SoundTool.Versioning/MTF.SoundTool/latest.zip)
 
