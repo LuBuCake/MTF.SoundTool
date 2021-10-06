@@ -744,7 +744,7 @@ namespace MTF.SoundTool
                         FWSE FocusedFWSEFile = SPACDataGridView.GetRow(SPACDataGridView.FocusedRowHandle) as FWSE;
                         Index = FocusedFWSEFile.Index;
 
-                        OFD.Filter = "FWSE Files (*.fwse)|*.fwse|WAVE Files (*.wav)|*.wav";
+                        OFD.Filter = "All Files|*.*|FWSE Files (*.fwse)|*.fwse|WAVE Files (*.wav)|*.wav";
                         OFD.Title = "Select a FWSE or a WAV file";
                         OFD.RestoreDirectory = true;
 
@@ -802,7 +802,7 @@ namespace MTF.SoundTool
                         XSEW FocusedXSEWFile = SPACDataGridView.GetRow(SPACDataGridView.FocusedRowHandle) as XSEW;
                         Index = FocusedXSEWFile.Index;
 
-                        OFD.Filter = "XSEW Files (*.xsew)|*.xsew|WAVE Files (*.wav)|*.wav";
+                        OFD.Filter = "All Files|*.*|XSEW Files (*.xsew)|*.xsew|WAVE Files (*.wav)|*.wav";
                         OFD.Title = "Select a XSEW or a WAV file";
                         OFD.RestoreDirectory = true;
 
