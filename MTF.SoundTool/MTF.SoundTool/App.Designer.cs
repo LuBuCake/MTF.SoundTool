@@ -71,19 +71,19 @@ namespace MTF.SoundTool
             this.SPACDataGP = new DevExpress.XtraEditors.GroupControl();
             this.SPACDataGridControl = new DevExpress.XtraGrid.GridControl();
             this.SPACDataGridView = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.IndexColumn = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.PlaySoundColumn = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.SPCIndexColumn = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.SPCPlaySoundColumn = new DevExpress.XtraGrid.Columns.GridColumn();
             this.PlayButtonEdit = new DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit();
-            this.ExtractSoundColumn = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.SPCExtractSoundColumn = new DevExpress.XtraGrid.Columns.GridColumn();
             this.ExtractButtonEdit = new DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit();
-            this.ReplaceSoundColumn = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.SPCReplaceSoundColumn = new DevExpress.XtraGrid.Columns.GridColumn();
             this.ReplaceButtonEdit = new DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit();
-            this.FormatColumn = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.ExpectedFileNameColumn = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.DurationColumn = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.BitSamplingColumn = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.SPCFormatColumn = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.SPCExpectedFileNameColumn = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.SPCDurationColumn = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.SPCBitSamplingColumn = new DevExpress.XtraGrid.Columns.GridColumn();
             this.SPCChannelsColumn = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.SamplesColumn = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.SPCSamplesColumn = new DevExpress.XtraGrid.Columns.GridColumn();
             this.SPCSampleRateColumn = new DevExpress.XtraGrid.Columns.GridColumn();
             this.ToolControlGP = new DevExpress.XtraEditors.GroupControl();
             this.ClearFilesButton = new DevExpress.XtraEditors.SimpleButton();
@@ -113,15 +113,15 @@ namespace MTF.SoundTool
             this.STRQDataGP = new DevExpress.XtraEditors.GroupControl();
             this.STRQDataGridControl = new DevExpress.XtraGrid.GridControl();
             this.STRQGridView = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.PathColumn = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.NameColumn = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.FileSizeColumn = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.ChannelsColumn = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.SampleRateColumn = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.LoopStartColumn = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.LoopEndColumn = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.STQIndexColumn = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.STQPathColumn = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.STQNameColumn = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.STQFileSizeColumn = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.STQDurationColumn = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.STQChannelsColumn = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.STQSampleRateColumn = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.STQLoopStartColumn = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.STQLoopEndColumn = new DevExpress.XtraGrid.Columns.GridColumn();
             this.SoundEditorTab = new DevExpress.XtraTab.XtraTabPage();
             this.SoundDataGP = new DevExpress.XtraEditors.GroupControl();
             this.SoundDataGridControl = new DevExpress.XtraGrid.GridControl();
@@ -202,16 +202,16 @@ namespace MTF.SoundTool
             // SPACDataGridView
             // 
             this.SPACDataGridView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.IndexColumn,
-            this.PlaySoundColumn,
-            this.ExtractSoundColumn,
-            this.ReplaceSoundColumn,
-            this.FormatColumn,
-            this.ExpectedFileNameColumn,
-            this.DurationColumn,
-            this.BitSamplingColumn,
+            this.SPCIndexColumn,
+            this.SPCPlaySoundColumn,
+            this.SPCExtractSoundColumn,
+            this.SPCReplaceSoundColumn,
+            this.SPCFormatColumn,
+            this.SPCExpectedFileNameColumn,
+            this.SPCDurationColumn,
+            this.SPCBitSamplingColumn,
             this.SPCChannelsColumn,
-            this.SamplesColumn,
+            this.SPCSamplesColumn,
             this.SPCSampleRateColumn});
             this.SPACDataGridView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.None;
             this.SPACDataGridView.GridControl = this.SPACDataGridControl;
@@ -226,35 +226,35 @@ namespace MTF.SoundTool
             this.SPACDataGridView.OptionsView.ShowButtonMode = DevExpress.XtraGrid.Views.Base.ShowButtonModeEnum.ShowAlways;
             this.SPACDataGridView.OptionsView.ShowGroupPanel = false;
             // 
-            // IndexColumn
+            // SPCIndexColumn
             // 
-            this.IndexColumn.AppearanceCell.Options.UseTextOptions = true;
-            this.IndexColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.IndexColumn.FieldName = "Index";
-            this.IndexColumn.Name = "IndexColumn";
-            this.IndexColumn.OptionsColumn.AllowEdit = false;
-            this.IndexColumn.OptionsColumn.AllowFocus = false;
-            this.IndexColumn.OptionsColumn.ReadOnly = true;
-            this.IndexColumn.OptionsColumn.ShowCaption = false;
-            this.IndexColumn.OptionsFilter.AllowFilter = false;
-            this.IndexColumn.Visible = true;
-            this.IndexColumn.VisibleIndex = 0;
-            this.IndexColumn.Width = 35;
+            this.SPCIndexColumn.AppearanceCell.Options.UseTextOptions = true;
+            this.SPCIndexColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.SPCIndexColumn.FieldName = "Index";
+            this.SPCIndexColumn.Name = "SPCIndexColumn";
+            this.SPCIndexColumn.OptionsColumn.AllowEdit = false;
+            this.SPCIndexColumn.OptionsColumn.AllowFocus = false;
+            this.SPCIndexColumn.OptionsColumn.ReadOnly = true;
+            this.SPCIndexColumn.OptionsColumn.ShowCaption = false;
+            this.SPCIndexColumn.OptionsFilter.AllowFilter = false;
+            this.SPCIndexColumn.Visible = true;
+            this.SPCIndexColumn.VisibleIndex = 0;
+            this.SPCIndexColumn.Width = 35;
             // 
-            // PlaySoundColumn
+            // SPCPlaySoundColumn
             // 
-            this.PlaySoundColumn.AppearanceCell.Options.UseTextOptions = true;
-            this.PlaySoundColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.PlaySoundColumn.AppearanceHeader.Options.UseTextOptions = true;
-            this.PlaySoundColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.PlaySoundColumn.ColumnEdit = this.PlayButtonEdit;
-            this.PlaySoundColumn.Name = "PlaySoundColumn";
-            this.PlaySoundColumn.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
-            this.PlaySoundColumn.OptionsColumn.ShowCaption = false;
-            this.PlaySoundColumn.OptionsFilter.AllowFilter = false;
-            this.PlaySoundColumn.Visible = true;
-            this.PlaySoundColumn.VisibleIndex = 1;
-            this.PlaySoundColumn.Width = 35;
+            this.SPCPlaySoundColumn.AppearanceCell.Options.UseTextOptions = true;
+            this.SPCPlaySoundColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.SPCPlaySoundColumn.AppearanceHeader.Options.UseTextOptions = true;
+            this.SPCPlaySoundColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.SPCPlaySoundColumn.ColumnEdit = this.PlayButtonEdit;
+            this.SPCPlaySoundColumn.Name = "SPCPlaySoundColumn";
+            this.SPCPlaySoundColumn.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.SPCPlaySoundColumn.OptionsColumn.ShowCaption = false;
+            this.SPCPlaySoundColumn.OptionsFilter.AllowFilter = false;
+            this.SPCPlaySoundColumn.Visible = true;
+            this.SPCPlaySoundColumn.VisibleIndex = 1;
+            this.SPCPlaySoundColumn.Width = 35;
             // 
             // PlayButtonEdit
             // 
@@ -270,20 +270,20 @@ namespace MTF.SoundTool
             this.PlayButtonEdit.Name = "PlayButtonEdit";
             this.PlayButtonEdit.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.HideTextEditor;
             // 
-            // ExtractSoundColumn
+            // SPCExtractSoundColumn
             // 
-            this.ExtractSoundColumn.AppearanceCell.Options.UseTextOptions = true;
-            this.ExtractSoundColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.ExtractSoundColumn.AppearanceHeader.Options.UseTextOptions = true;
-            this.ExtractSoundColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.ExtractSoundColumn.ColumnEdit = this.ExtractButtonEdit;
-            this.ExtractSoundColumn.Name = "ExtractSoundColumn";
-            this.ExtractSoundColumn.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
-            this.ExtractSoundColumn.OptionsColumn.ShowCaption = false;
-            this.ExtractSoundColumn.OptionsFilter.AllowFilter = false;
-            this.ExtractSoundColumn.Visible = true;
-            this.ExtractSoundColumn.VisibleIndex = 2;
-            this.ExtractSoundColumn.Width = 35;
+            this.SPCExtractSoundColumn.AppearanceCell.Options.UseTextOptions = true;
+            this.SPCExtractSoundColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.SPCExtractSoundColumn.AppearanceHeader.Options.UseTextOptions = true;
+            this.SPCExtractSoundColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.SPCExtractSoundColumn.ColumnEdit = this.ExtractButtonEdit;
+            this.SPCExtractSoundColumn.Name = "SPCExtractSoundColumn";
+            this.SPCExtractSoundColumn.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.SPCExtractSoundColumn.OptionsColumn.ShowCaption = false;
+            this.SPCExtractSoundColumn.OptionsFilter.AllowFilter = false;
+            this.SPCExtractSoundColumn.Visible = true;
+            this.SPCExtractSoundColumn.VisibleIndex = 2;
+            this.SPCExtractSoundColumn.Width = 35;
             // 
             // ExtractButtonEdit
             // 
@@ -299,20 +299,20 @@ namespace MTF.SoundTool
             this.ExtractButtonEdit.Name = "ExtractButtonEdit";
             this.ExtractButtonEdit.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.HideTextEditor;
             // 
-            // ReplaceSoundColumn
+            // SPCReplaceSoundColumn
             // 
-            this.ReplaceSoundColumn.AppearanceCell.Options.UseTextOptions = true;
-            this.ReplaceSoundColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.ReplaceSoundColumn.AppearanceHeader.Options.UseTextOptions = true;
-            this.ReplaceSoundColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.ReplaceSoundColumn.ColumnEdit = this.ReplaceButtonEdit;
-            this.ReplaceSoundColumn.Name = "ReplaceSoundColumn";
-            this.ReplaceSoundColumn.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
-            this.ReplaceSoundColumn.OptionsColumn.ShowCaption = false;
-            this.ReplaceSoundColumn.OptionsFilter.AllowFilter = false;
-            this.ReplaceSoundColumn.Visible = true;
-            this.ReplaceSoundColumn.VisibleIndex = 3;
-            this.ReplaceSoundColumn.Width = 35;
+            this.SPCReplaceSoundColumn.AppearanceCell.Options.UseTextOptions = true;
+            this.SPCReplaceSoundColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.SPCReplaceSoundColumn.AppearanceHeader.Options.UseTextOptions = true;
+            this.SPCReplaceSoundColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.SPCReplaceSoundColumn.ColumnEdit = this.ReplaceButtonEdit;
+            this.SPCReplaceSoundColumn.Name = "SPCReplaceSoundColumn";
+            this.SPCReplaceSoundColumn.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.SPCReplaceSoundColumn.OptionsColumn.ShowCaption = false;
+            this.SPCReplaceSoundColumn.OptionsFilter.AllowFilter = false;
+            this.SPCReplaceSoundColumn.Visible = true;
+            this.SPCReplaceSoundColumn.VisibleIndex = 3;
+            this.SPCReplaceSoundColumn.Width = 35;
             // 
             // ReplaceButtonEdit
             // 
@@ -328,73 +328,73 @@ namespace MTF.SoundTool
             this.ReplaceButtonEdit.Name = "ReplaceButtonEdit";
             this.ReplaceButtonEdit.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.HideTextEditor;
             // 
-            // FormatColumn
+            // SPCFormatColumn
             // 
-            this.FormatColumn.AppearanceCell.Options.UseTextOptions = true;
-            this.FormatColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.FormatColumn.AppearanceHeader.Options.UseTextOptions = true;
-            this.FormatColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.FormatColumn.Caption = "Format";
-            this.FormatColumn.FieldName = "DisplayFormat";
-            this.FormatColumn.Name = "FormatColumn";
-            this.FormatColumn.OptionsColumn.AllowEdit = false;
-            this.FormatColumn.OptionsColumn.AllowFocus = false;
-            this.FormatColumn.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
-            this.FormatColumn.OptionsColumn.ReadOnly = true;
-            this.FormatColumn.OptionsFilter.AllowFilter = false;
-            this.FormatColumn.Visible = true;
-            this.FormatColumn.VisibleIndex = 4;
-            this.FormatColumn.Width = 60;
+            this.SPCFormatColumn.AppearanceCell.Options.UseTextOptions = true;
+            this.SPCFormatColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.SPCFormatColumn.AppearanceHeader.Options.UseTextOptions = true;
+            this.SPCFormatColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.SPCFormatColumn.Caption = "Format";
+            this.SPCFormatColumn.FieldName = "DisplayFormat";
+            this.SPCFormatColumn.Name = "SPCFormatColumn";
+            this.SPCFormatColumn.OptionsColumn.AllowEdit = false;
+            this.SPCFormatColumn.OptionsColumn.AllowFocus = false;
+            this.SPCFormatColumn.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.SPCFormatColumn.OptionsColumn.ReadOnly = true;
+            this.SPCFormatColumn.OptionsFilter.AllowFilter = false;
+            this.SPCFormatColumn.Visible = true;
+            this.SPCFormatColumn.VisibleIndex = 4;
+            this.SPCFormatColumn.Width = 60;
             // 
-            // ExpectedFileNameColumn
+            // SPCExpectedFileNameColumn
             // 
-            this.ExpectedFileNameColumn.AppearanceCell.Options.UseTextOptions = true;
-            this.ExpectedFileNameColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.ExpectedFileNameColumn.AppearanceHeader.Options.UseTextOptions = true;
-            this.ExpectedFileNameColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.ExpectedFileNameColumn.Caption = "File Name";
-            this.ExpectedFileNameColumn.FieldName = "ExpectedFileName";
-            this.ExpectedFileNameColumn.Name = "ExpectedFileNameColumn";
-            this.ExpectedFileNameColumn.OptionsColumn.AllowEdit = false;
-            this.ExpectedFileNameColumn.OptionsColumn.AllowFocus = false;
-            this.ExpectedFileNameColumn.OptionsColumn.ReadOnly = true;
-            this.ExpectedFileNameColumn.OptionsFilter.AllowFilter = false;
-            this.ExpectedFileNameColumn.Visible = true;
-            this.ExpectedFileNameColumn.VisibleIndex = 5;
+            this.SPCExpectedFileNameColumn.AppearanceCell.Options.UseTextOptions = true;
+            this.SPCExpectedFileNameColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.SPCExpectedFileNameColumn.AppearanceHeader.Options.UseTextOptions = true;
+            this.SPCExpectedFileNameColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.SPCExpectedFileNameColumn.Caption = "File Name";
+            this.SPCExpectedFileNameColumn.FieldName = "ExpectedFileName";
+            this.SPCExpectedFileNameColumn.Name = "SPCExpectedFileNameColumn";
+            this.SPCExpectedFileNameColumn.OptionsColumn.AllowEdit = false;
+            this.SPCExpectedFileNameColumn.OptionsColumn.AllowFocus = false;
+            this.SPCExpectedFileNameColumn.OptionsColumn.ReadOnly = true;
+            this.SPCExpectedFileNameColumn.OptionsFilter.AllowFilter = false;
+            this.SPCExpectedFileNameColumn.Visible = true;
+            this.SPCExpectedFileNameColumn.VisibleIndex = 5;
             // 
-            // DurationColumn
+            // SPCDurationColumn
             // 
-            this.DurationColumn.AppearanceCell.Options.UseTextOptions = true;
-            this.DurationColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.DurationColumn.AppearanceHeader.Options.UseTextOptions = true;
-            this.DurationColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.DurationColumn.Caption = "Duration";
-            this.DurationColumn.FieldName = "DurationSpan";
-            this.DurationColumn.Name = "DurationColumn";
-            this.DurationColumn.OptionsColumn.AllowEdit = false;
-            this.DurationColumn.OptionsColumn.AllowFocus = false;
-            this.DurationColumn.OptionsColumn.ReadOnly = true;
-            this.DurationColumn.Visible = true;
-            this.DurationColumn.VisibleIndex = 6;
-            this.DurationColumn.Width = 125;
+            this.SPCDurationColumn.AppearanceCell.Options.UseTextOptions = true;
+            this.SPCDurationColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.SPCDurationColumn.AppearanceHeader.Options.UseTextOptions = true;
+            this.SPCDurationColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.SPCDurationColumn.Caption = "Duration";
+            this.SPCDurationColumn.FieldName = "DurationSpan";
+            this.SPCDurationColumn.Name = "SPCDurationColumn";
+            this.SPCDurationColumn.OptionsColumn.AllowEdit = false;
+            this.SPCDurationColumn.OptionsColumn.AllowFocus = false;
+            this.SPCDurationColumn.OptionsColumn.ReadOnly = true;
+            this.SPCDurationColumn.Visible = true;
+            this.SPCDurationColumn.VisibleIndex = 6;
+            this.SPCDurationColumn.Width = 125;
             // 
-            // BitSamplingColumn
+            // SPCBitSamplingColumn
             // 
-            this.BitSamplingColumn.AppearanceCell.Options.UseTextOptions = true;
-            this.BitSamplingColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.BitSamplingColumn.AppearanceHeader.Options.UseTextOptions = true;
-            this.BitSamplingColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.BitSamplingColumn.Caption = "Bit Sampling";
-            this.BitSamplingColumn.FieldName = "BitsPerSample";
-            this.BitSamplingColumn.Name = "BitSamplingColumn";
-            this.BitSamplingColumn.OptionsColumn.AllowEdit = false;
-            this.BitSamplingColumn.OptionsColumn.AllowFocus = false;
-            this.BitSamplingColumn.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
-            this.BitSamplingColumn.OptionsColumn.ReadOnly = true;
-            this.BitSamplingColumn.OptionsFilter.AllowFilter = false;
-            this.BitSamplingColumn.Visible = true;
-            this.BitSamplingColumn.VisibleIndex = 7;
-            this.BitSamplingColumn.Width = 100;
+            this.SPCBitSamplingColumn.AppearanceCell.Options.UseTextOptions = true;
+            this.SPCBitSamplingColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.SPCBitSamplingColumn.AppearanceHeader.Options.UseTextOptions = true;
+            this.SPCBitSamplingColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.SPCBitSamplingColumn.Caption = "Bit Sampling";
+            this.SPCBitSamplingColumn.FieldName = "BitsPerSample";
+            this.SPCBitSamplingColumn.Name = "SPCBitSamplingColumn";
+            this.SPCBitSamplingColumn.OptionsColumn.AllowEdit = false;
+            this.SPCBitSamplingColumn.OptionsColumn.AllowFocus = false;
+            this.SPCBitSamplingColumn.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.SPCBitSamplingColumn.OptionsColumn.ReadOnly = true;
+            this.SPCBitSamplingColumn.OptionsFilter.AllowFilter = false;
+            this.SPCBitSamplingColumn.Visible = true;
+            this.SPCBitSamplingColumn.VisibleIndex = 7;
+            this.SPCBitSamplingColumn.Width = 100;
             // 
             // SPCChannelsColumn
             // 
@@ -414,21 +414,21 @@ namespace MTF.SoundTool
             this.SPCChannelsColumn.VisibleIndex = 8;
             this.SPCChannelsColumn.Width = 100;
             // 
-            // SamplesColumn
+            // SPCSamplesColumn
             // 
-            this.SamplesColumn.AppearanceCell.Options.UseTextOptions = true;
-            this.SamplesColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.SamplesColumn.AppearanceHeader.Options.UseTextOptions = true;
-            this.SamplesColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.SamplesColumn.Caption = "Samples";
-            this.SamplesColumn.FieldName = "Samples";
-            this.SamplesColumn.Name = "SamplesColumn";
-            this.SamplesColumn.OptionsColumn.AllowEdit = false;
-            this.SamplesColumn.OptionsColumn.AllowFocus = false;
-            this.SamplesColumn.OptionsColumn.ReadOnly = true;
-            this.SamplesColumn.Visible = true;
-            this.SamplesColumn.VisibleIndex = 9;
-            this.SamplesColumn.Width = 125;
+            this.SPCSamplesColumn.AppearanceCell.Options.UseTextOptions = true;
+            this.SPCSamplesColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.SPCSamplesColumn.AppearanceHeader.Options.UseTextOptions = true;
+            this.SPCSamplesColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.SPCSamplesColumn.Caption = "Samples";
+            this.SPCSamplesColumn.FieldName = "Samples";
+            this.SPCSamplesColumn.Name = "SPCSamplesColumn";
+            this.SPCSamplesColumn.OptionsColumn.AllowEdit = false;
+            this.SPCSamplesColumn.OptionsColumn.AllowFocus = false;
+            this.SPCSamplesColumn.OptionsColumn.ReadOnly = true;
+            this.SPCSamplesColumn.Visible = true;
+            this.SPCSamplesColumn.VisibleIndex = 9;
+            this.SPCSamplesColumn.Width = 125;
             // 
             // SPCSampleRateColumn
             // 
@@ -804,15 +804,15 @@ namespace MTF.SoundTool
             // STRQGridView
             // 
             this.STRQGridView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.gridColumn1,
-            this.PathColumn,
-            this.NameColumn,
-            this.FileSizeColumn,
-            this.gridColumn2,
-            this.ChannelsColumn,
-            this.SampleRateColumn,
-            this.LoopStartColumn,
-            this.LoopEndColumn});
+            this.STQIndexColumn,
+            this.STQPathColumn,
+            this.STQNameColumn,
+            this.STQFileSizeColumn,
+            this.STQDurationColumn,
+            this.STQChannelsColumn,
+            this.STQSampleRateColumn,
+            this.STQLoopStartColumn,
+            this.STQLoopEndColumn});
             this.STRQGridView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.None;
             this.STRQGridView.GridControl = this.STRQDataGridControl;
             this.STRQGridView.Name = "STRQGridView";
@@ -823,114 +823,114 @@ namespace MTF.SoundTool
             this.STRQGridView.OptionsView.ColumnAutoWidth = false;
             this.STRQGridView.OptionsView.ShowGroupPanel = false;
             // 
-            // gridColumn1
+            // STQIndexColumn
             // 
-            this.gridColumn1.AppearanceCell.Options.UseTextOptions = true;
-            this.gridColumn1.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridColumn1.FieldName = "Index";
-            this.gridColumn1.Name = "gridColumn1";
-            this.gridColumn1.OptionsColumn.AllowEdit = false;
-            this.gridColumn1.OptionsColumn.ReadOnly = true;
-            this.gridColumn1.OptionsColumn.ShowCaption = false;
-            this.gridColumn1.Visible = true;
-            this.gridColumn1.VisibleIndex = 0;
-            this.gridColumn1.Width = 35;
+            this.STQIndexColumn.AppearanceCell.Options.UseTextOptions = true;
+            this.STQIndexColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.STQIndexColumn.FieldName = "Index";
+            this.STQIndexColumn.Name = "STQIndexColumn";
+            this.STQIndexColumn.OptionsColumn.AllowEdit = false;
+            this.STQIndexColumn.OptionsColumn.ReadOnly = true;
+            this.STQIndexColumn.OptionsColumn.ShowCaption = false;
+            this.STQIndexColumn.Visible = true;
+            this.STQIndexColumn.VisibleIndex = 0;
+            this.STQIndexColumn.Width = 35;
             // 
-            // PathColumn
+            // STQPathColumn
             // 
-            this.PathColumn.Caption = "Path";
-            this.PathColumn.FieldName = "Path";
-            this.PathColumn.Name = "PathColumn";
-            this.PathColumn.Visible = true;
-            this.PathColumn.VisibleIndex = 1;
-            this.PathColumn.Width = 201;
+            this.STQPathColumn.Caption = "Path";
+            this.STQPathColumn.FieldName = "Path";
+            this.STQPathColumn.Name = "STQPathColumn";
+            this.STQPathColumn.Visible = true;
+            this.STQPathColumn.VisibleIndex = 1;
+            this.STQPathColumn.Width = 201;
             // 
-            // NameColumn
+            // STQNameColumn
             // 
-            this.NameColumn.Caption = "Name";
-            this.NameColumn.FieldName = "Name";
-            this.NameColumn.Name = "NameColumn";
-            this.NameColumn.Visible = true;
-            this.NameColumn.VisibleIndex = 2;
-            this.NameColumn.Width = 100;
+            this.STQNameColumn.Caption = "Name";
+            this.STQNameColumn.FieldName = "Name";
+            this.STQNameColumn.Name = "STQNameColumn";
+            this.STQNameColumn.Visible = true;
+            this.STQNameColumn.VisibleIndex = 2;
+            this.STQNameColumn.Width = 100;
             // 
-            // FileSizeColumn
+            // STQFileSizeColumn
             // 
-            this.FileSizeColumn.AppearanceHeader.Options.UseTextOptions = true;
-            this.FileSizeColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.FileSizeColumn.Caption = "File Size";
-            this.FileSizeColumn.FieldName = "FileSize";
-            this.FileSizeColumn.Name = "FileSizeColumn";
-            this.FileSizeColumn.Visible = true;
-            this.FileSizeColumn.VisibleIndex = 3;
+            this.STQFileSizeColumn.AppearanceHeader.Options.UseTextOptions = true;
+            this.STQFileSizeColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.STQFileSizeColumn.Caption = "File Size";
+            this.STQFileSizeColumn.FieldName = "FileSize";
+            this.STQFileSizeColumn.Name = "STQFileSizeColumn";
+            this.STQFileSizeColumn.Visible = true;
+            this.STQFileSizeColumn.VisibleIndex = 3;
             // 
-            // gridColumn2
+            // STQDurationColumn
             // 
-            this.gridColumn2.AppearanceCell.Options.UseTextOptions = true;
-            this.gridColumn2.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridColumn2.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridColumn2.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridColumn2.Caption = "Duration";
-            this.gridColumn2.FieldName = "DurationSpan";
-            this.gridColumn2.Name = "gridColumn2";
-            this.gridColumn2.Visible = true;
-            this.gridColumn2.VisibleIndex = 4;
-            this.gridColumn2.Width = 105;
+            this.STQDurationColumn.AppearanceCell.Options.UseTextOptions = true;
+            this.STQDurationColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.STQDurationColumn.AppearanceHeader.Options.UseTextOptions = true;
+            this.STQDurationColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.STQDurationColumn.Caption = "Duration";
+            this.STQDurationColumn.FieldName = "DurationSpan";
+            this.STQDurationColumn.Name = "STQDurationColumn";
+            this.STQDurationColumn.Visible = true;
+            this.STQDurationColumn.VisibleIndex = 4;
+            this.STQDurationColumn.Width = 105;
             // 
-            // ChannelsColumn
+            // STQChannelsColumn
             // 
-            this.ChannelsColumn.AppearanceCell.Options.UseTextOptions = true;
-            this.ChannelsColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.ChannelsColumn.AppearanceHeader.Options.UseTextOptions = true;
-            this.ChannelsColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.ChannelsColumn.Caption = "Channels";
-            this.ChannelsColumn.FieldName = "Channels";
-            this.ChannelsColumn.Name = "ChannelsColumn";
-            this.ChannelsColumn.OptionsColumn.AllowEdit = false;
-            this.ChannelsColumn.OptionsColumn.ReadOnly = true;
-            this.ChannelsColumn.Visible = true;
-            this.ChannelsColumn.VisibleIndex = 5;
-            this.ChannelsColumn.Width = 56;
+            this.STQChannelsColumn.AppearanceCell.Options.UseTextOptions = true;
+            this.STQChannelsColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.STQChannelsColumn.AppearanceHeader.Options.UseTextOptions = true;
+            this.STQChannelsColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.STQChannelsColumn.Caption = "Channels";
+            this.STQChannelsColumn.FieldName = "Channels";
+            this.STQChannelsColumn.Name = "STQChannelsColumn";
+            this.STQChannelsColumn.OptionsColumn.AllowEdit = false;
+            this.STQChannelsColumn.OptionsColumn.ReadOnly = true;
+            this.STQChannelsColumn.Visible = true;
+            this.STQChannelsColumn.VisibleIndex = 5;
+            this.STQChannelsColumn.Width = 56;
             // 
-            // SampleRateColumn
+            // STQSampleRateColumn
             // 
-            this.SampleRateColumn.AppearanceCell.Options.UseTextOptions = true;
-            this.SampleRateColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.SampleRateColumn.AppearanceHeader.Options.UseTextOptions = true;
-            this.SampleRateColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.SampleRateColumn.Caption = "Sample Rate";
-            this.SampleRateColumn.FieldName = "SampleRate";
-            this.SampleRateColumn.Name = "SampleRateColumn";
-            this.SampleRateColumn.OptionsColumn.AllowEdit = false;
-            this.SampleRateColumn.OptionsColumn.ReadOnly = true;
-            this.SampleRateColumn.Visible = true;
-            this.SampleRateColumn.VisibleIndex = 6;
+            this.STQSampleRateColumn.AppearanceCell.Options.UseTextOptions = true;
+            this.STQSampleRateColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.STQSampleRateColumn.AppearanceHeader.Options.UseTextOptions = true;
+            this.STQSampleRateColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.STQSampleRateColumn.Caption = "Sample Rate";
+            this.STQSampleRateColumn.FieldName = "SampleRate";
+            this.STQSampleRateColumn.Name = "STQSampleRateColumn";
+            this.STQSampleRateColumn.OptionsColumn.AllowEdit = false;
+            this.STQSampleRateColumn.OptionsColumn.ReadOnly = true;
+            this.STQSampleRateColumn.Visible = true;
+            this.STQSampleRateColumn.VisibleIndex = 6;
             // 
-            // LoopStartColumn
+            // STQLoopStartColumn
             // 
-            this.LoopStartColumn.AppearanceCell.Options.UseTextOptions = true;
-            this.LoopStartColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.LoopStartColumn.AppearanceHeader.Options.UseTextOptions = true;
-            this.LoopStartColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.LoopStartColumn.Caption = "Loop Start";
-            this.LoopStartColumn.FieldName = "LoopStartSpan";
-            this.LoopStartColumn.Name = "LoopStartColumn";
-            this.LoopStartColumn.Visible = true;
-            this.LoopStartColumn.VisibleIndex = 7;
-            this.LoopStartColumn.Width = 105;
+            this.STQLoopStartColumn.AppearanceCell.Options.UseTextOptions = true;
+            this.STQLoopStartColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.STQLoopStartColumn.AppearanceHeader.Options.UseTextOptions = true;
+            this.STQLoopStartColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.STQLoopStartColumn.Caption = "Loop Start";
+            this.STQLoopStartColumn.FieldName = "LoopStartSpan";
+            this.STQLoopStartColumn.Name = "STQLoopStartColumn";
+            this.STQLoopStartColumn.Visible = true;
+            this.STQLoopStartColumn.VisibleIndex = 7;
+            this.STQLoopStartColumn.Width = 105;
             // 
-            // LoopEndColumn
+            // STQLoopEndColumn
             // 
-            this.LoopEndColumn.AppearanceCell.Options.UseTextOptions = true;
-            this.LoopEndColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.LoopEndColumn.AppearanceHeader.Options.UseTextOptions = true;
-            this.LoopEndColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.LoopEndColumn.Caption = "Loop End";
-            this.LoopEndColumn.FieldName = "LoopEndSpan";
-            this.LoopEndColumn.Name = "LoopEndColumn";
-            this.LoopEndColumn.Visible = true;
-            this.LoopEndColumn.VisibleIndex = 8;
-            this.LoopEndColumn.Width = 105;
+            this.STQLoopEndColumn.AppearanceCell.Options.UseTextOptions = true;
+            this.STQLoopEndColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.STQLoopEndColumn.AppearanceHeader.Options.UseTextOptions = true;
+            this.STQLoopEndColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.STQLoopEndColumn.Caption = "Loop End";
+            this.STQLoopEndColumn.FieldName = "LoopEndSpan";
+            this.STQLoopEndColumn.Name = "STQLoopEndColumn";
+            this.STQLoopEndColumn.Visible = true;
+            this.STQLoopEndColumn.VisibleIndex = 8;
+            this.STQLoopEndColumn.Width = 105;
             // 
             // SoundEditorTab
             // 
@@ -1235,16 +1235,16 @@ namespace MTF.SoundTool
         private DevExpress.XtraEditors.TextEdit SPACFileNameTextEdit;
         private DevExpress.XtraGrid.GridControl SPACDataGridControl;
         private DevExpress.XtraGrid.Views.Grid.GridView SPACDataGridView;
-        private DevExpress.XtraGrid.Columns.GridColumn IndexColumn;
-        private DevExpress.XtraGrid.Columns.GridColumn DurationColumn;
+        private DevExpress.XtraGrid.Columns.GridColumn SPCIndexColumn;
+        private DevExpress.XtraGrid.Columns.GridColumn SPCDurationColumn;
         private DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit PlayButtonEdit;
-        private DevExpress.XtraGrid.Columns.GridColumn PlaySoundColumn;
-        private DevExpress.XtraGrid.Columns.GridColumn FormatColumn;
-        private DevExpress.XtraGrid.Columns.GridColumn ReplaceSoundColumn;
-        private DevExpress.XtraGrid.Columns.GridColumn ExtractSoundColumn;
+        private DevExpress.XtraGrid.Columns.GridColumn SPCPlaySoundColumn;
+        private DevExpress.XtraGrid.Columns.GridColumn SPCFormatColumn;
+        private DevExpress.XtraGrid.Columns.GridColumn SPCReplaceSoundColumn;
+        private DevExpress.XtraGrid.Columns.GridColumn SPCExtractSoundColumn;
         private DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit ExtractButtonEdit;
         private DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit ReplaceButtonEdit;
-        private DevExpress.XtraGrid.Columns.GridColumn ExpectedFileNameColumn;
+        private DevExpress.XtraGrid.Columns.GridColumn SPCExpectedFileNameColumn;
         private DevExpress.XtraEditors.SimpleButton ReplaceSPACDataButton;
         private DevExpress.XtraEditors.CheckEdit ExtractSPACDecodedCheckEdit;
         private DevExpress.XtraEditors.SimpleButton ExtractSPACDataButton;
@@ -1254,23 +1254,23 @@ namespace MTF.SoundTool
         private DevExpress.XtraEditors.GroupControl STRQDataGP;
         private DevExpress.XtraGrid.GridControl STRQDataGridControl;
         private DevExpress.XtraGrid.Views.Grid.GridView STRQGridView;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
-        private DevExpress.XtraGrid.Columns.GridColumn PathColumn;
-        private DevExpress.XtraGrid.Columns.GridColumn NameColumn;
-        private DevExpress.XtraGrid.Columns.GridColumn FileSizeColumn;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
-        private DevExpress.XtraGrid.Columns.GridColumn ChannelsColumn;
-        private DevExpress.XtraGrid.Columns.GridColumn SampleRateColumn;
-        private DevExpress.XtraGrid.Columns.GridColumn LoopStartColumn;
-        private DevExpress.XtraGrid.Columns.GridColumn LoopEndColumn;
+        private DevExpress.XtraGrid.Columns.GridColumn STQIndexColumn;
+        private DevExpress.XtraGrid.Columns.GridColumn STQPathColumn;
+        private DevExpress.XtraGrid.Columns.GridColumn STQNameColumn;
+        private DevExpress.XtraGrid.Columns.GridColumn STQFileSizeColumn;
+        private DevExpress.XtraGrid.Columns.GridColumn STQDurationColumn;
+        private DevExpress.XtraGrid.Columns.GridColumn STQChannelsColumn;
+        private DevExpress.XtraGrid.Columns.GridColumn STQSampleRateColumn;
+        private DevExpress.XtraGrid.Columns.GridColumn STQLoopStartColumn;
+        private DevExpress.XtraGrid.Columns.GridColumn STQLoopEndColumn;
         private DevExpress.XtraTab.XtraTabPage SoundEditorTab;
         private DevExpress.XtraEditors.ComboBoxEdit STRQSampleModeComboBox;
         private DevExpress.XtraEditors.SimpleButton CloseSTRQFileButton;
         private DevExpress.XtraEditors.SimpleButton SaveSTRQFileButton;
         private DevExpress.XtraEditors.SimpleButton OpenSTRQFileButton;
         private DevExpress.XtraEditors.TextEdit STRQFileNameTextEdit;
-        private DevExpress.XtraGrid.Columns.GridColumn SamplesColumn;
-        private DevExpress.XtraGrid.Columns.GridColumn BitSamplingColumn;
+        private DevExpress.XtraGrid.Columns.GridColumn SPCSamplesColumn;
+        private DevExpress.XtraGrid.Columns.GridColumn SPCBitSamplingColumn;
         private DevExpress.XtraGrid.Columns.GridColumn SPCChannelsColumn;
         private DevExpress.XtraGrid.Columns.GridColumn SPCSampleRateColumn;
         private DevExpress.XtraEditors.GroupControl SoundDataGP;

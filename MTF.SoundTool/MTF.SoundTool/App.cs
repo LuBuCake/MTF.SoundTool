@@ -612,15 +612,15 @@ namespace MTF.SoundTool
 
             if (Value == 0)
             {
-                DurationColumn.FieldName = "DurationSpan";
-                LoopStartColumn.FieldName = "LoopStartSpan";
-                LoopEndColumn.FieldName = "LoopEndSpan";
+                STQDurationColumn.FieldName = "DurationSpan";
+                STQLoopStartColumn.FieldName = "LoopStartSpan";
+                STQLoopEndColumn.FieldName = "LoopEndSpan";
             }
             else if (Value == 1)
             {
-                DurationColumn.FieldName = "Duration";
-                LoopStartColumn.FieldName = "LoopStart";
-                LoopEndColumn.FieldName = "LoopEnd";
+                STQDurationColumn.FieldName = "Duration";
+                STQLoopStartColumn.FieldName = "LoopStart";
+                STQLoopEndColumn.FieldName = "LoopEnd";
             }
 
             if (STRQFile == null)
