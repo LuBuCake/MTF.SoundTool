@@ -114,7 +114,7 @@ namespace MTF.SoundTool.Updater
             Terminal.WriteLine("[App] Download finished, unpacking.");
             await ExtractLatestPackage();
             Terminal.WriteLine("[App] Finished unpacking, all files have been updated.");
-            Process.Start(AppDirectory + "/RESPCTool.exe");
+            Process.Start(AppDirectory + "/MTFSoundTool.exe");
 
             SaveLog();
         }
