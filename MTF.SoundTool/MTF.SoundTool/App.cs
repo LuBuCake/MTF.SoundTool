@@ -38,10 +38,7 @@ namespace MTF.SoundTool
         private STRQ STRQFile { get; set; }
         private List<SCGI> ToConvertFiles { get; set; }
 
-        public App()
-        {
-            InitializeComponent();
-        }
+        public App() => InitializeComponent();
 
         private async void App_Load(object sender, EventArgs e)
         {
@@ -531,8 +528,6 @@ namespace MTF.SoundTool
             }
 
             SPACFile = null;
-            AppSoundPlayer.Dispose();
-            AppSoundPlayer = null;
             SPACFileNameTextEdit.Text = "No SPC file loaded.";
             SPACDataGridControl.DataSource = null;
         }
