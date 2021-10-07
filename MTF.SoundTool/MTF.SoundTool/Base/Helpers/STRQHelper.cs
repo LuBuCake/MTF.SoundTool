@@ -82,7 +82,7 @@ namespace MTF.SoundTool.Base.Helpers
                         {
                             BR.BaseStream.Position = 80L;
                             int FilePosTry = BR.ReadInt32();
-                            BR.BaseStream.Position = FilePosTry < FS.Length ? FilePosTry : 0L;
+                            BR.BaseStream.Position = FilePosTry <= FS.Length - 5 ? FilePosTry : 0L;
 
                             if (BR.BaseStream.Position != 0L)
                             {
@@ -150,34 +150,6 @@ namespace MTF.SoundTool.Base.Helpers
                                 Entry.UnknownData1 = BR.ReadInt32();
                                 Entry.UnknownData2 = BR.ReadInt32();
                             }
-
-                            // Update samples and spans to the precision point of span ticks.
-
-                            TimeSpan DurationSpan = Entry.DurationSpan;
-                            TimeSpan LoopStartSpan = Entry.LoopStartSpan;
-                            TimeSpan LoopEndSpan = Entry.LoopEndSpan;
-
-                            int Duration = Entry.Duration;
-                            int LoopStart = Entry.LoopStart;
-                            int LoopEnd = Entry.LoopEnd;
-
-                            UpdateSamples(ref DurationSpan, ref Duration, Entry.SampleRate, STRQSampleMode.TimeSpan);
-                            UpdateSamples(ref LoopStartSpan, ref LoopStart, Entry.SampleRate, STRQSampleMode.TimeSpan);
-                            UpdateSamples(ref LoopEndSpan, ref LoopEnd, Entry.SampleRate, STRQSampleMode.TimeSpan);
-
-                            Entry.DurationSpan = DurationSpan;
-                            Entry.LoopStartSpan = LoopStartSpan;
-                            Entry.LoopEndSpan = LoopEndSpan;
-
-                            UpdateSamples(ref DurationSpan, ref Duration, Entry.SampleRate, STRQSampleMode.Integer);
-                            UpdateSamples(ref LoopStartSpan, ref LoopStart, Entry.SampleRate, STRQSampleMode.Integer);
-                            UpdateSamples(ref LoopEndSpan, ref LoopEnd, Entry.SampleRate, STRQSampleMode.Integer);
-
-                            Entry.Duration = Duration;
-                            Entry.LoopStart = LoopStart;
-                            Entry.LoopEnd = LoopEnd;
-
-                            // All set now add to the list
 
                             STRQFile.STRQEntries.Add(Entry);
                         }
@@ -269,23 +241,7 @@ namespace MTF.SoundTool.Base.Helpers
             }
         }
 
-        public static void UpdateSamples(ref TimeSpan Span, ref int Samples, int Rate, STRQSampleMode Mode)
-        {
-            switch (Mode)
-            {
-                case STRQSampleMode.TimeSpan:
-                    double calc_a = Utility.Clamp((double)Samples / Rate, 0, (double)2147483647 / Rate);
-                    Span = TimeSpan.FromSeconds(calc_a);
-                    break;
-                case STRQSampleMode.Integer:
-                    double calc_b = Span.TotalSeconds * Rate;
-                    int calc_c = Utility.Clamp((int)calc_b, 0, 2147483647);
-                    Samples = calc_c > 0 ? calc_c : -1;
-                    break;
-            }
-        }
-
-        public static void UpdateEntries(STRQ STRQFile, STRQSampleMode SampleMode)
+        public static void UpdateEntries(STRQ STRQFile)
         {
             if (STRQFile.STRQEntries == null || STRQFile.STRQEntries.Count == 0)
                 return;
@@ -293,7 +249,7 @@ namespace MTF.SoundTool.Base.Helpers
             int BaseOffset = STRQFile.STRQEntries[0].FileNamePos;
             int TempOffset = BaseOffset;
 
-            for (int i = 1; i < (STRQFile.Entries + 1); i++)
+            for (int i = 1; i < STRQFile.Entries + 1; i++)
             {
                 STRQEntry Entry = STRQFile.STRQEntries[i - 1];
 
@@ -308,63 +264,11 @@ namespace MTF.SoundTool.Base.Helpers
 
                 // Update path offsets (not needed for the last entry so we skip the last index)
 
-                if (i < STRQFile.Entries)
-                {
-                    TempOffset += FileFullPath.ToCharArray().Length + 1;
-                    STRQFile.STRQEntries[i].FileNamePos = TempOffset;
-                }
+                if (i >= STRQFile.Entries) 
+                    continue;
 
-                // Update samples
-
-                TimeSpan DurationSpan = Entry.DurationSpan;
-                TimeSpan LoopStartSpan = Entry.LoopStartSpan;
-                TimeSpan LoopEndSpan = Entry.LoopEndSpan;
-
-                int Duration = Entry.Duration;
-                int LoopStart = Entry.LoopStart;
-                int LoopEnd = Entry.LoopEnd;
-
-                switch (SampleMode)
-                {
-                    case STRQSampleMode.TimeSpan:
-
-                        UpdateSamples(ref DurationSpan, ref Duration, Entry.SampleRate, STRQSampleMode.TimeSpan);
-                        UpdateSamples(ref LoopStartSpan, ref LoopStart, Entry.SampleRate, STRQSampleMode.TimeSpan);
-                        UpdateSamples(ref LoopEndSpan, ref LoopEnd, Entry.SampleRate, STRQSampleMode.TimeSpan);
-
-                        Entry.DurationSpan = DurationSpan;
-                        Entry.LoopStartSpan = LoopStartSpan;
-                        Entry.LoopEndSpan = LoopEndSpan;
-
-                        UpdateSamples(ref DurationSpan, ref Duration, Entry.SampleRate, STRQSampleMode.Integer);
-                        UpdateSamples(ref LoopStartSpan, ref LoopStart, Entry.SampleRate, STRQSampleMode.Integer);
-                        UpdateSamples(ref LoopEndSpan, ref LoopEnd, Entry.SampleRate, STRQSampleMode.Integer);
-
-                        Entry.Duration = Duration;
-                        Entry.LoopStart = LoopStart;
-                        Entry.LoopEnd = LoopEnd;
-
-                        break;
-                    case STRQSampleMode.Integer:
-
-                        UpdateSamples(ref DurationSpan, ref Duration, Entry.SampleRate, STRQSampleMode.Integer);
-                        UpdateSamples(ref LoopStartSpan, ref LoopStart, Entry.SampleRate, STRQSampleMode.Integer);
-                        UpdateSamples(ref LoopEndSpan, ref LoopEnd, Entry.SampleRate, STRQSampleMode.Integer);
-
-                        Entry.Duration = Duration;
-                        Entry.LoopStart = LoopStart;
-                        Entry.LoopEnd = LoopEnd;
-
-                        UpdateSamples(ref DurationSpan, ref Duration, Entry.SampleRate, STRQSampleMode.TimeSpan);
-                        UpdateSamples(ref LoopStartSpan, ref LoopStart, Entry.SampleRate, STRQSampleMode.TimeSpan);
-                        UpdateSamples(ref LoopEndSpan, ref LoopEnd, Entry.SampleRate, STRQSampleMode.TimeSpan);
-
-                        Entry.DurationSpan = DurationSpan;
-                        Entry.LoopStartSpan = LoopStartSpan;
-                        Entry.LoopEndSpan = LoopEndSpan;
-
-                        break;
-                }
+                TempOffset += FileFullPath.ToCharArray().Length + 1;
+                STRQFile.STRQEntries[i].FileNamePos = TempOffset;
             }
         }
     }

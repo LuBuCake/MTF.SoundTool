@@ -20,10 +20,4 @@
         RE0 = 4,
         UMVC3 = 99
     }
-
-    public enum STRQSampleMode
-    {
-        TimeSpan,
-        Integer
-    }
 }

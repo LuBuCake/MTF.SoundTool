@@ -2,3 +2,4 @@
 1.0.0.1: (SPC Module) Added "All Files" filter for the individual sound replacement routine.
 1.0.0.2: (STQ Module) Fixed the duration sample mode not chaging to integer.
 1.0.0.3: (App) Fixed null exception after trying to dispose the already disposed soundplayer object when opening an SPC file after having closed another.
+1.0.0.4: (STQ Module) Removed the sample mode and its conversions. The STQ file must carry the exact value of the samples otherwise the game will cut the sound.

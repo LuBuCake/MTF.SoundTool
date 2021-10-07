@@ -99,7 +99,6 @@ namespace MTF.SoundTool
             this.CloseSTRQFileButton = new DevExpress.XtraEditors.SimpleButton();
             this.ReplaceSPACDataButton = new DevExpress.XtraEditors.SimpleButton();
             this.ExtractSPACDecodedCheckEdit = new DevExpress.XtraEditors.CheckEdit();
-            this.STRQSampleModeComboBox = new DevExpress.XtraEditors.ComboBoxEdit();
             this.CloseSPACFileButton = new DevExpress.XtraEditors.SimpleButton();
             this.SaveSTRQFileButton = new DevExpress.XtraEditors.SimpleButton();
             this.SPACFileNameTextEdit = new DevExpress.XtraEditors.TextEdit();
@@ -151,7 +150,6 @@ namespace MTF.SoundTool
             ((System.ComponentModel.ISupportInitialize)(this.SoundConversionTextEdit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.STRQFileNameTextEdit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ExtractSPACDecodedCheckEdit.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.STRQSampleModeComboBox.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SPACFileNameTextEdit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MainTabControl)).BeginInit();
             this.MainTabControl.SuspendLayout();
@@ -453,8 +451,8 @@ namespace MTF.SoundTool
             this.ToolControlGP.AppearanceCaption.Options.UseTextOptions = true;
             this.ToolControlGP.AppearanceCaption.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.ToolControlGP.Controls.Add(this.ClearFilesButton);
-            this.ToolControlGP.Controls.Add(this.AboutLabelControl);
             this.ToolControlGP.Controls.Add(this.ConversionTypeComboBox);
+            this.ToolControlGP.Controls.Add(this.AboutLabelControl);
             this.ToolControlGP.Controls.Add(this.ThemeRadioGroup);
             this.ToolControlGP.Controls.Add(this.SoundConversionTextEdit);
             this.ToolControlGP.Controls.Add(this.OpenFilesButton);
@@ -465,7 +463,6 @@ namespace MTF.SoundTool
             this.ToolControlGP.Controls.Add(this.CloseSTRQFileButton);
             this.ToolControlGP.Controls.Add(this.ReplaceSPACDataButton);
             this.ToolControlGP.Controls.Add(this.ExtractSPACDecodedCheckEdit);
-            this.ToolControlGP.Controls.Add(this.STRQSampleModeComboBox);
             this.ToolControlGP.Controls.Add(this.CloseSPACFileButton);
             this.ToolControlGP.Controls.Add(this.SaveSTRQFileButton);
             this.ToolControlGP.Controls.Add(this.SPACFileNameTextEdit);
@@ -645,19 +642,6 @@ namespace MTF.SoundTool
             this.ExtractSPACDecodedCheckEdit.Properties.Caption = "As: (.wav)";
             this.ExtractSPACDecodedCheckEdit.Size = new System.Drawing.Size(77, 20);
             this.ExtractSPACDecodedCheckEdit.TabIndex = 10;
-            // 
-            // STRQSampleModeComboBox
-            // 
-            this.STRQSampleModeComboBox.Location = new System.Drawing.Point(17, 98);
-            this.STRQSampleModeComboBox.Name = "STRQSampleModeComboBox";
-            this.STRQSampleModeComboBox.Properties.AllowFocused = false;
-            this.STRQSampleModeComboBox.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.STRQSampleModeComboBox.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.STRQSampleModeComboBox.Properties.UseReadOnlyAppearance = false;
-            this.STRQSampleModeComboBox.Size = new System.Drawing.Size(157, 20);
-            this.STRQSampleModeComboBox.TabIndex = 13;
-            this.STRQSampleModeComboBox.Visible = false;
             // 
             // CloseSPACFileButton
             // 
@@ -871,7 +855,7 @@ namespace MTF.SoundTool
             this.STQDurationColumn.AppearanceHeader.Options.UseTextOptions = true;
             this.STQDurationColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.STQDurationColumn.Caption = "Duration";
-            this.STQDurationColumn.FieldName = "DurationSpan";
+            this.STQDurationColumn.FieldName = "Duration";
             this.STQDurationColumn.Name = "STQDurationColumn";
             this.STQDurationColumn.Visible = true;
             this.STQDurationColumn.VisibleIndex = 4;
@@ -913,7 +897,7 @@ namespace MTF.SoundTool
             this.STQLoopStartColumn.AppearanceHeader.Options.UseTextOptions = true;
             this.STQLoopStartColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.STQLoopStartColumn.Caption = "Loop Start";
-            this.STQLoopStartColumn.FieldName = "LoopStartSpan";
+            this.STQLoopStartColumn.FieldName = "LoopStart";
             this.STQLoopStartColumn.Name = "STQLoopStartColumn";
             this.STQLoopStartColumn.Visible = true;
             this.STQLoopStartColumn.VisibleIndex = 7;
@@ -926,7 +910,7 @@ namespace MTF.SoundTool
             this.STQLoopEndColumn.AppearanceHeader.Options.UseTextOptions = true;
             this.STQLoopEndColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.STQLoopEndColumn.Caption = "Loop End";
-            this.STQLoopEndColumn.FieldName = "LoopEndSpan";
+            this.STQLoopEndColumn.FieldName = "LoopEnd";
             this.STQLoopEndColumn.Name = "STQLoopEndColumn";
             this.STQLoopEndColumn.Visible = true;
             this.STQLoopEndColumn.VisibleIndex = 8;
@@ -1200,7 +1184,6 @@ namespace MTF.SoundTool
             ((System.ComponentModel.ISupportInitialize)(this.SoundConversionTextEdit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.STRQFileNameTextEdit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ExtractSPACDecodedCheckEdit.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.STRQSampleModeComboBox.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SPACFileNameTextEdit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.MainTabControl)).EndInit();
             this.MainTabControl.ResumeLayout(false);
@@ -1264,7 +1247,6 @@ namespace MTF.SoundTool
         private DevExpress.XtraGrid.Columns.GridColumn STQLoopStartColumn;
         private DevExpress.XtraGrid.Columns.GridColumn STQLoopEndColumn;
         private DevExpress.XtraTab.XtraTabPage SoundEditorTab;
-        private DevExpress.XtraEditors.ComboBoxEdit STRQSampleModeComboBox;
         private DevExpress.XtraEditors.SimpleButton CloseSTRQFileButton;
         private DevExpress.XtraEditors.SimpleButton SaveSTRQFileButton;
         private DevExpress.XtraEditors.SimpleButton OpenSTRQFileButton;

@@ -33,17 +33,7 @@ namespace MTF.SoundTool.Base.Helpers
             }
         }
 
-        public static double Clamp(double Value, double Min, double Max)
-        {
-            return Value < Min ? Min : Value > Max ? Max : Value;
-        }
-
         public static int Clamp(int Value, int Min, int Max)
-        {
-            return Value < Min ? Min : Value > Max ? Max : Value;
-        }
-
-        public static short Clamp(short Value, short Min, short Max)
         {
             return Value < Min ? Min : Value > Max ? Max : Value;
         }

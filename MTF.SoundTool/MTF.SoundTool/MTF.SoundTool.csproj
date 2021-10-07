@@ -210,6 +210,7 @@
     <Compile Include="Base\Helpers\FWSEHelper.cs" />
     <Compile Include="Base\Helpers\GridSelector.cs" />
     <Compile Include="Base\Helpers\Serializer.cs" />
+    <Compile Include="Base\Helpers\SNDLHelper.cs" />
     <Compile Include="Base\Helpers\SPACHelper.cs" />
     <Compile Include="Base\Helpers\StringHelper.cs" />
     <Compile Include="Base\Helpers\STRQHelper.cs" />
@@ -220,6 +221,7 @@
     <Compile Include="Base\Types\FWSE.cs" />
     <Compile Include="Base\Types\ListItem.cs" />
     <Compile Include="Base\Types\SCGI.cs" />
+    <Compile Include="Base\Types\SNDL.cs" />
     <Compile Include="Base\Types\SPAC.cs" />
     <Compile Include="Base\Types\STRQ.cs" />
     <Compile Include="Base\Types\STRQEntry.cs" />
@@ -230,6 +232,7 @@
     <EmbeddedResource Include="App.resx">
       <DependentUpon>App.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

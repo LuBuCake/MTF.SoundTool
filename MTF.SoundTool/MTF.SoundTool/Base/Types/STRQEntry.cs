@@ -21,10 +21,5 @@ namespace MTF.SoundTool.Base.Types
 
         // UMVC3
         public int UnknownData3 { get; set; }
-
-        // Extra Data
-        public TimeSpan DurationSpan { get; set; }
-        public TimeSpan LoopStartSpan { get; set; }
-        public TimeSpan LoopEndSpan { get; set; }
     }
 }

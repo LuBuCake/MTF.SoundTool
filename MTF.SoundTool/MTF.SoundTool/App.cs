@@ -87,7 +87,6 @@ namespace MTF.SoundTool
             OpenSTRQFileButton.Enabled = false;
             SaveSTRQFileButton.Enabled = false;
             CloseSTRQFileButton.Enabled = false;
-            STRQSampleModeComboBox.Enabled = false;
 
             SoundConversionTextEdit.Text = "No sound file loaded.";
             OpenFilesButton.Enabled = false;
@@ -280,7 +279,6 @@ namespace MTF.SoundTool
             OpenSTRQFileButton.Click += OpenSTRQFile_Click;
             SaveSTRQFileButton.Click += SaveSTRQFile_Click;
             CloseSTRQFileButton.Click += CloseSTRQFile_Click;
-            STRQSampleModeComboBox.SelectedIndexChanged += SampleMode_IndexChanged;
             STRQGridView.CellValueChanged += STRQGrid_CellValueChanged;
 
             OpenFilesButton.Click += LoadFiles_Click;
@@ -289,10 +287,6 @@ namespace MTF.SoundTool
             PlaySoundFileButton.Click += PlaySoundFile_Click;
             RemoveSoundFileButton.Click += RemoveSoundFile_Click;
             ConversionTypeComboBox.SelectedIndexChanged += ConversionType_IndexChanged;
-
-            STRQSampleModeComboBox.Properties.Items.Add(new ListItem("Sample Mode: Time Span", 0));
-            STRQSampleModeComboBox.Properties.Items.Add(new ListItem("Sample Mode: Integer", 1));
-            STRQSampleModeComboBox.SelectedIndex = 0;
 
             ConversionTypeComboBox.Properties.Items.Add(new ListItem("Save as: WAVE", "WAVE"));
             ConversionTypeComboBox.Properties.Items.Add(new ListItem("Save as: FWSE", "FWSE"));
@@ -317,7 +311,6 @@ namespace MTF.SoundTool
             OpenSTRQFileButton.Enabled = true;
             SaveSTRQFileButton.Enabled = true;
             CloseSTRQFileButton.Enabled = true;
-            STRQSampleModeComboBox.Enabled = true;
 
             OpenFilesButton.Enabled = true;
             ClearFilesButton.Enabled = true;
@@ -346,7 +339,6 @@ namespace MTF.SoundTool
                     OpenSTRQFileButton.Visible = false;
                     SaveSTRQFileButton.Visible = false;
                     CloseSTRQFileButton.Visible = false;
-                    STRQSampleModeComboBox.Visible = false;
 
                     SoundConversionTextEdit.Visible = false;
                     OpenFilesButton.Visible = false;
@@ -367,7 +359,6 @@ namespace MTF.SoundTool
                     OpenSTRQFileButton.Visible = true;
                     SaveSTRQFileButton.Visible = true;
                     CloseSTRQFileButton.Visible = true;
-                    STRQSampleModeComboBox.Visible = true;
 
                     SoundConversionTextEdit.Visible = false;
                     OpenFilesButton.Visible = false;
@@ -388,7 +379,6 @@ namespace MTF.SoundTool
                     OpenSTRQFileButton.Visible = false;
                     SaveSTRQFileButton.Visible = false;
                     CloseSTRQFileButton.Visible = false;
-                    STRQSampleModeComboBox.Visible = false;
 
                     SoundConversionTextEdit.Visible = true;
                     OpenFilesButton.Visible = true;
@@ -509,7 +499,7 @@ namespace MTF.SoundTool
             using (SaveFileDialog SFD = new SaveFileDialog())
             {
                 SFD.Filter = "SPC files (*.spc)|*.spc";
-                SFD.Title = "Save STQ";
+                SFD.Title = "Save SPC";
                 SFD.RestoreDirectory = true;
 
                 if (SFD.ShowDialog() == DialogResult.OK)
@@ -557,7 +547,6 @@ namespace MTF.SoundTool
                     STRQFileNameTextEdit.Text = "STQ: " + STQNameSafe;
 
                     STRQDataGridControl.DataSource = STRQFile.STRQEntries;
-                    SampleMode_IndexChanged(STRQSampleModeComboBox, null);
                 }
             }
         }
@@ -600,38 +589,12 @@ namespace MTF.SoundTool
             STRQDataGridControl.DataSource = null;
         }
 
-        private void SampleMode_IndexChanged(object sender, EventArgs e)
-        {
-            ComboBoxEdit CBE = sender as ComboBoxEdit;
-            int Value = (CBE.SelectedItem as ListItem).Value;
-
-            if (Value == 0)
-            {
-                STQDurationColumn.FieldName = "DurationSpan";
-                STQLoopStartColumn.FieldName = "LoopStartSpan";
-                STQLoopEndColumn.FieldName = "LoopEndSpan";
-            }
-            else if (Value == 1)
-            {
-                STQDurationColumn.FieldName = "Duration";
-                STQLoopStartColumn.FieldName = "LoopStart";
-                STQLoopEndColumn.FieldName = "LoopEnd";
-            }
-
-            if (STRQFile == null)
-                return;
-
-            STRQHelper.UpdateEntries(STRQFile, (STRQSampleMode)Value);
-        }
-
         private void STRQGrid_CellValueChanged(object sender, CellValueChangedEventArgs e)
         {
             if (STRQFile == null)
                 return;
 
-            int Value = (STRQSampleModeComboBox.SelectedItem as ListItem).Value;
-            Value = Value == 0 ? 1 : 0;
-            STRQHelper.UpdateEntries(STRQFile, (STRQSampleMode)Value);
+            STRQHelper.UpdateEntries(STRQFile);
             STRQDataGridControl.RefreshDataSource();
         }
 
