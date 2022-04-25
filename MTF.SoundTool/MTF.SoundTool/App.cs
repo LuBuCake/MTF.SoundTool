@@ -125,41 +125,46 @@ namespace MTF.SoundTool
 
             using (WebClient GitHubChecker = new WebClient())
             {
-                string LatestVerion = await Task.Run(() => GitHubChecker.DownloadString("https://raw.githubusercontent.com/LuBuCake/MTF.SoundTool/main/MTF.SoundTool/MTF.SoundTool.Versioning/MTF.SoundTool/latest.txt"));
+                try
+                {
+                    string LatestVerion = await Task.Run(() => GitHubChecker.DownloadString("https://raw.githubusercontent.com/LuBuCake/MTF.SoundTool/main/MTF.SoundTool/MTF.SoundTool.Versioning/MTF.SoundTool/latest.txt"));
 
-                Assembly CurApp = Assembly.GetExecutingAssembly();
-                AssemblyName CurName = new AssemblyName(CurApp.FullName);
+                    Assembly CurApp = Assembly.GetExecutingAssembly();
+                    AssemblyName CurName = new AssemblyName(CurApp.FullName);
 
-                int Current = int.Parse(CurName.Version.ToString().Replace(".", ""));
-                int Latest = int.Parse(LatestVerion.Replace(".", ""));
+                    int Current = int.Parse(CurName.Version.ToString().Replace(".", ""));
+                    int Latest = int.Parse(LatestVerion.Replace(".", ""));
 
-                if (Current >= Latest)
+                    if (Current >= Latest)
+                        return false;
+
+                    if (XtraMessageBox.Show("A new version is available. Would you like to update it now?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        string AppDirectory = Directory.GetCurrentDirectory();
+                        string UpdaterDirectory = AppDirectory + "/updater/";
+
+                        if (!Directory.Exists(UpdaterDirectory))
+                            Directory.CreateDirectory(UpdaterDirectory);
+
+                        AppVersion _version = new AppVersion()
+                        {
+                            FileRoute = "https://raw.githubusercontent.com/LuBuCake/MTF.SoundTool/main/MTF.SoundTool/MTF.SoundTool.Versioning/MTF.SoundTool/latest.zip",
+                        };
+
+                        Serializer.WriteDataFile(UpdaterDirectory + "updateapp.json", Serializer.SerializeAppVersion(_version));
+
+                        Process.Start(AppDirectory + "/Updater.exe");
+                        Application.Exit();
+
+                        return true;
+                    }
+
+                    return false;
+                }
+                catch (Exception)
                 {
                     return false;
                 }
-
-                if (XtraMessageBox.Show("A new version is available. Would you like to update it now?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    string AppDirectory = Directory.GetCurrentDirectory();
-                    string UpdaterDirectory = AppDirectory + "/updater/";
-
-                    if (!Directory.Exists(UpdaterDirectory))
-                        Directory.CreateDirectory(UpdaterDirectory);
-
-                    AppVersion _version = new AppVersion()
-                    {
-                        FileRoute = "https://raw.githubusercontent.com/LuBuCake/MTF.SoundTool/main/MTF.SoundTool/MTF.SoundTool.Versioning/MTF.SoundTool/latest.zip",
-                    };
-
-                    Serializer.WriteDataFile(UpdaterDirectory + "updateapp.json", Serializer.SerializeAppVersion(_version));
-
-                    Process.Start(AppDirectory + "/Updater.exe");
-                    Application.Exit();
-
-                    return true;
-                }
-
-                return false;
             }
         }
 
@@ -176,38 +181,43 @@ namespace MTF.SoundTool
 
             using (WebClient GitHubChecker = new WebClient())
             {
-                string LatestVerion = await Task.Run(() => GitHubChecker.DownloadString("https://raw.githubusercontent.com/LuBuCake/MTF.SoundTool/main/MTF.SoundTool/MTF.SoundTool.Versioning/MTF.SoundTool.Updater/latest.txt"));
-                string FilePath = Directory.GetCurrentDirectory() + "/updater.exe";
-
-                AssemblyName CurName = new AssemblyName();
-
-                bool FileExists = File.Exists(FilePath);
-
-                if (FileExists)
+                try
                 {
-                    Assembly CurApp = Assembly.Load(File.ReadAllBytes(FilePath));
-                    CurName = new AssemblyName(CurApp.FullName);
+                    string LatestVerion = await Task.Run(() => GitHubChecker.DownloadString("https://raw.githubusercontent.com/LuBuCake/MTF.SoundTool/main/MTF.SoundTool/MTF.SoundTool.Versioning/MTF.SoundTool.Updater/latest.txt"));
+                    string FilePath = Directory.GetCurrentDirectory() + "/updater.exe";
+
+                    AssemblyName CurName = new AssemblyName();
+
+                    bool FileExists = File.Exists(FilePath);
+
+                    if (FileExists)
+                    {
+                        Assembly CurApp = Assembly.Load(File.ReadAllBytes(FilePath));
+                        CurName = new AssemblyName(CurApp.FullName);
+                    }
+
+                    int Current = int.Parse(FileExists ? CurName.Version.ToString().Replace(".", "") : "0");
+                    int Latest = int.Parse(LatestVerion.Replace(".", ""));
+
+                    if (Current >= Latest)
+                        return false;
+
+                    string AppDirectory = Directory.GetCurrentDirectory();
+                    string UpdaterDirectory = AppDirectory + "/updater/";
+
+                    if (!Directory.Exists(UpdaterDirectory))
+                        Directory.CreateDirectory(UpdaterDirectory);
+
+                    GitHubChecker.DownloadProgressChanged += ReportUpdaterDownloadProgress;
+                    GitHubChecker.DownloadFileCompleted += UpdaterDownloadFinished;
+                    GitHubChecker.DownloadFileAsync(new Uri("https://raw.githubusercontent.com/LuBuCake/MTF.SoundTool/main/MTF.SoundTool/MTF.SoundTool.Versioning/MTF.SoundTool.Updater/latest.zip"), UpdaterDirectory + "latest.zip");
+
+                    return true;
                 }
-
-                int Current = int.Parse(FileExists ? CurName.Version.ToString().Replace(".", "") : "0");
-                int Latest = int.Parse(LatestVerion.Replace(".", ""));
-
-                if (Current >= Latest)
+                catch (Exception)
                 {
                     return false;
                 }
-
-                string AppDirectory = Directory.GetCurrentDirectory();
-                string UpdaterDirectory = AppDirectory + "/updater/";
-
-                if (!Directory.Exists(UpdaterDirectory))
-                    Directory.CreateDirectory(UpdaterDirectory);
-
-                GitHubChecker.DownloadProgressChanged += ReportUpdaterDownloadProgress;
-                GitHubChecker.DownloadFileCompleted += UpdaterDownloadFinished;
-                GitHubChecker.DownloadFileAsync(new Uri("https://raw.githubusercontent.com/LuBuCake/MTF.SoundTool/main/MTF.SoundTool/MTF.SoundTool.Versioning/MTF.SoundTool.Updater/latest.zip"), UpdaterDirectory + "latest.zip");
-
-                return true;
             }
         }
 
