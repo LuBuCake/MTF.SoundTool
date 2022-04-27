@@ -90,12 +90,10 @@ namespace MTF.SoundTool.Updater
                 status.SpinnerStyle(Style.Parse("aqua"));
 
                 status.Status("Initializing");
-                Thread.Sleep(500);
 
                 WriteLine("Initialized");
 
                 status.Status("Testing connection");
-                Thread.Sleep(500);
 
                 bool HasConnection = TestConnection("8.8.8.8");
 
@@ -103,7 +101,6 @@ namespace MTF.SoundTool.Updater
                 {
                     WriteLine("Connection not found");
                     status.Status("Exiting");
-                    Thread.Sleep(500);
 
                     SaveLog();
                     Environment.Exit(0);
@@ -112,7 +109,6 @@ namespace MTF.SoundTool.Updater
                 WriteLine("Connection found");
 
                 status.Status("Searching for update requests");
-                Thread.Sleep(500);
 
                 string AppDirectory = Directory.GetCurrentDirectory();
                 string UpdaterDirectory = AppDirectory + "/updater/";
@@ -121,7 +117,6 @@ namespace MTF.SoundTool.Updater
                 {
                     WriteLine("No update request found");
                     status.Status("Exiting");
-                    Thread.Sleep(500);
 
                     SaveLog();
                     Environment.Exit(0);
@@ -130,14 +125,12 @@ namespace MTF.SoundTool.Updater
                 WriteLine("Update request found");
 
                 status.Status("Building route");
-                Thread.Sleep(500);
 
                 _version = Serializer.Deserialize<AppVersion>(Serializer.ReadDataFile(UpdaterDirectory + "updateapp.json"));
 
                 WriteLine("Route built");
 
                 status.Status("Fetching data");
-                Thread.Sleep(500);
 
                 WebClient Downloader = new WebClient();
                 Downloader.DownloadProgressChanged += DownloadProgressChanged;
@@ -176,14 +169,12 @@ namespace MTF.SoundTool.Updater
                 {
                     WriteLine("Download finished but the file has gone missing");
                     status.Status("Exiting");
-                    await Task.Delay(500);
 
                     SaveLog();
                     Environment.Exit(0);
                 }
 
                 status.Status("Extracting update");
-                await Task.Delay(500);
 
                 await ExtractLatestPackage();
 
@@ -191,7 +182,6 @@ namespace MTF.SoundTool.Updater
                 WriteLine("All files have been updated");
 
                 status.Status("Exiting");
-                await Task.Delay(500);
 
                 SaveLog();
                 Process.Start(AppDirectory + "/MTFSoundTool.exe");
