@@ -1,15 +1,15 @@
 ﻿/*
-    This file is part of MT Framework Sound Tool.
-    MT Framework Sound Tool is free software: you can redistribute it
+    This file is part of MTF Sound Tool.
+    MTF Sound Tool is free software: you can redistribute it
     and/or modify it under the terms of the GNU General Public License
     as published by the Free Software Foundation, either version 3 of
     the License, or (at your option) any later version.
-    MT Framework Sound Tool is distributed in the hope that it will
+    MTF Sound Tool is distributed in the hope that it will
     be useful, but WITHOUT ANY WARRANTY; without even the implied
     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
     See the GNU General Public License for more details.
     You should have received a copy of the GNU General Public License
-    along with MT Framework Sound Tool. If not, see <https://www.gnu.org/licenses/>6.
+    along with MTF Sound Tool. If not, see <https://www.gnu.org/licenses/>6.
 */
 
 using System;
@@ -487,6 +487,7 @@ namespace MTF.SoundTool
 
                     switch (SPACFile.Version)
                     {
+                        case (int)SPACVersion.LostPlanet:
                         case (int)SPACVersion.RE5:
                             SPACDataGridControl.DataSource = SPACFile.FWSEFiles;
                             break;
@@ -617,6 +618,7 @@ namespace MTF.SoundTool
 
             switch (SPACFile.Version)
             {
+                case (int)SPACVersion.LostPlanet:
                 case (int)SPACVersion.RE5:
                     FWSE FWSEFile = SPACDataGridView.GetRow(SPACDataGridView.FocusedRowHandle) as FWSE;
                     WAVEFile = FWSEHelper.ConvertToWAVE(FWSEFile);
@@ -646,6 +648,7 @@ namespace MTF.SoundTool
             {
                 switch (SPACFile.Version)
                 {
+                    case (int)SPACVersion.LostPlanet:
                     case (int)SPACVersion.RE5:
 
                         FWSE FWSEFile = SPACDataGridView.GetRow(SPACDataGridView.FocusedRowHandle) as FWSE;
@@ -707,6 +710,7 @@ namespace MTF.SoundTool
             {
                 switch (SPACFile.Version)
                 {
+                    case (int)SPACVersion.LostPlanet:
                     case (int)SPACVersion.RE5:
 
                         FWSE FocusedFWSEFile = SPACDataGridView.GetRow(SPACDataGridView.FocusedRowHandle) as FWSE;
@@ -871,6 +875,7 @@ namespace MTF.SoundTool
 
                     switch (SPACFile.Version)
                     {
+                        case (int)SPACVersion.LostPlanet:
                         case (int)SPACVersion.RE5:
                             if (ExtractSPACDecodedCheckEdit.Checked)
                             {
@@ -923,6 +928,7 @@ namespace MTF.SoundTool
             {
                 switch (SPACFile.Version)
                 {
+                    case (int)SPACVersion.LostPlanet:
                     case (int)SPACVersion.RE5:
 
                         OFD.Filter = "FWSE Files (*.fwse)|*.fwse|WAVE Files (*.wav)|*.wav";

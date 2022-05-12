@@ -1,4 +1,18 @@
-﻿using DevExpress.XtraEditors;
+﻿/*
+    This file is part of MTF Sound Tool.
+    MTF Sound Tool is free software: you can redistribute it
+    and/or modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation, either version 3 of
+    the License, or (at your option) any later version.
+    MTF Sound Tool is distributed in the hope that it will
+    be useful, but WITHOUT ANY WARRANTY; without even the implied
+    warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    See the GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License
+    along with MTF Sound Tool. If not, see <https://www.gnu.org/licenses/>6.
+*/
+
+using DevExpress.XtraEditors;
 using MTF.SoundTool.Base.Types;
 using System;
 using System.Collections.Generic;
@@ -32,9 +46,9 @@ namespace MTF.SoundTool.Base.Helpers
                     }
 
                     int Version = BR.ReadInt32();
-                    if (Version != (int)SPACVersion.RE5 && Version != (int)SPACVersion.RE6)
+                    if (Version != (int)SPACVersion.LostPlanet && Version != (int)SPACVersion.RE5 && Version != (int)SPACVersion.RE6)
                     {
-                        XtraMessageBox.Show($"Error reading {FileName}: Unsupported file version, only RE5 and RE6 versions are currently supported.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        XtraMessageBox.Show($"Error reading {FileName}: Unsupported file version.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return false;
                     }
 
@@ -85,6 +99,7 @@ namespace MTF.SoundTool.Base.Helpers
 
                         switch (SPACFile.Version)
                         {
+                            case (int)SPACVersion.LostPlanet:
                             case (int)SPACVersion.RE5:
                                 SPACFile.FWSEFiles = new List<FWSE>();
 
@@ -257,6 +272,7 @@ namespace MTF.SoundTool.Base.Helpers
                     {
                         switch (SPACFile.Version)
                         {
+                            case (int)SPACVersion.LostPlanet:
                             case (int)SPACVersion.RE5:
                                 BW.Write(SPACFile.FWSEFiles[i].Format.ToCharArray());
                                 BW.Write(SPACFile.FWSEFiles[i].Version);
@@ -315,6 +331,7 @@ namespace MTF.SoundTool.Base.Helpers
                     {
                         switch (SPACFile.Version)
                         {
+                            case (int)SPACVersion.LostPlanet:
                             case (int)SPACVersion.RE5:
                                 BW.Write(SPACFile.FWSEFiles[i].SoundData);
                                 break;
@@ -348,6 +365,7 @@ namespace MTF.SoundTool.Base.Helpers
         {
             switch (SPACFile.Version)
             {
+                case (int)SPACVersion.LostPlanet:
                 case (int)SPACVersion.RE5:
                     SPACFile.FWSEFiles[Index] = (FWSE)SoundFile;
                     break;
