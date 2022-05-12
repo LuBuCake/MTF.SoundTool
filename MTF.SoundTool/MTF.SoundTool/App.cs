@@ -94,8 +94,6 @@ namespace MTF.SoundTool
             SaveFilesButton.Enabled = false;
             ConversionTypeComboBox.Enabled = false;
 
-            MainTabControl.SelectedPageChanged += ChangePageControl;
-
             bool UpdateAllowed = await CheckForToolUpdate();
 
             if (UpdateAllowed)
@@ -328,6 +326,8 @@ namespace MTF.SoundTool
             ConversionTypeComboBox.Enabled = true;
 
             AppSoundPlayer = new SoundPlayer();
+
+            ChangePageControl(null, null);
         }
 
         private void ChangePageControl(object sender, EventArgs e)
