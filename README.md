@@ -9,7 +9,7 @@ Detailed information and instructions at the [Original Topic](https://residentev
 
 ## Features
 
-* Convert FWSE to WAVE and vice-versa (RESIDENT EVIL 5).
+* Convert FWSE to WAVE and vice-versa (RESIDENT EVIL 5 | Lost Planet).
 * Convert XSEW to WAVE and vice-versa (All PC MT Framework games that uses this format).
 * Extract and replace audio files inside SPC containers (RESIDENT EVIL 5/6).
 * Edit STQ metadata from STQ/STQR files (RESIDENT EVIL 0/5/6/REV1/REV2 | Ultimate Marvel VS Capcom 3).
