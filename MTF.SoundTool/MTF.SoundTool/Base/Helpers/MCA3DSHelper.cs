@@ -99,7 +99,6 @@ namespace MTF.SoundTool.Base.Helpers
 
         private static byte[] EncodeNGCDSP(byte[] soundData, int numSamples, short[][] coefs)
         {
-            //Create ADPCM Data by frame
             var ms = new MemoryStream();
             using (var bw = new BinaryWriter(ms))
             using (var br = new BinaryReader(new MemoryStream(soundData)))
@@ -107,7 +106,6 @@ namespace MTF.SoundTool.Base.Helpers
                 List<short> pcmBlock = null;
                 while (br.BaseStream.Position < br.BaseStream.Length)
                 {
-                    //Set history values
                     if (pcmBlock != null)
                     {
                         var y = pcmBlock[14];
@@ -123,7 +121,6 @@ namespace MTF.SoundTool.Base.Helpers
                         pcmBlock.Add(0);
                     }
 
-                    //Get PCMBlock for frame
                     if (br.BaseStream.Length - br.BaseStream.Position < 28)
                     {
                         for (int i = 0; i < br.BaseStream.Length - br.BaseStream.Position; i += 2)
@@ -136,7 +133,6 @@ namespace MTF.SoundTool.Base.Helpers
                             pcmBlock.Add(br.ReadInt16());
                     }
 
-                    //Convert PCMBlock to ADPCM frame
                     var adpcm = NGCDSPEncoder.DSPEncodeFrame(pcmBlock.ToArray(), 14, coefs);
                     bw.Write(adpcm);
                 }
@@ -369,9 +365,8 @@ namespace MTF.SoundTool.Base.Helpers
                 LoopEnd = numSamples;
 
             byte[] encoded;
-
-            //Convert the WAVEFile Subchunk2Data to byte array using a binary writer
             byte[] soundData = new byte[WAVEFile.Subchunk2Size];
+
             using (var soundMs = new MemoryStream(soundData))
             {
                 using (var soundBw = new BinaryWriter(soundMs))
@@ -383,18 +378,16 @@ namespace MTF.SoundTool.Base.Helpers
 
             if (WAVEFile.NumChannels == 1)
             {
-                //Create Coefs
                 MCAFile.CoefOutput.Add(GetCoefs(soundData, numSamples));
-
-                //Encode
                 encoded = EncodeNGCDSP(soundData, numSamples, MCAFile.CoefOutput[0]);
             }
             else
             {
-                //Split soundData into their channels
                 var channelData = new List<List<byte>>();
+
                 for (int i = 0; i < WAVEFile.NumChannels; i++)
                     channelData.Add(new List<byte>());
+
                 using (var soundBr = new BinaryReader(new MemoryStream(soundData)))
                 {
                     while (soundBr.BaseStream.Position < soundBr.BaseStream.Length)
@@ -402,20 +395,17 @@ namespace MTF.SoundTool.Base.Helpers
                             channelData[i].AddRange(soundBr.ReadBytes(2));
                 }
 
-                //Create coefs
                 for (int i = 0; i < WAVEFile.NumChannels; i++)
                     MCAFile.CoefOutput.Add(GetCoefs(channelData[i].ToArray(), numSamples));
 
-                //Encode
                 List<List<byte>> tmpEnc = new List<List<byte>>();
+
                 for (int i = 0; i < WAVEFile.NumChannels; i++)
                     tmpEnc.Add(EncodeNGCDSP(channelData[i].ToArray(), numSamples, MCAFile.CoefOutput[i]).ToList());
 
-                //Pad encoded data to interleaveBlockSize
                 for (int i = 0; i < WAVEFile.NumChannels; i++)
                     tmpEnc[i].AddRange(new byte[0x100 - tmpEnc[i].Count() % 0x100]);
 
-                //Merge encoded data into interleaving blocks
                 encoded = new byte[tmpEnc[0].Count() * WAVEFile.NumChannels];
                 int blocksIn = 0;
                 int blocksInData = tmpEnc[0].Count() / 0x100;

@@ -1324,7 +1324,7 @@ namespace MTF.SoundTool
                 return;
             }
 
-            var FilesToIgnote = new List<SCGI>();
+            var FilesToIgnore = new List<SCGI>();
 
             string ConversionType = (ConversionTypeComboBox.SelectedItem as ListItem).SValue;
 
@@ -1335,7 +1335,7 @@ namespace MTF.SoundTool
                     if (ToConvertFiles.Any(x => x.NumChannels != 1))
                     {
                         XtraMessageBox.Show("There are files in the list that contains more than 1 channel (Stereo), those files will be skipped. Stereo conversion is only supported in the (MADP->WAVE / WAVE->MADP) flow.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        FilesToIgnote = ToConvertFiles.Where(x => x.NumChannels != 1).ToList();
+                        FilesToIgnore = ToConvertFiles.Where(x => x.NumChannels != 1).ToList();
                     }
 
                     break;
@@ -1349,7 +1349,7 @@ namespace MTF.SoundTool
 
                     foreach (SCGI SCGIFile in ToConvertFiles)
                     {
-                        if (FilesToIgnote.Contains(SCGIFile))
+                        if (FilesToIgnore.Contains(SCGIFile))
                             continue;
 
                         switch (ConversionType)

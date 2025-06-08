@@ -15,7 +15,6 @@ namespace MTF.SoundTool.Base.Helpers
         const double DBL_EPSILON = 2.2204460492503131e-016;
         const double DBL_MAX = 1.79769e+308;
 
-        #region Helper functions
         static double[] InnerProductMerge(short[][] pcmBuf, int bufField)
         {
             double[] vecOut = new double[3];
@@ -340,7 +339,6 @@ namespace MTF.SoundTool.Base.Helpers
 
             return vecBest;
         }
-        #endregion
 
         public static short[][] DSPCorrelateCoefs(byte[] soundData, int samples)
         {
@@ -362,7 +360,6 @@ namespace MTF.SoundTool.Base.Helpers
                 mtx[i] = new double[3];
             int[] vecIdxs = new int[3];
 
-            //tvec* records = (tvec*)calloc(sizeof(tvec), numFrames * 2);
             double[][] records = new double[numFrames * 2][];
             for (int i = 0; i < numFrames * 2; i++)
                 records[i] = new double[3];
@@ -374,7 +371,6 @@ namespace MTF.SoundTool.Base.Helpers
 
             using (var br = new BinaryReader(new MemoryStream(soundData)))
             {
-                /* Iterate though 1024-block frames */
                 while (br.BaseStream.Position < br.BaseStream.Length)
                 {
                     int frameSamples = (br.BaseStream.Length - br.BaseStream.Position > 0x3800) ?
@@ -449,7 +445,6 @@ namespace MTF.SoundTool.Base.Helpers
                 vecBest = FilterRecords(vecBest, exp, records, recordCount);
             }
 
-            /* Write output */
             for (int z = 0; z < 8; z++)
             {
                 double d;
@@ -466,11 +461,6 @@ namespace MTF.SoundTool.Base.Helpers
                     coefsOut[z * 2 + 1] = (d < -32768.0) ? (short)-32768 : (short)Round(d, MidpointRounding.AwayFromZero);
             }
 
-            /* Free memory */
-            //free(records);
-            //free(blockBuffer);
-
-            //Convert coefList to short[][]
             short[][] coefsOutS = new short[8][];
             var cCount = 0;
             for (int i = 0; i < 8; i++)
@@ -482,6 +472,7 @@ namespace MTF.SoundTool.Base.Helpers
 
             return coefsOutS;
         }
+
         public static byte[] DSPEncodeFrame(short[] pcmInOut, int sampleCount, short[][] coefsIn)
         {
             byte[] adpcmOut = new byte[8];
@@ -498,32 +489,24 @@ namespace MTF.SoundTool.Base.Helpers
             int[] scale = new int[8];
             double[] distAccum = new double[8];
 
-            /* Iterate through each coef set, finding the set with the smallest error */
             for (int i = 0; i < 8; i++)
             {
                 int v1, v2, v3;
                 int distance, index;
 
-                /* Set yn values */
                 inSamples[i][0] = pcmInOut[0];
                 inSamples[i][1] = pcmInOut[1];
 
-                /* Round and clamp samples for this coef set */
                 distance = 0;
                 for (int s = 0; s < sampleCount; s++)
                 {
-                    /* Multiply previous samples by coefs */
                     inSamples[i][s + 2] = v1 = ((pcmInOut[s] * coefsIn[i][1]) + (pcmInOut[s + 1] * coefsIn[i][0])) / 2048;
-                    /* Subtract from current sample */
                     v2 = pcmInOut[s + 2] - v1;
-                    /* Clamp */
                     v3 = (v2 >= 32767) ? 32767 : (v2 <= -32768) ? -32768 : v2;
-                    /* Compare distance */
                     if (Abs(v3) > Abs(distance))
                         distance = v3;
                 }
 
-                /* Set initial scale */
                 for (scale[i] = 0; (scale[i] <= 12) && ((distance > 7) || (distance < -8)); scale[i]++, distance /= 2) { }
                 scale[i] = (scale[i] <= 1) ? -1 : scale[i] - 2;
 
@@ -535,14 +518,10 @@ namespace MTF.SoundTool.Base.Helpers
 
                     for (int s = 0; s < sampleCount; s++)
                     {
-                        /* Multiply previous */
                         v1 = ((inSamples[i][s] * coefsIn[i][1]) + (inSamples[i][s + 1] * coefsIn[i][0]));
-                        /* Evaluate from real sample */
                         v2 = ((pcmInOut[s + 2] << 11) - v1) / 2048;
-                        /* Round to nearest sample */
                         v3 = (v2 > 0) ? (int)((double)v2 / (1 << scale[i]) + 0.4999999f) : (int)((double)v2 / (1 << scale[i]) - 0.4999999f);
 
-                        /* Clamp sample and set index */
                         if (v3 < -8)
                         {
                             if (index < (v3 = -8 - v3))
@@ -556,14 +535,10 @@ namespace MTF.SoundTool.Base.Helpers
                             v3 = 7;
                         }
 
-                        /* Store result */
                         outSamples[i][s] = v3;
 
-                        /* Round and expand */
                         v1 = (v1 + ((v3 * (1 << scale[i])) << 11) + 1024) >> 11;
-                        /* Clamp and store */
                         inSamples[i][s + 2] = v2 = (v1 >= 32767) ? 32767 : (v1 <= -32768) ? -32768 : v1;
-                        /* Accumulate distance */
                         v3 = pcmInOut[s + 2] - v2;
                         distAccum[i] += v3 * (double)v3;
                     }
@@ -585,18 +560,14 @@ namespace MTF.SoundTool.Base.Helpers
                 }
             }
 
-            /* Write converted samples */
             for (int s = 0; s < sampleCount; s++)
                 pcmInOut[s + 2] = (short)inSamples[bestIndex][s + 2];
 
-            /* Write ps */
             adpcmOut[0] = (byte)((bestIndex << 4) | (scale[bestIndex] & 0xF));
 
-            /* Zero remaining samples */
             for (int s = sampleCount; s < 14; s++)
                 outSamples[bestIndex][s] = 0;
 
-            /* Write output samples */
             for (int y = 0; y < 7; y++)
             {
                 adpcmOut[y + 1] = (byte)((outSamples[bestIndex][y * 2] << 4) | (outSamples[bestIndex][y * 2 + 1] & 0xF));
