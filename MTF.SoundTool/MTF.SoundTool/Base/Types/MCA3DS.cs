@@ -41,9 +41,6 @@ namespace MTF.SoundTool.Base.Types
         public int LoopEnd { get; set; }
         public int HeaderSize { get; set; }
         public int StreamSize { get; set; }
-        public float UnknownA { get; set; }
-        public short coefShift { get; set; }
-        public short UnknownB { get; set; }
         public byte[] SoundData { get; set; }
 
         // Codec data

@@ -207,9 +207,6 @@ namespace MTF.SoundTool.Base.Helpers
                         MCAFile.LoopEnd = BR.ReadInt32();
                         MCAFile.HeaderSize = BR.ReadInt32();
                         MCAFile.StreamSize = BR.ReadInt32();
-                        MCAFile.UnknownA = BR.ReadSingle();
-                        MCAFile.coefShift = BR.ReadInt16();
-                        MCAFile.UnknownB = BR.ReadInt16();
 
                         int coefStart = 0;
                         int coefShift = 0;
@@ -266,11 +263,8 @@ namespace MTF.SoundTool.Base.Helpers
                     BW.Write(MCAFile.LoopEnd);
                     BW.Write(MCAFile.HeaderSize);
                     BW.Write(MCAFile.StreamSize);
-                    BW.Write(MCAFile.UnknownA);
-                    BW.Write(MCAFile.coefShift);
-                    BW.Write(MCAFile.UnknownB);
 
-                    for (int i = 0; i < 8; i++)
+                    for (int i = 0; i < 4; i++)
                         BW.Write((byte)0);
 
                     for (int ch = 0; ch < MCAFile.NumChannels; ch++)
@@ -427,9 +421,6 @@ namespace MTF.SoundTool.Base.Helpers
             MCAFile.LoopEnd = LoopEnd;
             MCAFile.HeaderSize = ((MCAFile.Version < 5) ? 0x34 : 0x38) + 0x30 * WAVEFile.NumChannels;
             MCAFile.StreamSize = encoded.Length;
-            MCAFile.UnknownA = 0.0f;
-            MCAFile.coefShift = 0;
-            MCAFile.UnknownB = 0;
             MCAFile.SoundData = encoded;
             
             return MCAFile;
