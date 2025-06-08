@@ -29,6 +29,7 @@ namespace MTF.SoundTool.Base.Types
     public class MCA3DS
     {
         public List<MCA3DSChannel> Channels { get; set; } = new List<MCA3DSChannel>();
+        public List<short[][]> CoefOutput { get; set; } = new List<short[][]>();
 
         public string Format { get; set; }
         public int Version { get; set; }
@@ -40,9 +41,12 @@ namespace MTF.SoundTool.Base.Types
         public int LoopEnd { get; set; }
         public int HeaderSize { get; set; }
         public int StreamSize { get; set; }
+        public float UnknownA { get; set; }
+        public short coefShift { get; set; }
+        public short UnknownB { get; set; }
         public byte[] SoundData { get; set; }
 
-        // Decoder data
+        // Codec data
         public bool IsLooped { get; set; }
         public int CoefOffset { get; set; }
         public int StreamOffset { get; set; }

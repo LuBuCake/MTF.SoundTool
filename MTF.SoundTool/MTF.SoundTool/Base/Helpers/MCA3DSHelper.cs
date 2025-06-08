@@ -22,7 +22,7 @@ namespace MTF.SoundTool.Base.Helpers
             return NibbleToSByte[value >> 4];
         }
 
-        static short SafeClampMCA(int value)
+        private static short SafeClampMCA(int value)
         {
             if (value < -32768) value = -32768;
             if (value > 32767) value = 32767;
@@ -67,7 +67,7 @@ namespace MTF.SoundTool.Base.Helpers
             return result.ToArray();
         }
 
-        public static List<MCA3DSChannel> SetupCoefs(FileStream input, BinaryReader br, int coefOffset, int channelCount, int coefSpacing)
+        private static List<MCA3DSChannel> SetupCoefs(FileStream input, BinaryReader br, int coefOffset, int channelCount, int coefSpacing)
         {
             var startOffset = input.Position;
             var channels = new List<MCA3DSChannel>();
@@ -90,6 +90,59 @@ namespace MTF.SoundTool.Base.Helpers
             input.Position = startOffset;
 
             return channels;
+        }
+
+        private static short[][] GetCoefs(byte[] soundData, int numSamples)
+        {
+            return NGCDSPEncoder.DSPCorrelateCoefs(soundData, numSamples);
+        }
+
+        private static byte[] EncodeNGCDSP(byte[] soundData, int numSamples, short[][] coefs)
+        {
+            //Create ADPCM Data by frame
+            var ms = new MemoryStream();
+            using (var bw = new BinaryWriter(ms))
+            using (var br = new BinaryReader(new MemoryStream(soundData)))
+            {
+                List<short> pcmBlock = null;
+                while (br.BaseStream.Position < br.BaseStream.Length)
+                {
+                    //Set history values
+                    if (pcmBlock != null)
+                    {
+                        var y = pcmBlock[14];
+                        var n = pcmBlock[15];
+                        pcmBlock = new List<short>();
+                        pcmBlock.Add(y);
+                        pcmBlock.Add(n);
+                    }
+                    else
+                    {
+                        pcmBlock = new List<short>();
+                        pcmBlock.Add(0);
+                        pcmBlock.Add(0);
+                    }
+
+                    //Get PCMBlock for frame
+                    if (br.BaseStream.Length - br.BaseStream.Position < 28)
+                    {
+                        for (int i = 0; i < br.BaseStream.Length - br.BaseStream.Position; i += 2)
+                            pcmBlock.Add(br.ReadInt16());
+                        while (pcmBlock.Count() < 16) pcmBlock.Add(0);
+                    }
+                    else
+                    {
+                        for (int i = 0; i < 14; i++)
+                            pcmBlock.Add(br.ReadInt16());
+                    }
+
+                    //Convert PCMBlock to ADPCM frame
+                    var adpcm = NGCDSPEncoder.DSPEncodeFrame(pcmBlock.ToArray(), 14, coefs);
+                    bw.Write(adpcm);
+                }
+            }
+
+            return ms.ToArray();
         }
 
         public static bool ValidadeMCAFile(string FilePath, string FileName)
@@ -158,6 +211,9 @@ namespace MTF.SoundTool.Base.Helpers
                         MCAFile.LoopEnd = BR.ReadInt32();
                         MCAFile.HeaderSize = BR.ReadInt32();
                         MCAFile.StreamSize = BR.ReadInt32();
+                        MCAFile.UnknownA = BR.ReadSingle();
+                        MCAFile.coefShift = BR.ReadInt16();
+                        MCAFile.UnknownB = BR.ReadInt16();
 
                         int coefStart = 0;
                         int coefShift = 0;
@@ -214,10 +270,21 @@ namespace MTF.SoundTool.Base.Helpers
                     BW.Write(MCAFile.LoopEnd);
                     BW.Write(MCAFile.HeaderSize);
                     BW.Write(MCAFile.StreamSize);
+                    BW.Write(MCAFile.UnknownA);
+                    BW.Write(MCAFile.coefShift);
+                    BW.Write(MCAFile.UnknownB);
 
-                    for (int ch = 0; ch < MCAFile.Channels.Count; ch++)
+                    for (int i = 0; i < 8; i++)
+                        BW.Write((byte)0);
+
+                    for (int ch = 0; ch < MCAFile.NumChannels; ch++)
                     {
+                        for (var i = 0; i < 8; i++)
+                            for (var j = 0; j < 2; j++)
+                                BW.Write(MCAFile.CoefOutput[ch][i][j]);
 
+                        for (var i = 0; i < 0x10; i++)
+                            BW.Write((byte)0);
                     }
 
                     BW.Write(MCAFile.SoundData);
@@ -244,9 +311,6 @@ namespace MTF.SoundTool.Base.Helpers
 
             WAVEFile.ByteRate = WAVEFile.SampleRate * WAVEFile.NumChannels * WAVEFile.BitsPerSample / 8;
             WAVEFile.BlockAlign = (ushort)(WAVEFile.NumChannels * WAVEFile.BitsPerSample / 8);
-
-            WAVEFile.Subchunk2ID = "data";
-            WAVEFile.Subchunk2Size = (uint)(MCAFile.Samples * WAVEFile.NumChannels * WAVEFile.BitsPerSample / 8);
 
             var decoded = new List<short>();
 
@@ -283,15 +347,102 @@ namespace MTF.SoundTool.Base.Helpers
                     break;
             }
 
+            WAVEFile.Subchunk2ID = "data";
             WAVEFile.Subchunk2Data = decoded.ToArray();
+            WAVEFile.Subchunk2Size = (uint)(WAVEFile.Subchunk2Data.Length * WAVEFile.NumChannels * WAVEFile.BitsPerSample / 8);         
+
             WAVEFile.ChunkSize = 4 + 8 + WAVEFile.Subchunk1Size + 8 + WAVEFile.Subchunk2Size;
 
             return WAVEFile;
         }
 
-        public static MCA3DS ConvertToMCA(WAVE WAVEFile)
+        public static MCA3DS ConvertToMCA(WAVE WAVEFile, int LoopStart = 0, int LoopEnd = 0)
         {
-            throw new NotImplementedException("Conversion to MCA is not implemented yet.");
+            MCA3DS MCAFile = new MCA3DS();
+
+            int numSamples = (int)(WAVEFile.Subchunk2Size / WAVEFile.NumChannels / (WAVEFile.BitsPerSample / 8));
+            if (LoopStart > numSamples)
+                LoopStart = numSamples;
+            if (LoopEnd < LoopStart)
+                LoopEnd = LoopStart;
+            if (LoopEnd > numSamples)
+                LoopEnd = numSamples;
+
+            byte[] encoded;
+
+            //Convert the WAVEFile Subchunk2Data to byte array using a binary writer
+            byte[] soundData = new byte[WAVEFile.Subchunk2Size];
+            using (var soundMs = new MemoryStream(soundData))
+            {
+                using (var soundBw = new BinaryWriter(soundMs))
+                {
+                    for (int i = 0; i < WAVEFile.Subchunk2Data.Length; i++)
+                        soundBw.Write(WAVEFile.Subchunk2Data[i]);
+                }
+            }
+
+            if (WAVEFile.NumChannels == 1)
+            {
+                //Create Coefs
+                MCAFile.CoefOutput.Add(GetCoefs(soundData, numSamples));
+
+                //Encode
+                encoded = EncodeNGCDSP(soundData, numSamples, MCAFile.CoefOutput[0]);
+            }
+            else
+            {
+                //Split soundData into their channels
+                var channelData = new List<List<byte>>();
+                for (int i = 0; i < WAVEFile.NumChannels; i++)
+                    channelData.Add(new List<byte>());
+                using (var soundBr = new BinaryReader(new MemoryStream(soundData)))
+                {
+                    while (soundBr.BaseStream.Position < soundBr.BaseStream.Length)
+                        for (int i = 0; i < WAVEFile.NumChannels; i++)
+                            channelData[i].AddRange(soundBr.ReadBytes(2));
+                }
+
+                //Create coefs
+                for (int i = 0; i < WAVEFile.NumChannels; i++)
+                    MCAFile.CoefOutput.Add(GetCoefs(channelData[i].ToArray(), numSamples));
+
+                //Encode
+                List<List<byte>> tmpEnc = new List<List<byte>>();
+                for (int i = 0; i < WAVEFile.NumChannels; i++)
+                    tmpEnc.Add(EncodeNGCDSP(channelData[i].ToArray(), numSamples, MCAFile.CoefOutput[i]).ToList());
+
+                //Pad encoded data to interleaveBlockSize
+                for (int i = 0; i < WAVEFile.NumChannels; i++)
+                    tmpEnc[i].AddRange(new byte[0x100 - tmpEnc[i].Count() % 0x100]);
+
+                //Merge encoded data into interleaving blocks
+                encoded = new byte[tmpEnc[0].Count() * WAVEFile.NumChannels];
+                int blocksIn = 0;
+                int blocksInData = tmpEnc[0].Count() / 0x100;
+                while (blocksIn < blocksInData)
+                {
+                    for (int i = 0; i < WAVEFile.NumChannels; i++)
+                        Array.Copy(tmpEnc[i].ToArray(), blocksIn * 0x100, encoded, blocksIn * 0x100 * WAVEFile.NumChannels + i * 0x100, 0x100);
+                    blocksIn++;
+                }
+            }
+
+            MCAFile.Format = "MADP";
+            MCAFile.Version = (int)MCAVersion.V_A;
+            MCAFile.NumChannels = (short)WAVEFile.NumChannels;
+            MCAFile.Interleave = 0x100;
+            MCAFile.Samples = (int)(WAVEFile.Subchunk2Size / (WAVEFile.NumChannels * (WAVEFile.BitsPerSample / 8)));
+            MCAFile.SampleRate = (int)WAVEFile.SampleRate;
+            MCAFile.LoopStart = LoopStart;
+            MCAFile.LoopEnd = LoopEnd;
+            MCAFile.HeaderSize = ((MCAFile.Version < 5) ? 0x34 : 0x38) + 0x30 * WAVEFile.NumChannels;
+            MCAFile.StreamSize = encoded.Length;
+            MCAFile.UnknownA = 0.0f;
+            MCAFile.coefShift = 0;
+            MCAFile.UnknownB = 0;
+            MCAFile.SoundData = encoded;
+            
+            return MCAFile;
         }
     }
 }

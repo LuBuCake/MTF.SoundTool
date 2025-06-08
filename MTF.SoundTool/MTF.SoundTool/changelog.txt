@@ -5,3 +5,4 @@
 1.0.0.4: (STQ Module) Removed the sample mode and its conversions. The STQ file must carry the exact value of the samples otherwise the game will cut the sound.
 1.0.0.5: (Tool) DevExpress updated to 21.2 / (Updater) Is now a console application to prevent blobing two projects with DevExpress dependencies.
 1.0.0.6: (Tool) Added support for Lost Planet SPC files, requires aditional testing.
+1.0.0.7: (Tool) DevExpress updated to 23.1 / Added support for MADP (.mca) (RE The Mercenaries 3D and potentially other 3DS MT Framework games that also uses the version 3 of this format)

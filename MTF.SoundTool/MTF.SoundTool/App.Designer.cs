@@ -87,8 +87,8 @@ namespace MTF.SoundTool
             this.SPCSampleRateColumn = new DevExpress.XtraGrid.Columns.GridColumn();
             this.ToolControlGP = new DevExpress.XtraEditors.GroupControl();
             this.ClearFilesButton = new DevExpress.XtraEditors.SimpleButton();
-            this.AboutLabelControl = new DevExpress.XtraEditors.LabelControl();
             this.ConversionTypeComboBox = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.AboutLabelControl = new DevExpress.XtraEditors.LabelControl();
             this.ThemeRadioGroup = new DevExpress.XtraEditors.RadioGroup();
             this.SoundConversionTextEdit = new DevExpress.XtraEditors.TextEdit();
             this.OpenFilesButton = new DevExpress.XtraEditors.SimpleButton();
@@ -490,16 +490,6 @@ namespace MTF.SoundTool
             this.ClearFilesButton.Text = "Clear";
             this.ClearFilesButton.Visible = false;
             // 
-            // AboutLabelControl
-            // 
-            this.AboutLabelControl.Appearance.ForeColor = System.Drawing.Color.DimGray;
-            this.AboutLabelControl.Appearance.Options.UseForeColor = true;
-            this.AboutLabelControl.Location = new System.Drawing.Point(17, 228);
-            this.AboutLabelControl.Name = "AboutLabelControl";
-            this.AboutLabelControl.Size = new System.Drawing.Size(156, 13);
-            this.AboutLabelControl.TabIndex = 6;
-            this.AboutLabelControl.Text = "By LuBuCake (Sr. Wesky) - 2021";
-            // 
             // ConversionTypeComboBox
             // 
             this.ConversionTypeComboBox.Location = new System.Drawing.Point(17, 98);
@@ -512,6 +502,16 @@ namespace MTF.SoundTool
             this.ConversionTypeComboBox.Size = new System.Drawing.Size(157, 20);
             this.ConversionTypeComboBox.TabIndex = 17;
             this.ConversionTypeComboBox.Visible = false;
+            // 
+            // AboutLabelControl
+            // 
+            this.AboutLabelControl.Appearance.ForeColor = System.Drawing.Color.DimGray;
+            this.AboutLabelControl.Appearance.Options.UseForeColor = true;
+            this.AboutLabelControl.Location = new System.Drawing.Point(26, 228);
+            this.AboutLabelControl.Name = "AboutLabelControl";
+            this.AboutLabelControl.Size = new System.Drawing.Size(139, 13);
+            this.AboutLabelControl.TabIndex = 6;
+            this.AboutLabelControl.Text = "By LuBuCake (Wesky) - 2025";
             // 
             // ThemeRadioGroup
             // 

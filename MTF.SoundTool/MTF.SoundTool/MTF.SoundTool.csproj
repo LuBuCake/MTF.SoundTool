@@ -211,6 +211,7 @@
     <Compile Include="Base\Helpers\FWSEHelper.cs" />
     <Compile Include="Base\Helpers\GridSelector.cs" />
     <Compile Include="Base\Helpers\MCA3DSHelper.cs" />
+    <Compile Include="Base\Helpers\NGCDSPEncoder.cs" />
     <Compile Include="Base\Helpers\Serializer.cs" />
     <Compile Include="Base\Helpers\SNDLHelper.cs" />
     <Compile Include="Base\Helpers\SPACHelper.cs" />
@@ -235,6 +236,7 @@
     <EmbeddedResource Include="App.resx">
       <DependentUpon>App.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
