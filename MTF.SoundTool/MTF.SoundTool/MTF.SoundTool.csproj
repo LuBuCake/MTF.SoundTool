@@ -44,16 +44,17 @@
     <Reference Include="Costura, Version=5.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Costura.Fody.5.6.0\lib\netstandard1.0\Costura.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.BonusSkins.v21.2" />
-    <Reference Include="DevExpress.Data.Desktop.v21.2" />
-    <Reference Include="DevExpress.Data.v21.2" />
-    <Reference Include="DevExpress.Utils.v21.2" />
-    <Reference Include="DevExpress.Sparkline.v21.2.Core" />
-    <Reference Include="DevExpress.XtraEditors.v21.2" />
-    <Reference Include="DevExpress.Printing.v21.2.Core" />
-    <Reference Include="DevExpress.XtraGrid.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraLayout.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraPrinting.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.BonusSkins.v23.1" />
+    <Reference Include="DevExpress.Data.Desktop.v23.1" />
+    <Reference Include="DevExpress.Drawing.v23.1" />
+    <Reference Include="DevExpress.Data.v23.1" />
+    <Reference Include="DevExpress.Utils.v23.1" />
+    <Reference Include="DevExpress.Sparkline.v23.1.Core" />
+    <Reference Include="DevExpress.XtraEditors.v23.1" />
+    <Reference Include="DevExpress.Printing.v23.1.Core" />
+    <Reference Include="DevExpress.XtraGrid.v23.1, Version=23.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraLayout.v23.1, Version=23.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraPrinting.v23.1, Version=23.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
       <Private>True</Private>
@@ -209,6 +210,7 @@
     <Compile Include="Base\Helpers\Enums.cs" />
     <Compile Include="Base\Helpers\FWSEHelper.cs" />
     <Compile Include="Base\Helpers\GridSelector.cs" />
+    <Compile Include="Base\Helpers\MCA3DSHelper.cs" />
     <Compile Include="Base\Helpers\Serializer.cs" />
     <Compile Include="Base\Helpers\SNDLHelper.cs" />
     <Compile Include="Base\Helpers\SPACHelper.cs" />
@@ -220,6 +222,7 @@
     <Compile Include="Base\Types\AppVersion.cs" />
     <Compile Include="Base\Types\FWSE.cs" />
     <Compile Include="Base\Types\ListItem.cs" />
+    <Compile Include="Base\Types\MCA3DS.cs" />
     <Compile Include="Base\Types\SCGI.cs" />
     <Compile Include="Base\Types\SNDL.cs" />
     <Compile Include="Base\Types\SPAC.cs" />
@@ -232,7 +235,6 @@
     <EmbeddedResource Include="App.resx">
       <DependentUpon>App.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -261,11 +263,11 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>mkdir C:\Users\madne\Desktop\MTFSoundTool\
+    <PostBuildEvent>mkdir $(SolutionDir)build\
 
-xcopy $(ProjectDir)\changelog.txt C:\Users\madne\Desktop\MTFSoundTool\ /y
-xcopy $(TargetDir)\$(TargetFileName) C:\Users\madne\Desktop\MTFSoundTool\ /y
-xcopy $(TargetDir)\$(TargetFileName).config C:\Users\madne\Desktop\MTFSoundTool\ /y</PostBuildEvent>
+xcopy $(ProjectDir)\changelog.txt $(SolutionDir)build\ /y
+xcopy $(TargetDir)\$(TargetFileName) $(SolutionDir)build\ /y
+xcopy $(TargetDir)\$(TargetFileName).config $(SolutionDir)build\ /y</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\Fody.6.5.2\build\Fody.targets" Condition="Exists('..\packages\Fody.6.5.2\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

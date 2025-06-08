@@ -33,6 +33,14 @@ namespace MTF.SoundTool.Base.Helpers
         REV1 = 1,
         REV2 = 2,
         RE0 = 4,
-        UMVC3 = 99
+        UMVC3 = 99,
+        MM11 = 8
+    }
+
+    public enum MCAVersion
+    {
+        V_A = 0x03, // Resident Evil Mercenaries 3D, Super Street Fighter IV 3D
+        V_B = 0x04, // EX Troopers, Ace Attourney 5
+        V_C = 0x05, // Ace Attourney 6, Monster Hunter Generations
     }
 }

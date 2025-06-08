@@ -78,6 +78,7 @@ namespace MTF.SoundTool.Base.Helpers
                         return false;
                     }
 
+                    /*
                     if (NumChannels != 1)
                     {
                         if (MessageBox)
@@ -85,7 +86,9 @@ namespace MTF.SoundTool.Base.Helpers
 
                         return false;
                     }
+                    */
 
+                    /*
                     if (SampleRate != 48000)
                     {
                         if (MessageBox)
@@ -93,6 +96,7 @@ namespace MTF.SoundTool.Base.Helpers
 
                         return false;
                     }
+                    */
 
                     return true;
                 }
@@ -136,11 +140,12 @@ namespace MTF.SoundTool.Base.Helpers
 
                         WAVEFile.Subchunk2Size = BR.ReadUInt32();
 
-                        long Samples = WAVEFile.Subchunk2Size / WAVEFile.NumChannels / (WAVEFile.BitsPerSample / 8);
+                        uint bytesPerSample = (uint)(WAVEFile.BitsPerSample / 8);
+                        uint totalSamples = WAVEFile.Subchunk2Size / bytesPerSample;
 
-                        WAVEFile.Subchunk2Data = new short[Samples];
+                        WAVEFile.Subchunk2Data = new short[totalSamples];
 
-                        for (int i = 0; i < Samples; i++)
+                        for (uint i = 0; i < totalSamples; i++)
                             WAVEFile.Subchunk2Data[i] = BR.ReadInt16();
 
                         return WAVEFile;

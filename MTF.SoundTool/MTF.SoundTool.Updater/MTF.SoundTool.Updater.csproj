@@ -217,10 +217,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>mkdir C:\Users\madne\Desktop\MTFSoundTool\
+    <PostBuildEvent>mkdir $(SolutionDir)build\
 
-xcopy $(TargetDir)\$(TargetFileName) C:\Users\madne\Desktop\MTFSoundTool\ /y
-xcopy $(TargetDir)\$(TargetFileName).config C:\Users\madne\Desktop\MTFSoundTool\ /y</PostBuildEvent>
+xcopy $(TargetDir)\$(TargetFileName) $(SolutionDir)build\ /y
+xcopy $(TargetDir)\$(TargetFileName).config $(SolutionDir)build\ /y</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\Fody.6.5.5\build\Fody.targets" Condition="Exists('..\packages\Fody.6.5.5\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -46,9 +46,9 @@ namespace MTF.SoundTool.Base.Helpers
                     }
 
                     int Version = BR.ReadInt32();
-                    if (Version != (int)STRQVersion.RE5 && Version != (int)STRQVersion.RE6 && Version != (int)STRQVersion.REV1 && Version != (int)STRQVersion.REV2 && Version != (int)STRQVersion.RE0)
+                    if (Version != (int)STRQVersion.RE5 && Version != (int)STRQVersion.RE6 && Version != (int)STRQVersion.REV1 && Version != (int)STRQVersion.REV2 && Version != (int)STRQVersion.RE0 && Version != (int)STRQVersion.MM11)
                     {
-                        XtraMessageBox.Show($"Error reading {FileName}: Unsupported file version, only RESIDENT EVIL 5/6/REV1/REV2 & UMVC3 versions are currently supported.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        XtraMessageBox.Show($"Error reading {FileName}: Unsupported file version, only RESIDENT EVIL 5/6/REV1/REV2/UMVC3 & Mega Man 11 versions are currently supported.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return false;
                     }
 

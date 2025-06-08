@@ -352,3 +352,6 @@ MigrationBackup/
 # DevExpress license files
 *.licx
 *.licx.bak
+
+# Project build output
+MTF.SoundTool/build

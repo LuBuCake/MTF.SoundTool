@@ -525,7 +525,7 @@ namespace MTF.SoundTool.Base.Helpers
             XSEWFile.Subchunk1Size = 50;
             XSEWFile.AudioFormat = 2;
             XSEWFile.NumChannels = 1;
-            XSEWFile.SampleRate = 48000;
+            XSEWFile.SampleRate = WAVEFile.SampleRate;
             XSEWFile.BlockAlign = 70;
             XSEWFile.BitsPerSample = 4;
             XSEWFile.ExtraParamSize = 32;

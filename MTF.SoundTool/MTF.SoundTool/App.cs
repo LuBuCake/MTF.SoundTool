@@ -12,22 +12,24 @@
     along with MTF Sound Tool. If not, see <https://www.gnu.org/licenses/>6.
 */
 
+using DevExpress.LookAndFeel;
+using DevExpress.Security;
+using DevExpress.XtraEditors;
+using DevExpress.XtraGrid.Views.Base;
+using MTF.SoundTool.Base.Helpers;
+using MTF.SoundTool.Base.Types;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Media;
 using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using DevExpress.LookAndFeel;
-using DevExpress.XtraEditors;
-using DevExpress.XtraGrid.Views.Base;
-using MTF.SoundTool.Base.Helpers;
-using MTF.SoundTool.Base.Types;
 
 namespace MTF.SoundTool
 {
@@ -299,6 +301,7 @@ namespace MTF.SoundTool
             ConversionTypeComboBox.Properties.Items.Add(new ListItem("Save as: WAVE", "WAVE"));
             ConversionTypeComboBox.Properties.Items.Add(new ListItem("Save as: FWSE", "FWSE"));
             ConversionTypeComboBox.Properties.Items.Add(new ListItem("Save as: XSEW", "XSEW"));
+            ConversionTypeComboBox.Properties.Items.Add(new ListItem("Save as: MADP", "MCA"));
             ConversionTypeComboBox.SelectedIndex = 0;
 
             new GridSelector(STRQGridView);
@@ -746,6 +749,12 @@ namespace MTF.SoundTool
                                 if (WAVEFile == null)
                                     break;
 
+                                if (WAVEFile.NumChannels != 1)
+                                {
+                                    XtraMessageBox.Show("The selected WAVE file must be mono (1 channel).", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    break;
+                                }
+
                                 FWSE FWSEFile = FWSEHelper.ConvertToFWSE(WAVEFile, Index);
                                 SPACHelper.ReplaceSPACSound(SPACFile, FWSEFile, Index);
                             }
@@ -835,6 +844,12 @@ namespace MTF.SoundTool
                                 if (WAVEFile == null)
                                     break;
 
+                                if (WAVEFile.NumChannels != 1)
+                                {
+                                    XtraMessageBox.Show("The selected WAVE file must be mono (1 channel).", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    break;
+                                }
+
                                 XSEW XSEWFile = XSEWHelper.ConvertToXSEW(WAVEFile, Index);
                                 SPACHelper.ReplaceSPACSound(SPACFile, XSEWFile, Index);
                             }
@@ -844,6 +859,12 @@ namespace MTF.SoundTool
 
                                 if (XSEWFile == null)
                                     break;
+
+                                if (XSEWFile.NumChannels != 1)
+                                {
+                                    XtraMessageBox.Show("The selected XSEW file must be mono (1 channel).", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    break;
+                                }
 
                                 SPACHelper.ReplaceSPACSound(SPACFile, XSEWFile, Index);
                             }
@@ -1140,8 +1161,8 @@ namespace MTF.SoundTool
         {
             using (OpenFileDialog OFD = new OpenFileDialog())
             {
-                OFD.Filter = "FWSE Files (*.fwse)|*.fwse|XSEW Files (*.xsew)|*.xsew|WAVE Files (*.wav)|*.wav";
-                OFD.Title = "Select one or more FWSE/XSEW/WAVE file";
+                OFD.Filter = "FWSE Files (*.fwse)|*.fwse|XSEW Files (*.xsew)|*.xsew|MADP Files (*.mca)|*.mca|WAVE Files (*.wav)|*.wav";
+                OFD.Title = "Select one or more FWSE/XSEW/MADP/WAVE file";
                 OFD.RestoreDirectory = true;
                 OFD.Multiselect = true;
 
@@ -1177,6 +1198,7 @@ namespace MTF.SoundTool
                                 {
                                     ConversionTypes.Add(new ListItem("Save as: WAVE", "WAVE"));
                                     ConversionTypes.Add(new ListItem("Save as: XSEW", "XSEW"));
+                                    ConversionTypes.Add(new ListItem("Save as: MADP", "MCA"));
                                 }
 
                                 break;
@@ -1201,10 +1223,36 @@ namespace MTF.SoundTool
                                 {
                                     ConversionTypes.Add(new ListItem("Save as: WAVE", "WAVE"));
                                     ConversionTypes.Add(new ListItem("Save as: FWSE", "FWSE"));
+                                    ConversionTypes.Add(new ListItem("Save as: MADP", "MCA"));
                                 }
 
                                 break;
                             case 3:
+                                MCA3DS MCAFile = MCA3DSHelper.ReadMCA(OFD.FileNames[i], OFD.SafeFileNames[i]);
+
+                                if (MCAFile == null)
+                                    continue;
+
+                                SCGIFile = new SCGI();
+                                SCGIFile.SoundFile = MCAFile;
+                                SCGIFile.Format = "MADP";
+                                SCGIFile.FileName = OFD.SafeFileNames[i];
+                                SCGIFile.DurationSpan = MCAFile.DurationSpan;
+                                SCGIFile.BitsPerSample = 16;
+                                SCGIFile.NumChannels = MCAFile.NumChannels;
+                                SCGIFile.Samples = MCAFile.Samples;
+                                SCGIFile.SampleRate = (int)MCAFile.SampleRate;
+                                ToConvertFiles.Add(SCGIFile);
+
+                                if (ConversionTypes.Count == 0)
+                                {
+                                    ConversionTypes.Add(new ListItem("Save as: WAVE", "WAVE"));
+                                    ConversionTypes.Add(new ListItem("Save as: FWSE", "FWSE"));
+                                    ConversionTypes.Add(new ListItem("Save as: XSEW", "XSEW"));
+                                }
+
+                                break;
+                            case 4:
                                 WAVE WAVEFile = WAVEHelper.ReadWAVE(OFD.FileNames[i], OFD.SafeFileNames[i]);
 
                                 if (WAVEFile == null)
@@ -1225,6 +1273,7 @@ namespace MTF.SoundTool
                                 {
                                     ConversionTypes.Add(new ListItem("Save as: FWSE", "FWSE"));
                                     ConversionTypes.Add(new ListItem("Save as: XSEW", "XSEW"));
+                                    ConversionTypes.Add(new ListItem("Save as: MADP", "MCA"));
                                 }
 
                                 break;
@@ -1263,6 +1312,7 @@ namespace MTF.SoundTool
             ConversionTypeComboBox.Properties.Items.Add(new ListItem("Save as: WAVE", "WAVE"));
             ConversionTypeComboBox.Properties.Items.Add(new ListItem("Save as: FWSE", "FWSE"));
             ConversionTypeComboBox.Properties.Items.Add(new ListItem("Save as: XSEW", "XSEW"));
+            ConversionTypeComboBox.Properties.Items.Add(new ListItem("Save as: MADP", "MCA"));
             ConversionTypeComboBox.SelectedIndex = 0;
         }
 
@@ -1274,15 +1324,34 @@ namespace MTF.SoundTool
                 return;
             }
 
+            var FilesToIgnote = new List<SCGI>();
+
+            string ConversionType = (ConversionTypeComboBox.SelectedItem as ListItem).SValue;
+
+            switch (ConversionType)
+            {
+                case "FWSE":
+                case "XSEW":
+                    if (ToConvertFiles.Any(x => x.NumChannels != 1))
+                    {
+                        XtraMessageBox.Show("There are files in the list that contains more than 1 channel (Stereo), those files will be skipped. Stereo conversion is only supported in the (MADP->WAVE / WAVE->MADP) flow.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        FilesToIgnote = ToConvertFiles.Where(x => x.NumChannels != 1).ToList();
+                    }
+
+                    break;
+            }
+
             using (FolderBrowserDialog FBD = new FolderBrowserDialog())
             {
                 if (FBD.ShowDialog() == DialogResult.OK)
                 {
-                    string ConversionType = (ConversionTypeComboBox.SelectedItem as ListItem).SValue;
                     string BasePath = FBD.SelectedPath + @"\";
 
                     foreach (SCGI SCGIFile in ToConvertFiles)
                     {
+                        if (FilesToIgnote.Contains(SCGIFile))
+                            continue;
+
                         switch (ConversionType)
                         {
                             case "WAVE":
@@ -1296,6 +1365,9 @@ namespace MTF.SoundTool
                                         break;
                                     case "XSEW":
                                         WAVEFile = XSEWHelper.ConvertToWAVE((XSEW) SCGIFile.SoundFile);
+                                        break;
+                                    case "MADP":
+                                        WAVEFile = MCA3DSHelper.ConvertToWAVE((MCA3DS) SCGIFile.SoundFile);
                                         break;
                                     default:
                                         continue;
@@ -1316,6 +1388,9 @@ namespace MTF.SoundTool
                                     case "XSEW":
                                         FWSEFile = FWSEHelper.ConvertToFWSE(XSEWHelper.ConvertToWAVE((XSEW) SCGIFile.SoundFile));
                                         break;
+                                    case "MADP":
+                                        FWSEFile = FWSEHelper.ConvertToFWSE(MCA3DSHelper.ConvertToWAVE((MCA3DS)SCGIFile.SoundFile));
+                                        break;
                                     default:
                                         continue;
                                 }
@@ -1335,12 +1410,36 @@ namespace MTF.SoundTool
                                     case "FWSE":
                                         XSEWFile = XSEWHelper.ConvertToXSEW(FWSEHelper.ConvertToWAVE((FWSE) SCGIFile.SoundFile));
                                         break;
+                                    case "MADP":
+                                        XSEWFile = XSEWHelper.ConvertToXSEW(MCA3DSHelper.ConvertToWAVE((MCA3DS) SCGIFile.SoundFile));
+                                        break;
                                     default:
                                         continue;
                                 }
 
                                 XSEWHelper.WriteXSEW($"{BasePath}{SCGIFile.FileName}.xsew", XSEWFile, false);
 
+                                break;
+                            case "MCA":
+                                MCA3DS MCAFile;
+    
+                                switch (SCGIFile.Format)
+                                {
+                                    case "WAVE":
+                                        MCAFile = MCA3DSHelper.ConvertToMCA((WAVE) SCGIFile.SoundFile);
+                                        break;
+                                    case "FWSE":
+                                        MCAFile = MCA3DSHelper.ConvertToMCA(FWSEHelper.ConvertToWAVE((FWSE) SCGIFile.SoundFile));
+                                        break;
+                                    case "XSEW":
+                                        MCAFile = MCA3DSHelper.ConvertToMCA(XSEWHelper.ConvertToWAVE((XSEW) SCGIFile.SoundFile));
+                                        break;
+                                    default:
+                                        continue;
+                                }
+    
+                                MCA3DSHelper.WriteMCA($"{BasePath}{SCGIFile.FileName}.mca", MCAFile, false);
+    
                                 break;
                         }
                     }
@@ -1380,6 +1479,9 @@ namespace MTF.SoundTool
                     break;
                 case "XSEW":
                     WAVEFile = XSEWHelper.ConvertToWAVE((XSEW) SCGIFile.SoundFile);
+                    break;
+                case "MADP":
+                    WAVEFile = MCA3DSHelper.ConvertToWAVE((MCA3DS) SCGIFile.SoundFile);
                     break;
             }
 

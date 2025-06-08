@@ -301,7 +301,7 @@ namespace MTF.SoundTool.Base.Helpers
             FWSEFile.HeaderSize = 1024;
             FWSEFile.NumChannels = 1;
             FWSEFile.Samples = FWSEData.Length * 2;
-            FWSEFile.SampleRate = 48000;
+            FWSEFile.SampleRate = (int)WAVEFile.SampleRate;
             FWSEFile.BitsPerSample = 16;
             FWSEFile.InfoData = GetDefaultInfoData();
             FWSEFile.SoundData = FWSEData;
