@@ -11,6 +11,7 @@ Detailed information and instructions at the [Original Topic](https://residentev
 
 * Convert FWSE to WAVE and vice-versa (RESIDENT EVIL 5 | Lost Planet).
 * Convert XSEW to WAVE and vice-versa (All PC MT Framework games that uses this format).
+* Convert MADP (.mca) to WAVE and vice-versa (RE The Mercenaries 3D and potentially other 3DS MT Framework games that also uses the version 3 of this format)
 * Extract and replace audio files inside SPC containers (RESIDENT EVIL 5/6).
 * Edit STQ metadata from STQ/STQR files (RESIDENT EVIL 0/5/6/REV1/REV2 | Ultimate Marvel VS Capcom 3).
 
