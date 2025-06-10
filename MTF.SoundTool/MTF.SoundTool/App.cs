@@ -1002,7 +1002,7 @@ namespace MTF.SoundTool
                                 {
                                     WAVE WAVEFile = WAVEHelper.ReadWAVE(OFD.FileNames[i], OFD.SafeFileNames[i]);
 
-                                    if (WAVEFile == null)
+                                    if (WAVEFile == null || WAVEFile.NumChannels != 1)
                                     {
                                         Skipped++;
                                         continue;
@@ -1123,7 +1123,7 @@ namespace MTF.SoundTool
                                 {
                                     WAVE WAVEFile = WAVEHelper.ReadWAVE(OFD.FileNames[i], OFD.SafeFileNames[i]);
 
-                                    if (WAVEFile == null)
+                                    if (WAVEFile == null || WAVEFile.NumChannels != 1)
                                     {
                                         Skipped++;
                                         continue;
@@ -1186,7 +1186,7 @@ namespace MTF.SoundTool
                                 SCGIFile = new SCGI();
                                 SCGIFile.SoundFile = FWSEFile;
                                 SCGIFile.Format = "FWSE";
-                                SCGIFile.FileName = OFD.SafeFileNames[i];
+                                SCGIFile.FileName = Path.GetFileNameWithoutExtension(OFD.FileNames[i]);
                                 SCGIFile.DurationSpan = FWSEFile.DurationSpan;
                                 SCGIFile.BitsPerSample = FWSEFile.BitsPerSample;
                                 SCGIFile.NumChannels = FWSEFile.NumChannels;
@@ -1211,7 +1211,7 @@ namespace MTF.SoundTool
                                 SCGIFile = new SCGI();
                                 SCGIFile.SoundFile = XSEWFile;
                                 SCGIFile.Format = "XSEW";
-                                SCGIFile.FileName = OFD.SafeFileNames[i];
+                                SCGIFile.FileName = Path.GetFileNameWithoutExtension(OFD.FileNames[i]);
                                 SCGIFile.DurationSpan = XSEWFile.DurationSpan;
                                 SCGIFile.BitsPerSample = XSEWFile.BitsPerSample;
                                 SCGIFile.NumChannels = XSEWFile.NumChannels;
@@ -1236,7 +1236,7 @@ namespace MTF.SoundTool
                                 SCGIFile = new SCGI();
                                 SCGIFile.SoundFile = MCAFile;
                                 SCGIFile.Format = "MADP";
-                                SCGIFile.FileName = OFD.SafeFileNames[i];
+                                SCGIFile.FileName = Path.GetFileNameWithoutExtension(OFD.FileNames[i]);
                                 SCGIFile.DurationSpan = MCAFile.DurationSpan;
                                 SCGIFile.BitsPerSample = 16;
                                 SCGIFile.NumChannels = MCAFile.NumChannels;
@@ -1261,7 +1261,7 @@ namespace MTF.SoundTool
                                 SCGIFile = new SCGI();
                                 SCGIFile.SoundFile = WAVEFile;
                                 SCGIFile.Format = "WAVE";
-                                SCGIFile.FileName = OFD.SafeFileNames[i];
+                                SCGIFile.FileName = Path.GetFileNameWithoutExtension(OFD.FileNames[i]);
                                 SCGIFile.DurationSpan = TimeSpan.FromSeconds((double)WAVEFile.Subchunk2Size * 2 / WAVEFile.SampleRate);
                                 SCGIFile.BitsPerSample = WAVEFile.BitsPerSample;
                                 SCGIFile.NumChannels = WAVEFile.NumChannels;

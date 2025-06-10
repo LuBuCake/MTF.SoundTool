@@ -840,8 +840,10 @@ namespace MTF.SoundTool
             // 
             // STQFileSizeColumn
             // 
+            this.STQFileSizeColumn.AppearanceCell.Options.UseTextOptions = true;
+            this.STQFileSizeColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.STQFileSizeColumn.AppearanceHeader.Options.UseTextOptions = true;
-            this.STQFileSizeColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.STQFileSizeColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.STQFileSizeColumn.Caption = "File Size";
             this.STQFileSizeColumn.FieldName = "FileSize";
             this.STQFileSizeColumn.Name = "STQFileSizeColumn";
@@ -1030,7 +1032,7 @@ namespace MTF.SoundTool
             editorButtonImageOptions5.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("editorButtonImageOptions5.SvgImage")));
             editorButtonImageOptions5.SvgImageSize = new System.Drawing.Size(12, 12);
             this.RemoveSoundFileButton.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "", -1, true, true, false, editorButtonImageOptions5, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject17, serializableAppearanceObject18, serializableAppearanceObject19, serializableAppearanceObject20, "Extract", null, null, DevExpress.Utils.ToolTipAnchor.Default)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "", -1, true, true, false, editorButtonImageOptions5, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject17, serializableAppearanceObject18, serializableAppearanceObject19, serializableAppearanceObject20, "Remove from the list", null, null, DevExpress.Utils.ToolTipAnchor.Default)});
             this.RemoveSoundFileButton.Name = "RemoveSoundFileButton";
             this.RemoveSoundFileButton.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.HideTextEditor;
             // 
@@ -1061,7 +1063,7 @@ namespace MTF.SoundTool
             this.SoundFileNameColumn.OptionsFilter.AllowFilter = false;
             this.SoundFileNameColumn.Visible = true;
             this.SoundFileNameColumn.VisibleIndex = 3;
-            this.SoundFileNameColumn.Width = 147;
+            this.SoundFileNameColumn.Width = 267;
             // 
             // SoundDurationColumn
             // 
@@ -1097,7 +1099,7 @@ namespace MTF.SoundTool
             this.SoundBitSamplingColumn.OptionsFilter.AllowFilter = false;
             this.SoundBitSamplingColumn.Visible = true;
             this.SoundBitSamplingColumn.VisibleIndex = 5;
-            this.SoundBitSamplingColumn.Width = 110;
+            this.SoundBitSamplingColumn.Width = 80;
             // 
             // SoundChannelsColumn
             // 
@@ -1115,7 +1117,7 @@ namespace MTF.SoundTool
             this.SoundChannelsColumn.OptionsFilter.AllowFilter = false;
             this.SoundChannelsColumn.Visible = true;
             this.SoundChannelsColumn.VisibleIndex = 6;
-            this.SoundChannelsColumn.Width = 110;
+            this.SoundChannelsColumn.Width = 80;
             // 
             // SoundSamplesColumn
             // 
@@ -1133,7 +1135,7 @@ namespace MTF.SoundTool
             this.SoundSamplesColumn.OptionsFilter.AllowFilter = false;
             this.SoundSamplesColumn.Visible = true;
             this.SoundSamplesColumn.VisibleIndex = 7;
-            this.SoundSamplesColumn.Width = 110;
+            this.SoundSamplesColumn.Width = 80;
             // 
             // SoundSampleRateColumn
             // 
@@ -1151,7 +1153,7 @@ namespace MTF.SoundTool
             this.SoundSampleRateColumn.OptionsFilter.AllowFilter = false;
             this.SoundSampleRateColumn.Visible = true;
             this.SoundSampleRateColumn.VisibleIndex = 8;
-            this.SoundSampleRateColumn.Width = 110;
+            this.SoundSampleRateColumn.Width = 80;
             // 
             // App
             // 
