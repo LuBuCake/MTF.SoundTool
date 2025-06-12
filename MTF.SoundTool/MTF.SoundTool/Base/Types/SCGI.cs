@@ -26,5 +26,7 @@ namespace MTF.SoundTool.Base.Types
         public int NumChannels { get; set; }
         public int Samples { get; set; }
         public int SampleRate { get; set; }
+        public int LoopStart { get; set; } = -1;
+        public int LoopEnd { get; set; } = -1;
     }
 }

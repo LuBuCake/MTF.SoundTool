@@ -8,3 +8,4 @@
 1.0.0.7: (Tool) DevExpress updated to 23.1 / Added support for MADP (.mca) (RE The Mercenaries 3D and potentially other 3DS MT Framework games that also uses the version 3 of this format).
 1.0.0.8: (Tool) Hotfix for the MADP converter, should fix the coefficients out of place making the game read the audio file incorrectly.
 1.0.0.9: (Tool) Fixed a few oversights that could lead to exceptions when converting to WAVE files / Few adjustments made to the Sound Converter grid.
+1.0.0.10: (Tool) Fixed issues reated to stereo WAVE writing and loading / Added 2 new columns to the Sound Converter grid: "LoopStart" and "LoopEnd". These fields are only used when writing MADP (.mca) files.

@@ -1242,6 +1242,8 @@ namespace MTF.SoundTool
                                 SCGIFile.NumChannels = MCAFile.NumChannels;
                                 SCGIFile.Samples = MCAFile.Samples;
                                 SCGIFile.SampleRate = (int)MCAFile.SampleRate;
+                                SCGIFile.LoopStart = MCAFile.LoopStart;
+                                SCGIFile.LoopEnd = MCAFile.LoopEnd;
                                 ToConvertFiles.Add(SCGIFile);
 
                                 if (ConversionTypes.Count == 0)
@@ -1262,7 +1264,7 @@ namespace MTF.SoundTool
                                 SCGIFile.SoundFile = WAVEFile;
                                 SCGIFile.Format = "WAVE";
                                 SCGIFile.FileName = Path.GetFileNameWithoutExtension(OFD.FileNames[i]);
-                                SCGIFile.DurationSpan = TimeSpan.FromSeconds((double)WAVEFile.Subchunk2Size * 2 / WAVEFile.SampleRate);
+                                SCGIFile.DurationSpan = TimeSpan.FromSeconds((double)WAVEFile.Subchunk2Size / WAVEFile.ByteRate);
                                 SCGIFile.BitsPerSample = WAVEFile.BitsPerSample;
                                 SCGIFile.NumChannels = WAVEFile.NumChannels;
                                 SCGIFile.Samples = (int)((int)WAVEFile.Subchunk2Size * 2 / WAVEFile.SampleRate);
@@ -1426,13 +1428,13 @@ namespace MTF.SoundTool
                                 switch (SCGIFile.Format)
                                 {
                                     case "WAVE":
-                                        MCAFile = MCA3DSHelper.ConvertToMCA((WAVE) SCGIFile.SoundFile);
+                                        MCAFile = MCA3DSHelper.ConvertToMCA((WAVE) SCGIFile.SoundFile, SCGIFile.LoopStart, SCGIFile.LoopEnd);
                                         break;
                                     case "FWSE":
-                                        MCAFile = MCA3DSHelper.ConvertToMCA(FWSEHelper.ConvertToWAVE((FWSE) SCGIFile.SoundFile));
+                                        MCAFile = MCA3DSHelper.ConvertToMCA(FWSEHelper.ConvertToWAVE((FWSE) SCGIFile.SoundFile), SCGIFile.LoopStart, SCGIFile.LoopEnd);
                                         break;
                                     case "XSEW":
-                                        MCAFile = MCA3DSHelper.ConvertToMCA(XSEWHelper.ConvertToWAVE((XSEW) SCGIFile.SoundFile));
+                                        MCAFile = MCA3DSHelper.ConvertToMCA(XSEWHelper.ConvertToWAVE((XSEW) SCGIFile.SoundFile), SCGIFile.LoopStart, SCGIFile.LoopEnd);
                                         break;
                                     default:
                                         continue;
@@ -1487,9 +1489,13 @@ namespace MTF.SoundTool
 
             string WAVEFileDir = Directory.GetCurrentDirectory() + "/ToPlay.wav";
             WAVEHelper.WriteWAVE(WAVEFileDir, WAVEFile, false);
+
             MemoryStream MS = new MemoryStream(File.ReadAllBytes(WAVEFileDir));
             File.Delete(WAVEFileDir);
+
+            AppSoundPlayer = new SoundPlayer(MS);
             AppSoundPlayer.Stream = MS;
+            AppSoundPlayer.Load();
             AppSoundPlayer.Play();
 
             SoundGridView.CloseEditor();

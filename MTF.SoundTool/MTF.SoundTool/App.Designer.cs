@@ -136,6 +136,8 @@ namespace MTF.SoundTool
             this.SoundChannelsColumn = new DevExpress.XtraGrid.Columns.GridColumn();
             this.SoundSamplesColumn = new DevExpress.XtraGrid.Columns.GridColumn();
             this.SoundSampleRateColumn = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.SoundLoopStart = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.SoundLoopEnd = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.SPACDataGP)).BeginInit();
             this.SPACDataGP.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SPACDataGridControl)).BeginInit();
@@ -964,7 +966,9 @@ namespace MTF.SoundTool
             this.SoundBitSamplingColumn,
             this.SoundChannelsColumn,
             this.SoundSamplesColumn,
-            this.SoundSampleRateColumn});
+            this.SoundSampleRateColumn,
+            this.SoundLoopStart,
+            this.SoundLoopEnd});
             this.SoundGridView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.None;
             this.SoundGridView.GridControl = this.SoundDataGridControl;
             this.SoundGridView.Name = "SoundGridView";
@@ -1063,7 +1067,7 @@ namespace MTF.SoundTool
             this.SoundFileNameColumn.OptionsFilter.AllowFilter = false;
             this.SoundFileNameColumn.Visible = true;
             this.SoundFileNameColumn.VisibleIndex = 3;
-            this.SoundFileNameColumn.Width = 267;
+            this.SoundFileNameColumn.Width = 117;
             // 
             // SoundDurationColumn
             // 
@@ -1154,6 +1158,38 @@ namespace MTF.SoundTool
             this.SoundSampleRateColumn.Visible = true;
             this.SoundSampleRateColumn.VisibleIndex = 8;
             this.SoundSampleRateColumn.Width = 80;
+            // 
+            // SoundLoopStart
+            // 
+            this.SoundLoopStart.AppearanceCell.Options.UseTextOptions = true;
+            this.SoundLoopStart.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.SoundLoopStart.AppearanceHeader.Options.UseTextOptions = true;
+            this.SoundLoopStart.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.SoundLoopStart.Caption = "Loop Start";
+            this.SoundLoopStart.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.SoundLoopStart.FieldName = "LoopStart";
+            this.SoundLoopStart.GroupFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.SoundLoopStart.Name = "SoundLoopStart";
+            this.SoundLoopStart.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.SoundLoopStart.OptionsFilter.AllowFilter = false;
+            this.SoundLoopStart.Visible = true;
+            this.SoundLoopStart.VisibleIndex = 9;
+            // 
+            // SoundLoopEnd
+            // 
+            this.SoundLoopEnd.AppearanceCell.Options.UseTextOptions = true;
+            this.SoundLoopEnd.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.SoundLoopEnd.AppearanceHeader.Options.UseTextOptions = true;
+            this.SoundLoopEnd.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.SoundLoopEnd.Caption = "Loop End";
+            this.SoundLoopEnd.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.SoundLoopEnd.FieldName = "LoopEnd";
+            this.SoundLoopEnd.GroupFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.SoundLoopEnd.Name = "SoundLoopEnd";
+            this.SoundLoopEnd.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.SoundLoopEnd.OptionsFilter.AllowFilter = false;
+            this.SoundLoopEnd.Visible = true;
+            this.SoundLoopEnd.VisibleIndex = 10;
             // 
             // App
             // 
@@ -1276,6 +1312,8 @@ namespace MTF.SoundTool
         private DevExpress.XtraGrid.Columns.GridColumn SoundChannelsColumn;
         private DevExpress.XtraGrid.Columns.GridColumn SoundSamplesColumn;
         private DevExpress.XtraGrid.Columns.GridColumn SoundSampleRateColumn;
+        private DevExpress.XtraGrid.Columns.GridColumn SoundLoopStart;
+        private DevExpress.XtraGrid.Columns.GridColumn SoundLoopEnd;
     }
 }
 

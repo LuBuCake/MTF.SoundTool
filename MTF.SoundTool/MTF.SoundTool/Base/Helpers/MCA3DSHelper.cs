@@ -299,8 +299,8 @@ namespace MTF.SoundTool.Base.Helpers
             WAVEFile.SampleRate = (uint)MCAFile.SampleRate;
             WAVEFile.BitsPerSample = 16;
 
-            WAVEFile.ByteRate = WAVEFile.SampleRate * WAVEFile.NumChannels * WAVEFile.BitsPerSample / 8;
-            WAVEFile.BlockAlign = (ushort)(WAVEFile.NumChannels * WAVEFile.BitsPerSample / 8);
+            WAVEFile.ByteRate = (uint)(WAVEFile.SampleRate * WAVEFile.NumChannels * (WAVEFile.BitsPerSample / 8));
+            WAVEFile.BlockAlign = (ushort)(WAVEFile.NumChannels * (WAVEFile.BitsPerSample / 8));
 
             var decoded = new List<short>();
 
@@ -339,7 +339,7 @@ namespace MTF.SoundTool.Base.Helpers
 
             WAVEFile.Subchunk2ID = "data";
             WAVEFile.Subchunk2Data = decoded.ToArray();
-            WAVEFile.Subchunk2Size = (uint)(WAVEFile.Subchunk2Data.Length * WAVEFile.NumChannels * WAVEFile.BitsPerSample / 8);         
+            WAVEFile.Subchunk2Size = (uint)(WAVEFile.Subchunk2Data.Length * (WAVEFile.BitsPerSample / 8));         
 
             WAVEFile.ChunkSize = 4 + 8 + WAVEFile.Subchunk1Size + 8 + WAVEFile.Subchunk2Size;
 
@@ -401,12 +401,15 @@ namespace MTF.SoundTool.Base.Helpers
                     tmpEnc[i].AddRange(new byte[0x100 - tmpEnc[i].Count() % 0x100]);
 
                 encoded = new byte[tmpEnc[0].Count() * WAVEFile.NumChannels];
+
                 int blocksIn = 0;
                 int blocksInData = tmpEnc[0].Count() / 0x100;
+
                 while (blocksIn < blocksInData)
                 {
                     for (int i = 0; i < WAVEFile.NumChannels; i++)
                         Array.Copy(tmpEnc[i].ToArray(), blocksIn * 0x100, encoded, blocksIn * 0x100 * WAVEFile.NumChannels + i * 0x100, 0x100);
+
                     blocksIn++;
                 }
             }
