@@ -15,7 +15,7 @@ Detailed information and instructions at the [Original Topic](https://residentev
 * Extract and replace audio files inside SPC containers (RESIDENT EVIL 5/6).
 * Edit STQ metadata from STQ/STQR files which holds properties from .sngw/.xsew files like durations and loops (RESIDENT EVIL 0/5/6/REV1/REV2 | Ultimate Marvel VS Capcom 3).
 
-## Prequisites
+## Pre-requisites
 
 * [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48)
 
